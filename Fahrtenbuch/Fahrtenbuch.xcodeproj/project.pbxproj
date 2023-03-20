@@ -14,6 +14,7 @@
 		E41FA41729B8A8F400154E7F /* FahrtenbuchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA41629B8A8F400154E7F /* FahrtenbuchTests.swift */; };
 		E41FA42129B8A8F400154E7F /* FahrtenbuchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA42029B8A8F400154E7F /* FahrtenbuchUITests.swift */; };
 		E41FA42329B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */; };
+		E46E0CED29C8E01F007E74EB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		E41FA41C29B8A8F400154E7F /* FahrtenbuchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FahrtenbuchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41FA42029B8A8F400154E7F /* FahrtenbuchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchUITests.swift; sourceTree = "<group>"; };
 		E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E46E0CEC29C8E01F007E74EB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				E41FA40729B8A8F200154E7F /* ContentView.swift */,
 				E41FA40929B8A8F400154E7F /* Assets.xcassets */,
 				E41FA40B29B8A8F400154E7F /* Preview Content */,
+				E46E0CEC29C8E01F007E74EB /* ViewModel.swift */,
 			);
 			path = Fahrtenbuch;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
+				E46E0CED29C8E01F007E74EB /* ViewModel.swift in Sources */,
 				E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
