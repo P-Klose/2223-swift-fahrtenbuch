@@ -9,17 +9,45 @@ import SwiftUI
 import UserNotifications
 import CoreBluetooth
 
-class BluetoothViewModel: NSObject, ObservableObject {
-    private var centralManager: CBCentralManager?
+class BluetoothViewModel: NSObject, CBCentralManagerDelegate, ObservableObject {
+    
+    let centralManager = CBCentralManager(delegate: nil, queue: nil)
     private var peripherals: [CBPeripheral] = []
+    let targetDeviceUUID = UUID(uuidString: "TARGET_DEVICE_UUID_DAAA")!
     @Published var peripheralNames: [String] = []
     
     override init() {
         super.init()
-        self.centralManager = CBCentralManager(delegate: self, queue: .main)
+        centralManager.delegate = self
     }
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+            if central.state == .poweredOn {
+                centralManager.scanForPeripherals(withServices: nil, options: nil)
+            }
+        }
+
+        func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+            if peripheral.identifier == targetDeviceUUID {
+                centralManager.stopScan()
+                showNotification()
+            }
+        }
+
+        func showNotification() {
+            let content = UNMutableNotificationContent()
+            content.title = "Bluetooth Connection Established"
+            content.body = "You are now connected to the target Bluetooth device"
+            let request = UNNotificationRequest(identifier: "bluetoothConnection", content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+    
+    let bluetoothManager = BluetoothViewModel()
+    
 }
 
+
+/*
 extension BluetoothViewModel: CBCentralManagerDelegate {
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -31,15 +59,22 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        if !peripherals.contains(peripheral) {
+        if peripheral.identifier == targetDeviceUUID {
+            centralManager?.stopScan()
+                    showNotification()
+                }
+        
+       /* if !peripherals.contains(peripheral) {
             self.peripherals.append(peripheral)
             self.peripheralNames.append(peripheral.name ?? "unnamed device")
-        }
+        }*/
         
     }
     
+    
+    
 }
-
+*/
 struct ContentView: View {
     @ObservedObject private var bluetoothViewModel = BluetoothViewModel()
     
