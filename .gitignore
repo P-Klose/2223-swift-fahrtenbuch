@@ -11,6 +11,10 @@
 # Icon must end with two \r
 Icon
 
+# Users
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
 
 # Thumbnails
 ._*
