@@ -7,8 +7,15 @@
 
 import Foundation
 import UserNotifications
+import MapKit
+import CoreLocation
+
+class MapViewModel: ObservableObject {
+    
+}
 
 class ViewModel: ObservableObject {
+    
     func checkForPremission(){
         let notifacationCenter = UNUserNotificationCenter.current()
         notifacationCenter.getNotificationSettings { settings in
@@ -28,12 +35,14 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    
     func dispachNotification() {
-        let identifier = "my-morning-notification"
-        let title = "Let's go on a drive"
+        let identifier = "my-fahrtenbuch-notification"
+        let title = "Let's go on a drive!"
         let body = "..."
-        let hour = 19
-        let minute = 48
+        let hour = 12
+        let minute = 38
         let isDaily = true
         
         let notifacationCenter = UNUserNotificationCenter.current()
