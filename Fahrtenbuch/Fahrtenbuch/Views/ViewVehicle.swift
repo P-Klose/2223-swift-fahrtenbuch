@@ -14,7 +14,13 @@ struct ViewVehicle: View {
                 Image(systemName: "car.2.fill")
                     .foregroundColor(.black)
                     .font(.system(size: 100.0))
-            }.navigationTitle("Fahrzeuge")
+            }
+            .navigationTitle("Fahrzeuge")
+            .toolbar{
+                Button("New"){
+                    print("new car")
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
+                self.locationManager?.allowsBackgroundLocationUpdates = true
                 self.locationManager?.activityType = CLActivityType.automotiveNavigation
                 self.locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             } else {
