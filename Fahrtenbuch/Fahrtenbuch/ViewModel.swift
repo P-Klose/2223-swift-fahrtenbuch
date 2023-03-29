@@ -7,12 +7,8 @@
 
 import Foundation
 import UserNotifications
-import MapKit
 import CoreLocation
 
-class MapViewModel: ObservableObject {
-    
-}
 
 class ViewModel: ObservableObject {
     
