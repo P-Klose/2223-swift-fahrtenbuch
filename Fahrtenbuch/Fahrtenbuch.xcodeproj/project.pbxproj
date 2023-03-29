@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E4072E4829D4078B00B3AC82 /* ViewAusgaben.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4729D4078B00B3AC82 /* ViewAusgaben.swift */; };
-		E4072E4A29D4079300B3AC82 /* ViewFahrzeuge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4929D4079300B3AC82 /* ViewFahrzeuge.swift */; };
-		E4072E4C29D4079C00B3AC82 /* ViewFahrten.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4B29D4079C00B3AC82 /* ViewFahrten.swift */; };
+		E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4729D4078B00B3AC82 /* ViewExpenses.swift */; };
+		E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4929D4079300B3AC82 /* ViewVehicle.swift */; };
+		E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4B29D4079C00B3AC82 /* ViewRides.swift */; };
 		E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */; };
+		E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E5029D4330200B3AC82 /* Vehicle.swift */; };
 		E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */; };
 		E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40729B8A8F200154E7F /* ContentView.swift */; };
 		E41FA40A29B8A8F400154E7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E41FA40929B8A8F400154E7F /* Assets.xcassets */; };
@@ -40,10 +41,11 @@
 
 /* Begin PBXFileReference section */
 		979D5A2929C9B1D7006D1DEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		E4072E4729D4078B00B3AC82 /* ViewAusgaben.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAusgaben.swift; sourceTree = "<group>"; };
-		E4072E4929D4079300B3AC82 /* ViewFahrzeuge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFahrzeuge.swift; sourceTree = "<group>"; };
-		E4072E4B29D4079C00B3AC82 /* ViewFahrten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFahrten.swift; sourceTree = "<group>"; };
+		E4072E4729D4078B00B3AC82 /* ViewExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExpenses.swift; sourceTree = "<group>"; };
+		E4072E4929D4079300B3AC82 /* ViewVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewVehicle.swift; sourceTree = "<group>"; };
+		E4072E4B29D4079C00B3AC82 /* ViewRides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRides.swift; sourceTree = "<group>"; };
 		E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		E4072E5029D4330200B3AC82 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		E41FA40229B8A8F200154E7F /* Fahrtenbuch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fahrtenbuch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchApp.swift; sourceTree = "<group>"; };
 		E41FA40729B8A8F200154E7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,11 +87,19 @@
 		E4072E4629D4073600B3AC82 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E4072E4729D4078B00B3AC82 /* ViewAusgaben.swift */,
-				E4072E4929D4079300B3AC82 /* ViewFahrzeuge.swift */,
-				E4072E4B29D4079C00B3AC82 /* ViewFahrten.swift */,
+				E4072E4729D4078B00B3AC82 /* ViewExpenses.swift */,
+				E4072E4929D4079300B3AC82 /* ViewVehicle.swift */,
+				E4072E4B29D4079C00B3AC82 /* ViewRides.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E4072E4F29D432E900B3AC82 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4072E5029D4330200B3AC82 /* Vehicle.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		E41FA3F929B8A8F200154E7F = {
@@ -115,6 +125,7 @@
 		E41FA40429B8A8F200154E7F /* Fahrtenbuch */ = {
 			isa = PBXGroup;
 			children = (
+				E4072E4F29D432E900B3AC82 /* Models */,
 				E4072E4629D4073600B3AC82 /* Views */,
 				979D5A2929C9B1D7006D1DEC /* Info.plist */,
 				E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */,
@@ -282,13 +293,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
 				E46E0CED29C8E01F007E74EB /* ViewModel.swift in Sources */,
-				E4072E4829D4078B00B3AC82 /* ViewAusgaben.swift in Sources */,
+				E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */,
 				E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */,
 				E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */,
-				E4072E4A29D4079300B3AC82 /* ViewFahrzeuge.swift in Sources */,
-				E4072E4C29D4079C00B3AC82 /* ViewFahrten.swift in Sources */,
+				E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */,
+				E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

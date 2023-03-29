@@ -7,7 +7,7 @@
 import SwiftUI
 import MapKit
 
-struct ViewFahrten: View {
+struct ViewRides: View {
     
     @StateObject private var mapViewModel = MapViewModel()
     
@@ -24,8 +24,8 @@ struct ViewFahrten: View {
     }
 }
 
-struct ViewFahrten_Previews: PreviewProvider {
+struct ViewRides_Previews: PreviewProvider {
     static var previews: some View {
-        ViewFahrten()
+        ViewRides()
     }
 }
