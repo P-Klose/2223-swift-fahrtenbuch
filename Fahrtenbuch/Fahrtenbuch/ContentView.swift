@@ -11,17 +11,17 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            ViewAusgaben()
+            ViewExpenses()
                 .tabItem() {
                     Image(systemName: "eurosign.circle")
                     Text("Ausgaben")
                 }
-            ViewFahrzeuge()
+            ViewVehicle()
                 .tabItem() {
                     Image(systemName: "car.2")
                     Text("Fahrzeuge")
                 }
-            ViewFahrten()
+            ViewRides()
                 .tabItem() {
                     Image(systemName: "road.lanes.curved.right")
                     Text("Fahrten")
