@@ -18,9 +18,7 @@ class VehicleViewModel: ObservableObject {
         let downloadQueue = DispatchQueue(label: "Download Vehicles")
         downloadQueue.async {
             if let data = VehicleViewModel.load(){
-                print("downloading")
                 DispatchQueue.main.async {
-                    print("import JSON")
                     self.model.importFromJson(data: data)
                 }
             }
@@ -43,7 +41,6 @@ class VehicleViewModel: ObservableObject {
 //                let alert = UIAlertController(title: "Erfolg", message: "Das Auto wurde erfolgreich gespeichert", preferredStyle: .alert)
 //                alert.addAction(UIAlertAction(title: "OK", style: .default))
 //                self.present(alert, animated: true)
-                self.downloadAllVehicles()
             } else {
 //                let alert = UIAlertController(title: "Fehler", message: "Das Auto konnte nicht gespeichert werden", preferredStyle: .alert)
 //                alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -60,7 +57,6 @@ class VehicleViewModel: ObservableObject {
 //                let alert = UIAlertController(title: "Erfolg", message: "Das Auto wurde erfolgreich gespeichert", preferredStyle: .alert)
 //                alert.addAction(UIAlertAction(title: "OK", style: .default))
 //                self.present(alert, animated: true)
-                self.downloadAllVehicles()
             } else {
 //                let alert = UIAlertController(title: "Fehler", message: "Das Auto konnte nicht gespeichert werden", preferredStyle: .alert)
 //                alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -91,6 +87,7 @@ class VehicleViewModel: ObservableObject {
                 success = false
             } else if let data = data {
                 print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
+                self.downloadAllVehicles()
             } else {
                 print("Keine Daten erhalten")
                 success = false

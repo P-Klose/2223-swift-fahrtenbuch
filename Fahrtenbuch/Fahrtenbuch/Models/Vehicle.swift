@@ -12,8 +12,6 @@ struct VehicleModel {
     static let DATABASE = "http://localhost:3000/vehicles"
     
     mutating func importFromJson(data: Data) {
-        print("Download into Model")
-        print(data)
         if let dowloadedVehicles = try? JSONDecoder().decode([Vehicle].self, from: data){
             vehicles = dowloadedVehicles
         }else{
