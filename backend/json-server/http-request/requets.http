@@ -1,0 +1,10 @@
+POST http://localhost:3000/vehicles
+Content-Type: application/json
+
+{ 
+  "id": 1,
+  "vin": "xxxxxxxx",
+  "numberplate": "UU-48MM",
+  "model": "a6",
+  "make": "audi"
+}

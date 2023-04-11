@@ -1,0 +1,44 @@
+{
+  "vehicles": [
+    {
+      "id": 1,
+      "vin": "yyyyyyyy",
+      "numberplate": "UU-48MM",
+      "model": "T7",
+      "make": "VW",
+      "milage": "125023"
+    },
+    {
+      "vin": "yyyyyyyy",
+      "numberplate": "UU-48MM",
+      "model": "A6",
+      "make": "Audi",
+      "milage": "125023",
+      "id": 2
+    },
+    {
+      "vin": "yyyyyyyy",
+      "numberplate": "UU-69BI",
+      "model": "Touareg",
+      "make": "VW",
+      "milage": "125023",
+      "id": 3
+    },
+    {
+      "numberplate": "UU-123XY",
+      "model": "A6",
+      "vin": "",
+      "make": "Audi",
+      "milage": "123456",
+      "id": 4
+    }
+  ],
+  "trips": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "startpoint": 1,
+      "endpoint": 2
+    }
+  ]
+}
