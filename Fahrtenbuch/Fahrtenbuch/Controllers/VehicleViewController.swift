@@ -16,7 +16,7 @@ class VehicleViewController: UIViewController {
     func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String) {
         
         // Erstelle ein neues Car-Objekt
-        let newVehilce = Vehicle(vin: vin, make: make, numberplate: numberplate, model: model)
+        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model,milage: milage)
         
         // Speichere das neue Auto in der Datenbank
         saveCarToDatabase(vehicle: newVehilce) { success in

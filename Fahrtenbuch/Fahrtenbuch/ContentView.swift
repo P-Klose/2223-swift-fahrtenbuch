@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @ObservedObject var vehicleViewModel: VehicleViewModel
     var body: some View {
         TabView {
             ViewExpenses()
@@ -16,7 +16,7 @@ struct ContentView: View {
                     Image(systemName: "eurosign.circle")
                     Text("Ausgaben")
                 }
-            ViewVehicle()
+            ViewVehicle(vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "car.2")
                     Text("Fahrzeuge")
@@ -33,8 +33,8 @@ struct ContentView: View {
 
 
 struct ContentView_Previews: PreviewProvider {
-    static let viewModel = HomeViewModel()
+    static let vehicleViewModel = VehicleViewModel()
     static var previews: some View {
-        ContentView()
+        ContentView(vehicleViewModel: vehicleViewModel)
     }
 }

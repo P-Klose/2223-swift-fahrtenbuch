@@ -22,6 +22,7 @@
 		E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECB29E407EE0032F98E /* HomeViewController.swift */; };
 		E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECE29E4169E0032F98E /* VehicleViewController.swift */; };
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
+		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		E427DECB29E407EE0032F98E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E427DECE29E4169E0032F98E /* VehicleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewController.swift; sourceTree = "<group>"; };
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		E41FA40429B8A8F200154E7F /* Fahrtenbuch */ = {
 			isa = PBXGroup;
 			children = (
+				E4CE9E2929E579AC007632FA /* ViewModels */,
 				E427DECD29E416270032F98E /* Controllers */,
 				E4072E4F29D432E900B3AC82 /* Models */,
 				E4072E4629D4073600B3AC82 /* Views */,
@@ -138,8 +141,6 @@
 				E427DECB29E407EE0032F98E /* HomeViewController.swift */,
 				E41FA40929B8A8F400154E7F /* Assets.xcassets */,
 				E41FA40B29B8A8F400154E7F /* Preview Content */,
-				E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */,
-				E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */,
 			);
 			path = Fahrtenbuch;
 			sourceTree = "<group>";
@@ -175,6 +176,16 @@
 				E427DECE29E4169E0032F98E /* VehicleViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E4CE9E2929E579AC007632FA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */,
+				E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */,
+				E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +321,7 @@
 				E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */,
 				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
+				E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */,
 				E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */,
 				E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */,
 				E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */,
