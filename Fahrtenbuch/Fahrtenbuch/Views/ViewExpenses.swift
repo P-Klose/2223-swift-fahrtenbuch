@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ViewExpenses: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Image(systemName: "eurosign.circle.fill")
                     .foregroundColor(.black)

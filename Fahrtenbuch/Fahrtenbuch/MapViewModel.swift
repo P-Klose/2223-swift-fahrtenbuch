@@ -16,9 +16,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
     
     var locationManager: CLLocationManager?
+    let navigationQueue = DispatchQueue(label: "navigation")
+    let viewController =  HomeViewController()
     
     func checkIfLocationServicesIsEnabled() {
-        DispatchQueue.main.async {
+        navigationQueue.async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
@@ -26,17 +28,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
                 self.locationManager?.activityType = CLActivityType.automotiveNavigation
                 self.locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             } else {
-                // show allert that locationservices are disabled
+                self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind deaktiviert", buttonTitle: "OK")
             }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let latestLocation = locations.first else {
-            // show an error
+            self.viewController.showAllertWith(title: "Fehler", message: "Es wurde kein letzter Standort gefunden", buttonTitle: "OK")
             return
         }
-        print("updated Location")
+        //print("updated Location")
         DispatchQueue.main.async {
             self.region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
         }
@@ -50,9 +52,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            print("show allert that location is restricted likely due to parental controls")
+            self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind eingeschränkt bitte prüfen Sie Ihre Einstellungen", buttonTitle: "OK")
         case .denied:
-            print("show allert you have location denied")
+            self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind deaktiviert bitte aktivieren Sie Sie in den Einstellungen", buttonTitle: "OK")
         case .authorizedAlways, .authorizedWhenInUse:
             region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MapDetails.defaultSpan)
         @unknown default:

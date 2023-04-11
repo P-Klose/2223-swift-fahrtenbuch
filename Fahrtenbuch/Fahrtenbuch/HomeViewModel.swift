@@ -10,7 +10,7 @@ import UserNotifications
 import CoreLocation
 
 
-class ViewModel: ObservableObject {
+class HomeViewModel: ObservableObject{
     
     func checkForPremission(){
         let notifacationCenter = UNUserNotificationCenter.current()

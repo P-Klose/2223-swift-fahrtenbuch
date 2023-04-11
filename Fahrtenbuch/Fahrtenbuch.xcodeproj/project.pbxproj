@@ -19,7 +19,9 @@
 		E41FA41729B8A8F400154E7F /* FahrtenbuchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA41629B8A8F400154E7F /* FahrtenbuchTests.swift */; };
 		E41FA42129B8A8F400154E7F /* FahrtenbuchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA42029B8A8F400154E7F /* FahrtenbuchUITests.swift */; };
 		E41FA42329B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */; };
-		E46E0CED29C8E01F007E74EB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* ViewModel.swift */; };
+		E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECB29E407EE0032F98E /* HomeViewController.swift */; };
+		E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECE29E4169E0032F98E /* VehicleViewController.swift */; };
+		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +58,9 @@
 		E41FA41C29B8A8F400154E7F /* FahrtenbuchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FahrtenbuchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41FA42029B8A8F400154E7F /* FahrtenbuchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchUITests.swift; sourceTree = "<group>"; };
 		E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		E46E0CEC29C8E01F007E74EB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		E427DECB29E407EE0032F98E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E427DECE29E4169E0032F98E /* VehicleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewController.swift; sourceTree = "<group>"; };
+		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,14 +129,16 @@
 		E41FA40429B8A8F200154E7F /* Fahrtenbuch */ = {
 			isa = PBXGroup;
 			children = (
+				E427DECD29E416270032F98E /* Controllers */,
 				E4072E4F29D432E900B3AC82 /* Models */,
 				E4072E4629D4073600B3AC82 /* Views */,
 				979D5A2929C9B1D7006D1DEC /* Info.plist */,
 				E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */,
 				E41FA40729B8A8F200154E7F /* ContentView.swift */,
+				E427DECB29E407EE0032F98E /* HomeViewController.swift */,
 				E41FA40929B8A8F400154E7F /* Assets.xcassets */,
 				E41FA40B29B8A8F400154E7F /* Preview Content */,
-				E46E0CEC29C8E01F007E74EB /* ViewModel.swift */,
+				E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */,
 				E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */,
 			);
 			path = Fahrtenbuch;
@@ -161,6 +167,14 @@
 				E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */,
 			);
 			path = FahrtenbuchUITests;
+			sourceTree = "<group>";
+		};
+		E427DECD29E416270032F98E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E427DECE29E4169E0032F98E /* VehicleViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,9 +308,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */,
+				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
-				E46E0CED29C8E01F007E74EB /* ViewModel.swift in Sources */,
+				E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */,
 				E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */,
+				E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */,
 				E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */,
 				E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */,
 				E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */,

@@ -12,7 +12,7 @@ struct ViewRides: View {
     @StateObject private var mapViewModel = MapViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
                     .accentColor(Color(.systemBlue))

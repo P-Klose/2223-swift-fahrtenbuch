@@ -33,7 +33,7 @@ struct ContentView: View {
 
 
 struct ContentView_Previews: PreviewProvider {
-    static let viewModel = ViewModel()
+    static let viewModel = HomeViewModel()
     static var previews: some View {
         ContentView()
     }
