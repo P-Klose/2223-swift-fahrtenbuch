@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ViewVehicle: View {
     @State var showingVehicleCreateForm = false
-    @State var showingVehicleEditForm = false
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
     var body: some View {
@@ -25,29 +24,8 @@ struct ViewVehicle: View {
                 }
             }
             .navigationDestination(for: Vehicle.self) { vehicle in
-                VStack {
-                    Text("Automarke: \(vehicle.make)")
-                    Text("Modell: \(vehicle.model)")
-                    Divider()
-                    Text("Kennzeichen: \(vehicle.numberplate)")
-                    Divider()
-                    Text("Kilometerleistung: \(vehicle.milage)")
-                    
-                }.toolbar {
-                    ToolbarItemGroup(placement:
-                            .navigationBarTrailing){
-                                Button(action: {
-                                    showingVehicleEditForm.toggle()
-                                }) {
-                                    Text("Edit")
-                                }
-                                
-                            }
-                }
-                .sheet(isPresented: $showingVehicleEditForm) {
-                    VehicleEditFormView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-                        .presentationDetents([.large])
-                }
+                VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
+                
             }
             .navigationTitle("Fahrzeuge")
             .onAppear(perform: {
@@ -88,6 +66,40 @@ struct ViewVehicle: View {
     }
 }
 
+struct VehicleDetailView: View {
+    var vehicle: Vehicle
+    var vehicleViewModel: VehicleViewModel
+    @State var showingVehicleEditForm = false
+    var body: some View {
+        VStack{
+            
+            Text("\(vehicle.make) \(vehicle.model)")
+                .font(.caption)
+            List {
+                Section {
+                    Text("Kilometerstand:")
+                }
+            }
+            Spacer()
+        }
+        .navigationTitle(vehicle.numberplate)
+        .toolbar {
+            ToolbarItemGroup(placement:
+                    .navigationBarTrailing){
+                        Button(action: {
+                            showingVehicleEditForm.toggle()
+                        }) {
+                            Text("Edit")
+                        }
+                        
+                    }
+        }
+        .sheet(isPresented: $showingVehicleEditForm) {
+            VehicleEditFormView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
+                .presentationDetents([.large])
+        }
+    }
+}
 
 struct VehicleFormView: View {
     
@@ -141,11 +153,12 @@ struct VehicleFormView: View {
                 } header: {
                     Text("Zusätzliche Informationen:")
                 }
-
+                
                 
                 
             }
             .navigationTitle("Fahrzeug hinzufügen")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarLeading){
@@ -225,6 +238,7 @@ struct VehicleEditFormView: View {
                 
             }
             .navigationTitle("Fahrzeug bearbeiten")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarLeading){
