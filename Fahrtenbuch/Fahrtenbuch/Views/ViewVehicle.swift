@@ -77,43 +77,21 @@ struct VehicleDetailView: View {
                 .font(.caption)
                 .padding([.horizontal,.bottom], 20)
                 .foregroundColor(.black.opacity(80))
+            
+            Image(systemName: "car.fill")
+                .font(.system(size: 100))
+                .padding()
+                .foregroundColor(Color(.label))
+            
             List {
-                Section {
-                    VStack (alignment: .leading) {
-                        Text("Kilometerstand")
-                            .font(.subheadline)
-                            .foregroundColor(.blue)
-                            .padding([.bottom], 5)
-                        HStack {
-                            Text(vehicle.milage)
-                                .font(.title3)
-                                .bold()
-                            Text("km")
-                                .font(.system(size: 15))
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-                Section {
-                    VStack (alignment: .leading) {
-                        Text("Kilometerstand")
-                            .font(.subheadline)
-                            .foregroundColor(.blue)
-                            .padding([.bottom], 5)
-                        HStack {
-                            Text("91")
-                                .font(.title3)
-                                .bold()
-                            Text("km")
-                                .font(.system(size: 15))
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-
+                VehicleDetailSectionView(title: "Kilometerstand", value: vehicle.milage, unit: "km")
+                VehicleDetailSectionView(title: "Durchschnittliche Fahrstrecke", value: "91", unit: "km")
             }
             Spacer()
         }
+        
+        
+        
         .navigationTitle(vehicle.numberplate)
         .toolbar {
             ToolbarItemGroup(placement:
@@ -214,6 +192,32 @@ struct VehicleFormView: View {
             .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
                 ImagePicker(image: $image)
                     .ignoresSafeArea()
+            }
+        }
+    }
+}
+
+struct VehicleDetailSectionView: View {
+    var title: String
+    var value: String
+    var unit: String
+
+    
+    var body: some View {
+        Section {
+            VStack (alignment: .leading) {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+                    .padding([.bottom], 5)
+                HStack {
+                    Text(value)
+                        .font(.title3)
+                        .bold()
+                    Text(unit)
+                        .font(.system(size: 15))
+                        .foregroundColor(.gray)
+                }
             }
         }
     }
@@ -340,37 +344,3 @@ struct ViewVehicle_Previews: PreviewProvider {
     }
 }
 
-
-
-/**
- 
- @State var shouldShowImagePicker = false
- @State var image: UIImage?
- 
- 
- 
- VStack(spacing: 15) {
- VStack(spacing: 5) {
- Text("Cairocoders")
- .bold()
- .font(.title)
- Text("Coders")
- .font(.body)
- .foregroundColor(.secondary)
- }.padding()
- Text("SwiftUI Image Picker")
- .multilineTextAlignment(.center)
- .padding()
- Spacer()
- }
- Spacer()
- }
- }
- .navigationSplitViewStyle(StackNavigationViewStyle())
- .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
- ImagePicker(image: $image)
- }
- }
- 
- 
- */
