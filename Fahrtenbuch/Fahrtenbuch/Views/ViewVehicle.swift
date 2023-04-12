@@ -79,14 +79,38 @@ struct VehicleDetailView: View {
                 .foregroundColor(.black.opacity(80))
             List {
                 Section {
-                    Text("Kilometerstand")
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
-                    Text("\(vehicle.milage) km")
-                        .font(.headline)
-                        .bold()
-                        
+                    VStack (alignment: .leading) {
+                        Text("Kilometerstand")
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                            .padding([.bottom], 5)
+                        HStack {
+                            Text(vehicle.milage)
+                                .font(.title3)
+                                .bold()
+                            Text("km")
+                                .font(.system(size: 15))
+                                .foregroundColor(.gray)
+                        }
+                    }
                 }
+                Section {
+                    VStack (alignment: .leading) {
+                        Text("Kilometerstand")
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                            .padding([.bottom], 5)
+                        HStack {
+                            Text("91")
+                                .font(.title3)
+                                .bold()
+                            Text("km")
+                                .font(.system(size: 15))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+
             }
             Spacer()
         }
