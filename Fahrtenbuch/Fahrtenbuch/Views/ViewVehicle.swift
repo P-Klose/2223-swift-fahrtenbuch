@@ -4,7 +4,6 @@
 //
 //  Created by Peter Klose on 29.03.23.
 //
-
 import SwiftUI
 
 
@@ -95,6 +94,9 @@ struct VehicleFormView: View {
     @ObservedObject var vehicleViewModel: VehicleViewModel
     @Environment(\.dismiss) var dismiss
     
+    @State var shouldShowImagePicker = false
+    @State var image: UIImage?
+    
     @State private var makeTextField = ""
     @State private var modelTextField = ""
     @State private var vinTextField = ""
@@ -105,6 +107,26 @@ struct VehicleFormView: View {
         
         NavigationView{
             Form {
+                Section("Bild") {
+                    Button {
+                        shouldShowImagePicker.toggle()
+                    } label: {
+                        VStack {
+                            if let image = self.image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .cornerRadius(15)
+                            } else {
+                                Image(systemName: "car.fill")
+                                    .font(.system(size: 80))
+                                    .padding()
+                                    .foregroundColor(Color(.label))
+                            }
+                        }
+                    }
+                }
+                
                 Section {
                     TextField("Marke:", text: $makeTextField)
                     TextField("Modell:", text: $modelTextField)
@@ -144,6 +166,10 @@ struct VehicleFormView: View {
                             
                         }
             }
+            .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
+                ImagePicker(image: $image)
+                    .ignoresSafeArea()
+            }
         }
     }
 }
@@ -160,7 +186,7 @@ struct VehicleEditFormView: View {
     @State private var milageTextField = ""
     @State private var numberplateTextField = ""
     
-        
+    
     init(vehicle: Vehicle, vehicleViewModel: VehicleViewModel) {
         self.vehicle = vehicle
         self.vehicleViewModel = vehicleViewModel
@@ -223,9 +249,82 @@ struct VehicleEditFormView: View {
     }
 }
 
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    
+    private let controller = UIImagePickerController()
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(parent: self)
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        
+        let parent: ImagePicker
+        
+        init(parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            parent.image = info[.originalImage] as? UIImage
+            picker.dismiss(animated: true)
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
+    
+    func makeUIViewController(context: Context) -> some UIViewController {
+        controller.delegate = context.coordinator
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        
+    }
+}
+
+
 struct ViewVehicle_Previews: PreviewProvider {
     static let vehicleViewModel = VehicleViewModel()
     static var previews: some View {
         ViewVehicle(vehicleViewModel: vehicleViewModel)
     }
 }
+
+
+
+/**
+ 
+ @State var shouldShowImagePicker = false
+ @State var image: UIImage?
+ 
+ 
+ 
+ VStack(spacing: 15) {
+ VStack(spacing: 5) {
+ Text("Cairocoders")
+ .bold()
+ .font(.title)
+ Text("Coders")
+ .font(.body)
+ .foregroundColor(.secondary)
+ }.padding()
+ Text("SwiftUI Image Picker")
+ .multilineTextAlignment(.center)
+ .padding()
+ Spacer()
+ }
+ Spacer()
+ }
+ }
+ .navigationSplitViewStyle(StackNavigationViewStyle())
+ .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
+ ImagePicker(image: $image)
+ }
+ }
+ 
+ 
+ */
