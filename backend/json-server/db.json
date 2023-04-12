@@ -17,36 +17,20 @@
       "id": 2
     },
     {
-      "vin": "yyyyyyyy",
+      "id": 3,
       "numberplate": "UU-69BI",
+      "vin": "yyyyyyyy",
       "model": "Touareg",
       "make": "VW",
-      "milage": "125023",
-      "id": 3
+      "milage": "125044"
     },
     {
-      "numberplate": "UU-123XY",
-      "model": "A6",
+      "id": 7,
+      "numberplate": "UU69-BI",
       "vin": "",
-      "make": "Audi",
-      "milage": "123456",
-      "id": 4
-    },
-    {
-      "numberplate": "1234",
-      "model": "Asdf",
-      "vin": "",
-      "make": "Be",
-      "milage": "1233",
-      "id": 5
-    },
-    {
-      "numberplate": "UU123XY",
-      "model": "A1",
-      "vin": "",
-      "make": "Audi",
-      "milage": "1023",
-      "id": 6
+      "model": "325i",
+      "make": "BMW",
+      "milage": "65890"
     }
   ],
   "trips": [

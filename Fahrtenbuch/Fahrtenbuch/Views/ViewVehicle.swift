@@ -119,6 +119,7 @@ struct VehicleFormView: View {
                 } header: {
                     Text("Zusätzliche Informationen:")
                 }
+
                 
                 
             }
@@ -188,7 +189,13 @@ struct VehicleEditFormView: View {
                 } header: {
                     Text("Zusätzliche Informationen:")
                 }
-                
+                Button(action: {
+                    vehicleViewModel.deleteVehicle(vehicle)
+                    dismiss()
+                },label: {
+                    Text("Löschen")
+                        .foregroundColor(.red)
+                })
                 
             }
             .navigationTitle("Fahrzeug bearbeiten")
