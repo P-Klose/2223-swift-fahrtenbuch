@@ -71,13 +71,21 @@ struct VehicleDetailView: View {
     var vehicleViewModel: VehicleViewModel
     @State var showingVehicleEditForm = false
     var body: some View {
-        VStack{
+        VStack (alignment: .leading){
             
             Text("\(vehicle.make) \(vehicle.model)")
                 .font(.caption)
+                .padding([.horizontal,.bottom], 20)
+                .foregroundColor(.black.opacity(80))
             List {
                 Section {
-                    Text("Kilometerstand:")
+                    Text("Kilometerstand")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                    Text("\(vehicle.milage) km")
+                        .font(.headline)
+                        .bold()
+                        
                 }
             }
             Spacer()
