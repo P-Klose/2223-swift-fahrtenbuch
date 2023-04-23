@@ -31,6 +31,7 @@ struct Vehicle: Codable, Identifiable, Hashable {
     var numberplate: String
     var model: String
     var milage: String
+    var imageUrl: String
     
 }
 

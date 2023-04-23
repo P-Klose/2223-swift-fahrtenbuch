@@ -116,6 +116,7 @@ struct VehicleFormView: View {
     
     @State var shouldShowImagePicker = false
     @State var image: UIImage?
+    @State var imageUrl: String?
     
     @State private var makeTextField = ""
     @State private var modelTextField = ""
@@ -161,9 +162,6 @@ struct VehicleFormView: View {
                 } header: {
                     Text("Zusätzliche Informationen:")
                 }
-                
-                
-                
             }
             .navigationTitle("Fahrzeug hinzufügen")
             .navigationBarTitleDisplayMode(.inline)
@@ -179,7 +177,8 @@ struct VehicleFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField)
+                                print("ImageURL: \(imageUrl)")
+                                vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "")
                                 dismiss()
                             }) {
                                 Text("Speichern")
@@ -188,7 +187,7 @@ struct VehicleFormView: View {
                         }
             }
             .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
-                ImagePicker(image: $image)
+                ImagePicker(image: $image, imageURL: $imageUrl)
                     .ignoresSafeArea()
             }
         }
@@ -259,7 +258,7 @@ struct VehicleEditFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                vehicleViewModel.update(vehicle: vehicle, make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField)
+                                vehicleViewModel.update(vehicle: vehicle, make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: "")
                                 dismiss()
                             }) {
                                 Text("Speichern")
@@ -273,7 +272,7 @@ struct VehicleEditFormView: View {
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var image: UIImage?
-    
+    @Binding var imageURL: String?
     private let controller = UIImagePickerController()
     
     func makeCoordinator() -> Coordinator {
@@ -282,7 +281,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
-        let parent: ImagePicker
+        var parent: ImagePicker
         
         init(parent: ImagePicker) {
             self.parent = parent
@@ -290,6 +289,9 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             parent.image = info[.originalImage] as? UIImage
+            print("URL in INFO")
+            parent.imageURL = info[.imageURL] as? String
+            print("URL in parent.imageURL")
             picker.dismiss(animated: true)
         }
         

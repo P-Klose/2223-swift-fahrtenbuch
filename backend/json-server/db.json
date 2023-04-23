@@ -6,7 +6,8 @@
       "numberplate": "UU-48MM",
       "model": "T7",
       "make": "VW",
-      "milage": "125023"
+      "milage": "125023",
+      "imageUrl": ""
     },
     {
       "vin": "yyyyyyyy",
@@ -14,23 +15,26 @@
       "model": "A6",
       "make": "Audi",
       "milage": "125023",
+      "imageUrl": "",
       "id": 2
     },
     {
-      "id": 3,
-      "numberplate": "UU-69BI",
-      "vin": "yyyyyyyy",
-      "model": "Touareg",
-      "make": "VW",
-      "milage": "125044"
+      "numberplate": "W-150XY",
+      "model": "F-150",
+      "vin": "",
+      "imageUrl": "",
+      "make": "Ford",
+      "milage": "25640",
+      "id": 3
     },
     {
-      "id": 7,
-      "numberplate": "UU69-BI",
+      "numberplate": "UU455FF",
+      "model": "A3",
       "vin": "",
-      "model": "325i",
-      "make": "BMW",
-      "milage": "65890"
+      "imageUrl": "",
+      "make": "Audi",
+      "milage": "32000",
+      "id": 4
     }
   ],
   "trips": [

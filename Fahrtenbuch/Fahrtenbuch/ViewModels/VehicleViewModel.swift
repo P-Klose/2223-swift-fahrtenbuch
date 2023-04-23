@@ -33,9 +33,10 @@ class VehicleViewModel: ObservableObject {
         return data
     }
     
-    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String) {
+    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String) {
         
-        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage)
+        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl )
+        print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
             if success {
@@ -49,9 +50,10 @@ class VehicleViewModel: ObservableObject {
             }
         }
     }
-    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String) {
+    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String) {
         
-        let updatedVehilce = Vehicle(id: vehicle.id, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage)
+        let updatedVehilce = Vehicle(id: vehicle.id, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl)
+        print(imageUrl)
         
         saveCarToDatabase(vehicle: updatedVehilce, httpMethod: "PUT") { success in
             if success {
