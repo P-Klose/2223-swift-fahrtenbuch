@@ -15,18 +15,22 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
     
-    var locationManager: CLLocationManager?
+    var locationManager = CLLocationManager()
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
     
+    override init() {
+        super.init()
+        self.locationManager = CLLocationManager()
+        locationManager.delegate = self
+        self.locationManager.allowsBackgroundLocationUpdates = true
+        self.locationManager.activityType = CLActivityType.automotiveNavigation
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+    }
     func checkIfLocationServicesIsEnabled() {
         navigationQueue.async {
             if CLLocationManager.locationServicesEnabled() {
-                self.locationManager = CLLocationManager()
-                self.locationManager!.delegate = self
-                self.locationManager?.allowsBackgroundLocationUpdates = true
-                self.locationManager?.activityType = CLActivityType.automotiveNavigation
-                self.locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+                
             } else {
                 self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind deaktiviert", buttonTitle: "OK")
             }
@@ -45,13 +49,13 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     private func checkLocationAuthorization() {
-        guard let locationManager = locationManager else { return }
         
         switch locationManager.authorizationStatus {
             
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
+            locationManager.requestWhenInUseAuthorization()
             self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind eingeschränkt bitte prüfen Sie Ihre Einstellungen", buttonTitle: "OK")
         case .denied:
             self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind deaktiviert bitte aktivieren Sie Sie in den Einstellungen", buttonTitle: "OK")
