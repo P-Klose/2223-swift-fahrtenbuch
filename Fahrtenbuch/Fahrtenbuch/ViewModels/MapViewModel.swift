@@ -5,6 +5,7 @@
 //  Created by Peter Klose on 29.03.23.
 //
 import MapKit
+import OSLog
 
 enum MapDetails {
     static let startingLocation = CLLocationCoordinate2D(latitude: 48.268590, longitude: 14.251270)
@@ -18,6 +19,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var locationManager = CLLocationManager()
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
+    let LOG = Logger()
     
     override init() {
         super.init()
@@ -26,12 +28,14 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.activityType = CLActivityType.automotiveNavigation
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.startUpdatingLocation()
     }
     func checkIfLocationServicesIsEnabled() {
         navigationQueue.async {
             if CLLocationManager.locationServicesEnabled() {
                 
             } else {
+                self.LOG.info("Standortfunktionen sind deaktiviert")
                 self.viewController.showAllertWith(title: "Fehler", message: "Standortfunktionen sind deaktiviert", buttonTitle: "OK")
             }
         }
@@ -40,9 +44,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let latestLocation = locations.first else {
             self.viewController.showAllertWith(title: "Fehler", message: "Es wurde kein letzter Standort gefunden", buttonTitle: "OK")
+            LOG.info("No last location found")
             return
         }
-        //print("updated Location")
         DispatchQueue.main.async {
             self.region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
         }
