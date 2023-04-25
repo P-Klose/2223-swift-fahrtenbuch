@@ -179,7 +179,7 @@ struct VehicleFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                print("ImageURL: \(imageUrl)")
+                                print("ImageURL: \(imageUrl ?? "")")
                                 vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "")
                                 dismiss()
                             }) {

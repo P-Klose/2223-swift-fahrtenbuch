@@ -21,6 +21,7 @@
 		E41FA42329B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */; };
 		E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECB29E407EE0032F98E /* HomeViewController.swift */; };
 		E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECE29E4169E0032F98E /* VehicleViewController.swift */; };
+		E44D4FA029F846B700F2DCED /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D4F9F29F846B700F2DCED /* MapView.swift */; };
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
 		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,7 @@
 		E41FA42229B8A8F400154E7F /* FahrtenbuchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E427DECB29E407EE0032F98E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E427DECE29E4169E0032F98E /* VehicleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewController.swift; sourceTree = "<group>"; };
+		E44D4F9F29F846B700F2DCED /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +98,7 @@
 				E4072E4729D4078B00B3AC82 /* ViewExpenses.swift */,
 				E4072E4929D4079300B3AC82 /* ViewVehicle.swift */,
 				E4072E4B29D4079C00B3AC82 /* ViewRides.swift */,
+				E44D4F9F29F846B700F2DCED /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */,
+				E44D4FA029F846B700F2DCED /* MapView.swift in Sources */,
 				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
 				E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */,

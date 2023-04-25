@@ -15,10 +15,13 @@ enum MapDetails {
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
+    @Published var routeOverlay: MKOverlay?
     
     var locationManager = CLLocationManager()
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
+    
+    
     let LOG = Logger()
     
     override init() {
@@ -47,7 +50,14 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             LOG.info("No last location found")
             return
         }
+        
+        let coordinates = locations.map { location -> CLLocationCoordinate2D in
+            return location.coordinate
+        }
+        
         DispatchQueue.main.async {
+            self.routeOverlay = MKPolygon(coordinates: coordinates, count: coordinates.count)
+            self.LOG.debug("Coordinates: \(coordinates.count)")
             self.region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
         }
     }

@@ -12,13 +12,10 @@ struct ViewRides: View {
     @StateObject private var mapViewModel = MapViewModel()
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
-                Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
-                    .accentColor(Color(.systemBlue))
-                    .onAppear{
-                        mapViewModel.checkIfLocationServicesIsEnabled()
-                    }
+                MapView(routeOverlay: mapViewModel.routeOverlay, region: mapViewModel.region)
             }.navigationTitle("Fahrten")
         }
     }
@@ -29,3 +26,5 @@ struct ViewRides_Previews: PreviewProvider {
         ViewRides()
     }
 }
+
+
