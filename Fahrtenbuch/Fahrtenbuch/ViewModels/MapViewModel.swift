@@ -59,7 +59,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         
         DispatchQueue.main.async {
             self.routeOverlay = MKPolygon(coordinates: coordinates, count: coordinates.count)
-            self.LOG.debug("Coordinates: \(coordinates.count)")
+//            self.LOG.debug("Coordinates: \(coordinates.count)")
             self.region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
         }
     }
