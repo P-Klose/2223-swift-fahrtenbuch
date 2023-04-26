@@ -20,7 +20,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var locationManager = CLLocationManager()
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
-    
+    var recentLocations = [CLLocation]()
     
     let LOG = Logger()
     
@@ -51,8 +51,10 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             return
         }
         
-        let coordinates = locations.map { location -> CLLocationCoordinate2D in
-            return location.coordinate
+        self.recentLocations.append(latestLocation)
+        
+        let coordinates = recentLocations.map { recentLocations -> CLLocationCoordinate2D in
+            return recentLocations.coordinate
         }
         
         DispatchQueue.main.async {
