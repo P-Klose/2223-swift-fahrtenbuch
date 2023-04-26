@@ -30,7 +30,7 @@ struct ViewRides: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MapView(routeOverlay: mapViewModel.routeOverlay, region: mapViewModel.region)
+                    MapView(routeOverlay: mapViewModel.myRoute, region: mapViewModel.region)
                         .frame(height: 350, alignment: .top)
                     Spacer()
                     
@@ -78,9 +78,7 @@ struct ViewRides: View {
                     }
                 
             }
-            
-        
-        
+
     }
         .navigationTitle("Fahrten")
         .onAppear(perform: {

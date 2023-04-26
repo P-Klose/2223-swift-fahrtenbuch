@@ -15,7 +15,7 @@ enum MapDetails {
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
-    @Published var routeOverlay: MKOverlay?
+    @Published var myRoute: MKPolyline?
     
     var locationManager = CLLocationManager()
     let navigationQueue = DispatchQueue(label: "navigation")
@@ -58,7 +58,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
         
         DispatchQueue.main.async {
-            self.routeOverlay = MKPolygon(coordinates: coordinates, count: coordinates.count)
+            self.myRoute = MKPolyline(coordinates: coordinates, count: coordinates.count)
 //            self.LOG.debug("Coordinates: \(coordinates.count)")
             self.region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
         }
