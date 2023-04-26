@@ -13,6 +13,7 @@ struct MapView: UIViewRepresentable {
     var routeOverlay: MKPolyline?
     var region: MKCoordinateRegion
     let LOG = Logger()
+    var customEdgePadding: UIEdgeInsets = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -25,7 +26,9 @@ struct MapView: UIViewRepresentable {
         //LOG.debug("\(routeOverlay != nil)")
         if routeOverlay != nil {
             view.removeOverlays(view.overlays)
-            view.addOverlay(routeOverlay!, level: .aboveRoads)
+            view.addOverlay(routeOverlay!, level: .aboveLabels)
+            
+            view.setVisibleMapRect(routeOverlay!.boundingMapRect, edgePadding: customEdgePadding ,animated: true)
         }
     }
     
