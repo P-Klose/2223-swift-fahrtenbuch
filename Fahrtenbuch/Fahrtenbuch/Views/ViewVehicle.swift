@@ -8,7 +8,7 @@ import SwiftUI
 
 
 struct ViewVehicle: View {
-    @State var showingVehicleCreateForm = false
+    @State var showVehicleCreateForm = false
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
     var body: some View {
@@ -42,7 +42,7 @@ struct ViewVehicle: View {
                             })
                             
                             Button(action: {
-                                showingVehicleCreateForm.toggle()
+                                showVehicleCreateForm.toggle()
                             },label: {
                                 Image(systemName: "plus")
                             })
@@ -59,7 +59,7 @@ struct ViewVehicle: View {
                         }
             }
         }
-        .sheet(isPresented: $showingVehicleCreateForm) {
+        .sheet(isPresented: $showVehicleCreateForm) {
             VehicleFormView(vehicleViewModel: vehicleViewModel)
                 .presentationDetents([.large])
         }
