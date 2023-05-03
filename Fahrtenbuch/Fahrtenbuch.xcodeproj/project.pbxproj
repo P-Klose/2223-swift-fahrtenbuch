@@ -11,7 +11,7 @@
 		E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4929D4079300B3AC82 /* ViewVehicle.swift */; };
 		E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4B29D4079C00B3AC82 /* ViewRides.swift */; };
 		E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */; };
-		E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E5029D4330200B3AC82 /* Vehicle.swift */; };
+		E4072E5129D4330200B3AC82 /* VehicleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E5029D4330200B3AC82 /* VehicleModel.swift */; };
 		E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */; };
 		E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40729B8A8F200154E7F /* ContentView.swift */; };
 		E41FA40A29B8A8F400154E7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E41FA40929B8A8F400154E7F /* Assets.xcassets */; };
@@ -25,7 +25,8 @@
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
 		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 		E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */; };
-		E4FDF5EC2A0235A20048A089 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5EB2A0235A20048A089 /* Expense.swift */; };
+		E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */; };
+		E4FDF5EE2A0271A90048A089 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +52,7 @@
 		E4072E4929D4079300B3AC82 /* ViewVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewVehicle.swift; sourceTree = "<group>"; };
 		E4072E4B29D4079C00B3AC82 /* ViewRides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRides.swift; sourceTree = "<group>"; };
 		E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		E4072E5029D4330200B3AC82 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		E4072E5029D4330200B3AC82 /* VehicleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleModel.swift; sourceTree = "<group>"; };
 		E41FA40229B8A8F200154E7F /* Fahrtenbuch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fahrtenbuch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchApp.swift; sourceTree = "<group>"; };
 		E41FA40729B8A8F200154E7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,7 +69,8 @@
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
-		E4FDF5EB2A0235A20048A089 /* Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
+		E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
+		E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +112,9 @@
 		E4072E4F29D432E900B3AC82 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E4072E5029D4330200B3AC82 /* Vehicle.swift */,
-				E4FDF5EB2A0235A20048A089 /* Expense.swift */,
+				E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */,
+				E4072E5029D4330200B3AC82 /* VehicleModel.swift */,
+				E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -327,8 +330,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4FDF5EC2A0235A20048A089 /* Expense.swift in Sources */,
-				E4072E5129D4330200B3AC82 /* Vehicle.swift in Sources */,
+				E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */,
+				E4072E5129D4330200B3AC82 /* VehicleModel.swift in Sources */,
+				E4FDF5EE2A0271A90048A089 /* NavigationModel.swift in Sources */,
 				E44D4FA029F846B700F2DCED /* MapView.swift in Sources */,
 				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
