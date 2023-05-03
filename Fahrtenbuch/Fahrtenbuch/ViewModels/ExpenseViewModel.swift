@@ -20,12 +20,47 @@ class ExpenseViewModel: ObservableObject {
         }
     
     func summ() -> Double{
-        var toReturn = 0.0;
-        for expense in expenses {
-            toReturn = toReturn + expense.reduce(0.0, { $0 + Double($1.expenseValue) })
-        }
-        return toReturn
+        return summGas()+summPark()+summWash()
     }
+    func summGas() -> Double{
+        expenses[0].reduce(0.0, { $0 + Double($1.expenseValue) })
+    }
+    func summPark() -> Double{
+        expenses[1].reduce(0.0, { $0 + Double($1.expenseValue) })
+    }
+    func summWash() -> Double{
+        expenses[2].reduce(0.0, { $0 + Double($1.expenseValue) })
+    }
+    
+    func saveExpenses(in _Type: String, vehicleId: Int, expenseValue: Double, onDate: Date) {
+        switch _Type {
+        case "gas":
+            saveGas(value: expenseValue, vehicleId: vehicleId, date: onDate)
+        case "parking":
+            saveParking(value: expenseValue, vehicleId: vehicleId, date: onDate)
+        case "cleaning":
+            saveCleaning(value: expenseValue, vehicleId: vehicleId, date: onDate)
+            
+        default:
+            saveOther(value: expenseValue, vehicleId: vehicleId, date: onDate)
+        }
+    }
+    private func saveGas(value: Double, vehicleId: Int, date: Date){
+        model.addExpense(IndexKey: 0, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+    }
+    
+    private func saveParking(value: Double, vehicleId: Int, date: Date){
+        model.addExpense(IndexKey: 1, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+    }
+    
+    private func saveCleaning(value: Double, vehicleId: Int, date: Date){
+        model.addExpense(IndexKey: 2, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+    }
+    
+    private func saveOther(value: Double, vehicleId: Int, date: Date){
+        model.addExpense(IndexKey: 3, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+    }
+
     
     
 //    func downloadAllVehicles() {

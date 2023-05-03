@@ -11,20 +11,23 @@
 
 import SwiftUI
 import Charts
+import OSLog
 
-//typealias Gas = 0
+typealias vvm = VehicleViewModel
+typealias evm = ExpenseViewModel
 struct ViewExpenses: View {
     
     @State var showExpenseCreateForm = false
-    @ObservedObject var expenseViewModel: ExpenseViewModel
-   
-
+    @ObservedObject var expenseViewModel: evm
+    @ObservedObject var vehicleViewModel: vvm
+    
+    
     
     var body: some View {
         NavigationStack {
-            ZStack {
+            ScrollView {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("VW T7")
+                    Text("Übersicht")
                     
                     Text("Insgesammt: \(expenseViewModel.summ(), format: .number.precision(.fractionLength(1)))")
                         .fontWeight(.semibold)
@@ -33,23 +36,25 @@ struct ViewExpenses: View {
                         .padding(.bottom, 12)
                     
                     Chart {
-                        RuleMark(y: .value("Avg", 60))
-                            .foregroundStyle(Color.orange)
+                        let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
+                            .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
+                        RuleMark(y: .value("Mean", gasAverage))
+                            .foregroundStyle(.orange)
                             .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
                         
-                        let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
-                            .reduce(0.0, +) / Float(expenseViewModel.expenses[0].count)
-                          RuleMark(y: .value("Mean", gasAverage))
-                            .foregroundStyle(.orange)
-                            .lineStyle(StrokeStyle(lineWidth: 1))
-//                            .annotation(position: .top, alignment: .trailing) {
-//                              Text("Mean: \(average, format: .number.precision(.fractionLength(1)))")
-//                                    .fontWeight(.semibold)
-//                                    .font(.footnote)
-//                                .foregroundStyle(.orange)
-//                            }
-                        
                         ForEach(expenseViewModel.expenses[0]) { expense in
+                            BarMark(
+                                x: .value("Datum", expense.date),
+                                y: .value("Kosten", expense.expenseValue))
+                        }
+                        .foregroundStyle(Color.orange.gradient)
+                        ForEach(expenseViewModel.expenses[1]) { expense in
+                            BarMark(
+                                x: .value("Datum", expense.date),
+                                y: .value("Kosten", expense.expenseValue))
+                        }
+                        .foregroundStyle(Color.purple.gradient)
+                        ForEach(expenseViewModel.expenses[2]) { expense in
                             BarMark(
                                 x: .value("Datum", expense.date),
                                 y: .value("Kosten", expense.expenseValue))
@@ -61,26 +66,74 @@ struct ViewExpenses: View {
                         AxisMarks()
                     }
                     HStack {
-                        Image(systemName: "line.diagonal")
-                            .rotationEffect(Angle(degrees: 45))
+                        Image(systemName: "square.fill")
                             .foregroundColor(.orange)
-                        
-                        Text("Durchschnittlicher Tankpreis")
+                        Text("Tanken")
+                            .foregroundColor(.secondary)
+                    }
+                    .font(.caption2)
+                    .padding(.leading, 4)
+                    HStack {
+                        Image(systemName: "square.fill")
+                            .foregroundColor(.purple)
+                        Text("Parken")
+                            .foregroundColor(.secondary)
+                    }
+                    .font(.caption2)
+                    .padding(.leading, 4)
+                    HStack {
+                        Image(systemName: "square.fill")
+                            .foregroundColor(.blue)
+                        Text("Waschen")
                             .foregroundColor(.secondary)
                     }
                     .font(.caption2)
                     .padding(.leading, 4)
                     
+                    Spacer()
+                    
+                    Section() {
+                        Text("Tanken")
+                        
+                        Text("Gesammt: \(expenseViewModel.summGas(), format: .number.precision(.fractionLength(1)))")
+                            .fontWeight(.semibold)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    Section() {
+                        Text("Parken")
+                        
+                        Text("Gesammt: \(expenseViewModel.summPark(), format: .number.precision(.fractionLength(1)))")
+                            .fontWeight(.semibold)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 12)
+                    }
+                    Section() {
+                        Text("Waschen")
+                        
+                        Text("Gesammt: \(expenseViewModel.summWash(), format: .number.precision(.fractionLength(1)))")
+                            .fontWeight(.semibold)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 12)
+                    }
                 }
                 .padding()
+                
+                
             }
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
                 expenseViewModel.reloadAllExpenses()
+                vehicleViewModel.downloadAllVehicles()
+                
             })
             .toolbar(){
                 ToolbarItemGroup(placement:
-                        .navigationBarLeading){
+                        .navigationBarTrailing){
                             Button(action: {
                                 showExpenseCreateForm.toggle()
                             },label: {
@@ -90,79 +143,94 @@ struct ViewExpenses: View {
             }
         }
         .sheet(isPresented: $showExpenseCreateForm) {
-            ExpensesFormView()
+            ExpensesFormView(vehicleVM: vehicleViewModel, expenseVM: expenseViewModel)
                 .presentationDetents([.medium])
         }
     }
 }
 
 struct ExpensesFormView: View {
+    @ObservedObject var vehicleVM: vvm
+    @ObservedObject var expenseVM: evm
+    
+    private let LOG = Logger()
+    
     @Environment(\.dismiss) var dismiss
     
-    var vehicle: Vehicle?
-    init(vehicle: Vehicle? = nil) {
-        self.vehicle = vehicle
-        if self.vehicle != nil {
-            vehicleName = vehicle!.getName()
-        }
-    }
     @State private var vehicleName: String = "alle"
-    @State private var value: Int?
-    @State private var expenseType = ["gas","cleaning","maintance","other"]
-
+    @State private var value: String = ""
+    
+    
+    @State private var date = Date()
+    @State private var selectedExpenseType: ExpenseType = .other
+    @State private var selectedVehicleId = ""
+    
     
     var body: some View {
         
         NavigationView{
-//            Form {
-//
-//                Section {
-//                    TextField("Marke:", text: $makeTextField)
-//                    TextField("Modell:", text: $modelTextField)
-//                    TextField("Kennzeichen:",text: $numberplateTextField)
-//                }
-//                Section {
-//                    TextField("Kilometerstand:", text: $milageTextField)
-//                        .keyboardType(.numberPad)
-//                }
-//                Section {
-//                    TextField("Identifizierungsnummer:", text: $vinTextField)
-//                } header: {
-//                    Text("Zusätzliche Informationen:")
-//                }
-//            }
-//            .navigationTitle("Fahrzeug hinzufügen")
-//            .navigationBarTitleDisplayMode(.inline)
-//            .toolbar(){
-//                ToolbarItemGroup(placement:
-//                        .navigationBarLeading){
-//                            Button(action: {
-//                                dismiss()
-//                            }) {
-//                                Text("Abbrechen")
-//                            }
-//                        }
-//                ToolbarItemGroup(placement:
-//                        .navigationBarTrailing){
-//                            Button(action: {
-//                                print("ImageURL: \(imageUrl ?? "")")
-//                                vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "")
-//                                dismiss()
-//                            }) {
-//                                Text("Speichern")
-//                            }
-//
-//                        }
-//            }
+            Form {
+                Section {
+                    TextField("Preis:", text: $value).keyboardType(.numberPad)
+                    Picker("Fahrzeug", selection: $selectedVehicleId) {
+                        ForEach(vehicleVM.vehicles, id: \.id) { vehicle in
+                            Text(vehicle.getName()).tag(vehicle.getFullName())
+                        }
+                    }
+                    
+                    Picker("Ausgabentyp", selection: $selectedExpenseType) {
+                        ForEach(ExpenseType.allCases) { expense in
+                            Text(expense.rawValue.capitalized)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                Section {
+                    DatePicker(
+                        "Datum",
+                        selection: $date,
+                        displayedComponents: [.date]
+                    )
+                    .datePickerStyle(.automatic)
+                }
+            }
+            .navigationTitle("Ausgabe hinzufügen")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(){
+                ToolbarItemGroup(placement:
+                        .navigationBarLeading){
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Text("Abbrechen")
+                            }
+                        }
+                ToolbarItemGroup(placement:
+                        .navigationBarTrailing){
+                            Button(action: {
+                                expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date)
+                                LOG.info("\(selectedVehicleId)")
+                                dismiss()
+                            }) {
+                                Text("Speichern")
+                            }
+                            
+                        }
+            }
         }
     }
 }
 
 struct ViewExpenses_Previews: PreviewProvider {
     static let expenseViewModel = ExpenseViewModel()
+    static let vehicleViewModel = VehicleViewModel()
     static var previews: some View {
-        ViewExpenses(expenseViewModel: expenseViewModel)
+        ViewExpenses(expenseViewModel: expenseViewModel,vehicleViewModel: vehicleViewModel)
     }
 }
 
 
+enum ExpenseType: String, CaseIterable, Identifiable {
+    case gas, cleaning, parking, other
+    var id: Self { self }
+}

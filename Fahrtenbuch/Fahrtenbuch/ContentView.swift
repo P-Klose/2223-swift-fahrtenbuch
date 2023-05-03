@@ -12,7 +12,7 @@ struct ContentView: View {
     @ObservedObject var expenseViewModel: ExpenseViewModel
     var body: some View {
         TabView {
-            ViewExpenses(expenseViewModel: expenseViewModel)
+            ViewExpenses(expenseViewModel: expenseViewModel, vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "eurosign.circle")
                     Text("Ausgaben")

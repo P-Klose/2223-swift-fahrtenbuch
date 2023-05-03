@@ -63,40 +63,40 @@ struct ViewRides: View {
                          */
                         
                         Section {
-                         Button(action: {
-                         print("First button is tapped")
-                         }) {
-                         Text("Fahrt starten")
-                         }
+                            Button(action: {
+                                print("First button is tapped")
+                            }) {
+                                Text("Fahrt starten")
+                            }
                             
-                         Button(action: {
-                         print("Second button is tapped")
-                         }){
-                         Text("Fahrt beenden").foregroundColor(.red)
-                         }
-                         }
+                            Button(action: {
+                                print("Second button is tapped")
+                            }){
+                                Text("Fahrt beenden").foregroundColor(.red)
+                            }
+                        }
                     }
+                    
+                }
                 
             }
-
+            .navigationTitle("Fahrten")
+            .onAppear(perform: {
+                vehicleViewModel.downloadAllVehicles()
+                LOG.debug("\(vehicleViewModel.vehicles.count)")
+            })
+        }
     }
-        .navigationTitle("Fahrten")
-        .onAppear(perform: {
-            vehicleViewModel.downloadAllVehicles()
-            LOG.debug("\(vehicleViewModel.vehicles.count)")
-        })
-}
-}
-
-func buttonStartPressed(){
-    buttonStartIsPressed.toggle()
-}
-
-func buttonStopPressed(){
     
-}
+    func buttonStartPressed(){
+        buttonStartIsPressed.toggle()
+    }
     
-
+    func buttonStopPressed(){
+        
+    }
+    
+    
 }
 
 struct ViewRides_Previews: PreviewProvider {
