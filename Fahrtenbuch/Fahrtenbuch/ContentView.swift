@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var vehicleViewModel: VehicleViewModel
+    @ObservedObject var expenseViewModel: ExpenseViewModel
     var body: some View {
         TabView {
-            ViewExpenses()
+            ViewExpenses(expenseViewModel: expenseViewModel)
                 .tabItem() {
                     Image(systemName: "eurosign.circle")
                     Text("Ausgaben")
@@ -34,7 +35,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static let vehicleViewModel = VehicleViewModel()
+    static let expenseViewModel = ExpenseViewModel()
     static var previews: some View {
-        ContentView(vehicleViewModel: vehicleViewModel)
+        ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel)
     }
 }

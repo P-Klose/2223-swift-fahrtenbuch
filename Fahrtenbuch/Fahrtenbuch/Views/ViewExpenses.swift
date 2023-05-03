@@ -5,35 +5,28 @@
 //  Created by Peter Klose on 29.03.23.
 //
 
+//Orange -> Tanken
+//Purple -> Parken
+//Blue -> Waschen
+
 import SwiftUI
 import Charts
 
+//typealias Gas = 0
 struct ViewExpenses: View {
     
     @State var showExpenseCreateForm = false
-    let expenses: [GeneralExense] = [
-        .init(date: Date.from(year: 2023, month: 1, day: 3), expenseValue: 83, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 1, day: 12), expenseValue: 80, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 1, day: 21), expenseValue: 90, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 1, day: 23), expenseValue: 79, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 1, day: 30), expenseValue: 92, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 2, day: 1), expenseValue: 29, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 2, day: 5), expenseValue: 65, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 2, day: 16), expenseValue: 34, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 2, day: 23), expenseValue: 54, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 3, day: 23), expenseValue: 45, vehicleId: 1),
-        .init(date: Date.from(year: 2023, month: 3, day: 25), expenseValue: 12, vehicleId: 1)
-        
-    ]
-    
+    @ObservedObject var expenseViewModel: ExpenseViewModel
+   
+
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Spritt Ausgaben")
+                    Text("VW T7")
                     
-                    Text("Insgesammt: \(expenses.reduce(0, { $0 + $1.expenseValue }))")
+                    Text("Insgesammt: \(expenseViewModel.summ(), format: .number.precision(.fractionLength(1)))")
                         .fontWeight(.semibold)
                         .font(.footnote)
                         .foregroundColor(.secondary)
@@ -43,14 +36,25 @@ struct ViewExpenses: View {
                         RuleMark(y: .value("Avg", 60))
                             .foregroundStyle(Color.orange)
                             .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
-                        ForEach(expenses) { expense in
+                        
+                        let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
+                            .reduce(0.0, +) / Float(expenseViewModel.expenses[0].count)
+                          RuleMark(y: .value("Mean", gasAverage))
+                            .foregroundStyle(.orange)
+                            .lineStyle(StrokeStyle(lineWidth: 1))
+//                            .annotation(position: .top, alignment: .trailing) {
+//                              Text("Mean: \(average, format: .number.precision(.fractionLength(1)))")
+//                                    .fontWeight(.semibold)
+//                                    .font(.footnote)
+//                                .foregroundStyle(.orange)
+//                            }
+                        
+                        ForEach(expenseViewModel.expenses[0]) { expense in
                             BarMark(
                                 x: .value("Datum", expense.date),
                                 y: .value("Kosten", expense.expenseValue))
                         }
                         .foregroundStyle(Color.blue.gradient)
-                        //                        .cornerRadius(2)
-                        
                     }
                     .frame(height: 180)
                     .chartXAxis {
@@ -61,7 +65,7 @@ struct ViewExpenses: View {
                             .rotationEffect(Angle(degrees: 45))
                             .foregroundColor(.orange)
                         
-                        Text("Durschnitts Tankpreis")
+                        Text("Durchschnittlicher Tankpreis")
                             .foregroundColor(.secondary)
                     }
                     .font(.caption2)
@@ -71,6 +75,9 @@ struct ViewExpenses: View {
                 .padding()
             }
             .navigationTitle("Ausgaben")
+            .onAppear(perform: {
+                expenseViewModel.reloadAllExpenses()
+            })
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarLeading){
@@ -152,21 +159,10 @@ struct ExpensesFormView: View {
 }
 
 struct ViewExpenses_Previews: PreviewProvider {
+    static let expenseViewModel = ExpenseViewModel()
     static var previews: some View {
-        ViewExpenses()
+        ViewExpenses(expenseViewModel: expenseViewModel)
     }
 }
 
-struct GeneralExense: Identifiable {
-    let id = UUID()
-    let date: Date
-    let expenseValue: Int
-    let vehicleId: Int
-}
 
-extension Date {
-    static func from(year: Int, month: Int, day: Int) -> Date{
-        let components = DateComponents(year: year, month: month, day: day)
-        return Calendar.current.date(from: components)!
-    }
-}
