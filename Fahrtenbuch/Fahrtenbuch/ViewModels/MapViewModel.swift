@@ -35,7 +35,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         locationManager.startUpdatingLocation()
         super.init()
         cancellable = subject //TODO: cancel it when done?
-            .debounce(for: .seconds(1.0), scheduler: RunLoop.main)
+            .debounce(for: .seconds(0.25), scheduler: RunLoop.main)
             .sink { location in
                 self.locationChange(location)
             }
@@ -67,11 +67,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         let myRoute = MKPolyline(coordinates: coordinates, count: coordinates.count)
         self.navigationModel.updateRoute(route: myRoute)
             self.LOG.debug("#of coordinates: \(coordinates.count)")
-        if !regionUpdated {
+        //if !regionUpdated {
             regionUpdated = true
             let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
             self.navigationModel.updateRegion(region: region)
-        }
+        //}
 
     }
     private func checkLocationAuthorization() {

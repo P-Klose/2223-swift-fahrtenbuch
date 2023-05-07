@@ -10,25 +10,25 @@ import SwiftUI
 import OSLog
 
 struct MapView: UIViewRepresentable {
-    var routeOverlay: MKPolyline?
-    var region: MKCoordinateRegion
+    @ObservedObject var mapViewModel: MapViewModel
+    let delegate = PolyLineDelegate()
     let LOG = Logger()
     var customEdgePadding: UIEdgeInsets = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.showsUserLocation = true
+        mapView.delegate = delegate
         return mapView
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        view.setRegion(region, animated: true)
+        view.setRegion(mapViewModel.region, animated: true)
         //LOG.debug("\(routeOverlay != nil)")
-        if routeOverlay != nil {
+        if mapViewModel.myRoute != nil {
             view.removeOverlays(view.overlays)
-            view.addOverlay(routeOverlay!, level: .aboveLabels)
-            
-            view.setVisibleMapRect(routeOverlay!.boundingMapRect, edgePadding: customEdgePadding ,animated: true)
+            view.addOverlay(mapViewModel.myRoute!, level: .aboveLabels)
+            view.setVisibleMapRect(mapViewModel.myRoute!.boundingMapRect, edgePadding: customEdgePadding ,animated: true)
         }
     }
     
@@ -55,4 +55,18 @@ struct MapView: UIViewRepresentable {
         }
     }
     
+}
+class PolyLineDelegate: NSObject, MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer: MKOverlayRenderer
+        if let routePolyLine = overlay as? MKPolyline {
+            let polyLineRenderer = MKPolylineRenderer(polyline: routePolyLine)
+            polyLineRenderer.strokeColor = UIColor.blue
+            polyLineRenderer.lineWidth = 4
+            renderer = polyLineRenderer
+        } else {
+            renderer = MKOverlayRenderer()
+        }
+        return renderer
+    }
 }

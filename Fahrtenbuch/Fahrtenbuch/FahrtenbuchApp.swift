@@ -11,9 +11,10 @@ import SwiftUI
 struct FahrtenbuchApp: App {
     let vehicleViewModel = VehicleViewModel()
     let expenseViewModel = ExpenseViewModel()
+    let mapViewModel = MapViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel)
+            ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel)
         }
     }
 }

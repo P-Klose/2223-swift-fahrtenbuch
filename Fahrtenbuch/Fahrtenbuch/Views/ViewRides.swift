@@ -30,7 +30,7 @@ struct ViewRides: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MapView(routeOverlay: mapViewModel.myRoute, region: mapViewModel.region)
+                    MapView(mapViewModel: mapViewModel)
                         .frame(height: 350, alignment: .top)
                     Spacer()
                     

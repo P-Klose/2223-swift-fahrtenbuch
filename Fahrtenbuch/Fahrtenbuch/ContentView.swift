@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var vehicleViewModel: VehicleViewModel
     @ObservedObject var expenseViewModel: ExpenseViewModel
+    @ObservedObject var mapViewModel: MapViewModel
     var body: some View {
         TabView {
             ViewExpenses(expenseViewModel: expenseViewModel, vehicleViewModel: vehicleViewModel)
@@ -36,7 +37,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static let vehicleViewModel = VehicleViewModel()
     static let expenseViewModel = ExpenseViewModel()
+    static let mapViewModel = MapViewModel()
     static var previews: some View {
-        ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel)
+        ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel)
     }
 }
