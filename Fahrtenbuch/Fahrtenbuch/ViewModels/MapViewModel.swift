@@ -66,16 +66,15 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
         let myRoute = MKPolyline(coordinates: coordinates, count: coordinates.count)
         self.navigationModel.updateRoute(route: myRoute)
-            self.LOG.debug("#of coordinates: \(coordinates.count)")
-        //if !regionUpdated {
-            regionUpdated = true
-            let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
-            self.navigationModel.updateRegion(region: region)
-        //}
-
+        self.LOG.debug("#of coordinates: \(coordinates.count)")
+//        self.LOG.debug("\r⚡️: \(Thread.current)\r 🏭: \(OperationQueue.current?.underlyingQueue?.label ?? "None")\r")
+        regionUpdated = true
+        let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
+        self.navigationModel.updateRegion(region: region)
     }
+    
     private func checkLocationAuthorization() {
-         
+        
         switch locationManager.authorizationStatus {
             case .notDetermined:
                 locationManager.requestWhenInUseAuthorization()

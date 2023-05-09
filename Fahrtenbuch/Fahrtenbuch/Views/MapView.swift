@@ -10,7 +10,7 @@ import SwiftUI
 import OSLog
 
 struct MapView: UIViewRepresentable {
-    @ObservedObject var mapViewModel: MapViewModel
+    @StateObject var mapViewModel: MapViewModel
     let delegate = PolyLineDelegate()
     let LOG = Logger()
     var customEdgePadding: UIEdgeInsets = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
@@ -24,11 +24,9 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ view: MKMapView, context: Context) {
         view.setRegion(mapViewModel.region, animated: true)
-        //LOG.debug("\(routeOverlay != nil)")
         if mapViewModel.myRoute != nil {
             view.removeOverlays(view.overlays)
             view.addOverlay(mapViewModel.myRoute!, level: .aboveLabels)
-            view.setVisibleMapRect(mapViewModel.myRoute!.boundingMapRect, edgePadding: customEdgePadding ,animated: true)
         }
     }
     
@@ -43,16 +41,6 @@ struct MapView: UIViewRepresentable {
         init(_ parent: MapView) {
             self.parent = parent
         }
-        
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            self.LOG.debug("Call Map Renderer")
-            let lineView = MKPolylineRenderer(overlay: overlay)
-            lineView.strokeColor = .blue
-            lineView.lineCap = .round
-            lineView.lineWidth = 3.0
-            
-            return lineView
-        }
     }
     
 }
@@ -61,7 +49,7 @@ class PolyLineDelegate: NSObject, MKMapViewDelegate {
         let renderer: MKOverlayRenderer
         if let routePolyLine = overlay as? MKPolyline {
             let polyLineRenderer = MKPolylineRenderer(polyline: routePolyLine)
-            polyLineRenderer.strokeColor = UIColor.blue
+            polyLineRenderer.strokeColor = UIColor.systemBlue
             polyLineRenderer.lineWidth = 4
             renderer = polyLineRenderer
         } else {

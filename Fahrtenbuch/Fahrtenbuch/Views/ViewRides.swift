@@ -18,8 +18,8 @@ struct ViewRides: View {
     @State private var beruflicheFahrt = true
     @State private var buttonStartIsPressed = false
     
-    @StateObject private var mapViewModel = MapViewModel()
-    @ObservedObject var vehicleViewModel = VehicleViewModel()
+    @StateObject  var mapViewModel: MapViewModel
+    @ObservedObject var vehicleViewModel: VehicleViewModel
     
     @State private var selectedVehicle = ""
     
@@ -100,7 +100,9 @@ struct ViewRides: View {
 }
 
 struct ViewRides_Previews: PreviewProvider {
+    static let vehicleViewModel = VehicleViewModel()
+    static let mapViewModel = MapViewModel()
     static var previews: some View {
-        ViewRides()
+        ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
     }
 }

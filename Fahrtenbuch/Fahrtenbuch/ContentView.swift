@@ -23,7 +23,7 @@ struct ContentView: View {
                     Image(systemName: "car.2")
                     Text("Fahrzeuge")
                 }
-            ViewRides()
+            ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "road.lanes.curved.right")
                     Text("Fahrten")
