@@ -22,6 +22,7 @@
 		E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECB29E407EE0032F98E /* HomeViewController.swift */; };
 		E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427DECE29E4169E0032F98E /* VehicleViewController.swift */; };
 		E44D4FA029F846B700F2DCED /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D4F9F29F846B700F2DCED /* MapView.swift */; };
+		E46559552A0AC53D008A8D35 /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46559542A0AC53D008A8D35 /* TripModel.swift */; };
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
 		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 		E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */; };
@@ -66,6 +67,7 @@
 		E427DECB29E407EE0032F98E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E427DECE29E4169E0032F98E /* VehicleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewController.swift; sourceTree = "<group>"; };
 		E44D4F9F29F846B700F2DCED /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		E46559542A0AC53D008A8D35 /* TripModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */,
 				E4072E5029D4330200B3AC82 /* VehicleModel.swift */,
+				E46559542A0AC53D008A8D35 /* TripModel.swift */,
 				E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */,
 			);
 			path = Models;
@@ -340,6 +343,7 @@
 				E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */,
 				E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */,
 				E427DECC29E407EE0032F98E /* HomeViewController.swift in Sources */,
+				E46559552A0AC53D008A8D35 /* TripModel.swift in Sources */,
 				E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */,
 				E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */,
 				E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */,

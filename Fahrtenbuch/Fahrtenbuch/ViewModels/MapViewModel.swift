@@ -17,6 +17,12 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var myRoute: MKPolyline? {
         return navigationModel.myRoute
     }
+    @Published private var tripModel = TripModel()
+    var trips:[Trip] {
+        tripModel.trips
+    }
+    
+    
     var locationManager: CLLocationManager
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
@@ -70,11 +76,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         isStopped = true
     }
     
+    func saveTripToDatabase(key: Int?, vehicleId: Int, date: Date, coordinates: [[Double]]) {
+        self.tripModel.addTrip(key: key, vehicleId: vehicleId, date: date, coordinates: coordinates)
+    }
+    
+    
     
     private func locationChange(_ latestLocation: CLLocation) {
         if(isStopped && recentLocations.count != 0){
             self.LOG.debug("Stop Recording")
             let coordinatesArray = recentLocations.map { [$0.coordinate.longitude, $0.coordinate.latitude] }
+            saveTripToDatabase(key: nil, vehicleId: 1, date: Date(), coordinates: coordinatesArray)
             self.LOG.debug("Recent Locations: \(coordinatesArray)")
             recentLocations = [CLLocation]()
             isStopped=false
