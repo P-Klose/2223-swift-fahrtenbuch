@@ -49,28 +49,15 @@ struct ViewRides: View {
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                         }
                         
-                        /*HStack {
-                         Section {
-                         Button("Fahrt starten", action: buttonStartPressed).frame(width: 70)
-                         
-                         }
-                         Section {
-                         Button("Fahrt stoppen", action: buttonStopPressed).frame(width: 70)
-                         
-                         }
-                         
-                         }
-                         */
-                        
                         Section {
                             Button(action: {
-                                print("First button is tapped")
+                                mapViewModel.startRecording()
                             }) {
                                 Text("Fahrt starten")
                             }
                             
                             Button(action: {
-                                print("Second button is tapped")
+                                mapViewModel.stopRecording()
                             }){
                                 Text("Fahrt beenden").foregroundColor(.red)
                             }
@@ -89,7 +76,7 @@ struct ViewRides: View {
     }
     
     func buttonStartPressed(){
-        buttonStartIsPressed.toggle()
+        
     }
     
     func buttonStopPressed(){

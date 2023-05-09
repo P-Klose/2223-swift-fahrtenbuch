@@ -23,7 +23,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var recentLocations = [CLLocation]()
     let subject = PassthroughSubject<CLLocation, Never>()
     var cancellable: AnyCancellable?
-    var regionUpdated = false
+    var recording = false
+    var isStopped = false
+//    var regionUpdated = false
     
     let LOG = Logger()
     
@@ -35,7 +37,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         locationManager.startUpdatingLocation()
         super.init()
         cancellable = subject //TODO: cancel it when done?
-            .debounce(for: .seconds(0.25), scheduler: RunLoop.main)
+            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .sink { location in
                 self.locationChange(location)
             }
@@ -55,22 +57,39 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             LOG.info("No last location found")
             return
         }
-        subject.send(latestLocation)
-        
+//        if(recording) {
+            subject.send(latestLocation)
+//        }
     }
+    
+    func startRecording(){
+        recording = true
+    }
+    func stopRecording(){
+        recording = false
+        isStopped = true
+    }
+    
+    
     private func locationChange(_ latestLocation: CLLocation) {
-        recentLocations.append(latestLocation)
-        
-        let coordinates = recentLocations.map { recentLocations -> CLLocationCoordinate2D in
-            return recentLocations.coordinate
+        if(isStopped && recentLocations.count != 0){
+            self.LOG.debug("Stop Recording")
+            let coordinatesArray = recentLocations.map { [$0.coordinate.longitude, $0.coordinate.latitude] }
+            self.LOG.debug("Recent Locations: \(coordinatesArray)")
+            recentLocations = [CLLocation]()
+            isStopped=false
+            return
+        }else if(recording){
+            recentLocations.append(latestLocation)
+            
+            let coordinates = recentLocations.map { recentLocations -> CLLocationCoordinate2D in
+                return recentLocations.coordinate
+            }
+            let myRoute = MKPolyline(coordinates: coordinates, count: coordinates.count)
+            self.navigationModel.updateRoute(route: myRoute)
+            self.LOG.debug("#of coordinates: \(coordinates.count)")
         }
-        let myRoute = MKPolyline(coordinates: coordinates, count: coordinates.count)
-        self.navigationModel.updateRoute(route: myRoute)
-        self.LOG.debug("#of coordinates: \(coordinates.count)")
-//        self.LOG.debug("\r⚡️: \(Thread.current)\r 🏭: \(OperationQueue.current?.underlyingQueue?.label ?? "None")\r")
-        regionUpdated = true
-        let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
-        self.navigationModel.updateRegion(region: region)
+//        regionUpdated = true
     }
     
     private func checkLocationAuthorization() {
