@@ -33,7 +33,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var recording = false
     var isStopped = false
     var selectedVehicleId = -1
-    //    var regionUpdated = false
+    var regionUpdated = false
     
     let LOG = Logger()
     
@@ -80,7 +80,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
-        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date)
+        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
         saveTripToDatabase(trip: toSaveTrip){ success in
             if success {
                 self.LOG.info("🟢 Trip Saved in Database")

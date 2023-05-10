@@ -92,7 +92,7 @@ struct ViewTrips: View {
         
         return mapViewModel.trips.filter { trip in
             
-            return trip.date >= startOfDay && trip.date <= endOfDay //&& trip.id == selectedVehicleId
+            return trip.date >= startOfDay && trip.date <= endOfDay && trip.vehicleId == selectedVehicleId
         }
     }
     func formattedDate(for date: Date?) -> String {
