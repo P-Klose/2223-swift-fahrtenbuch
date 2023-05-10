@@ -79,8 +79,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         isStopped = true
     }
     
-    func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]]) {
-        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: 0, date: date)
+    func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
+        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date)
         saveTripToDatabase(trip: toSaveTrip){ success in
             if success {
                 self.LOG.info("🟢 Trip Saved in Database")
@@ -163,7 +163,15 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             self.LOG.debug("Stop Recording")
             
             let coordinatesArray = recentLocations.map { [$0.coordinate.longitude, $0.coordinate.latitude] }
-            saveTrip(vehicleId: selectedVehicleId, date: Date(), coordinates: coordinatesArray)
+            var totalDistance = 0.0
+
+            for i in 0..<recentLocations.count-1 {
+                let currentLocation = recentLocations[i]
+                let nextLocation = recentLocations[i+1]
+                let distance = currentLocation.distance(from: nextLocation)
+                totalDistance += distance
+            }
+            saveTrip(vehicleId: selectedVehicleId, date: Date(), coordinates: coordinatesArray, distanceTraveled: totalDistance)
             
             self.LOG.debug("Recent Locations: \(coordinatesArray)")
             recentLocations = [CLLocation]()
