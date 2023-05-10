@@ -87,9 +87,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             } else {
                 self.LOG.error("🔴 Trip not saved in Database")
             }
-            //self.tripModel.add(trip: toSaveTrip)
-            
         }
+        self.tripModel.add(trip: toSaveTrip)
+        LOG.info("#of trips \(self.tripModel.trips.count)")
     }
     private func IntArrayToCoordinatesUsing(numbers: [[Double]]) -> [Coordinate] {
         var finalCoordinates = [Coordinate]()
@@ -124,7 +124,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
                     success = false
                 } else if let data = data {
                     print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
-                    self.downloadAllTrips()
+                    //self.downloadAllTrips()
                 } else {
                     print("Keine Daten erhalten")
                     success = false

@@ -21,12 +21,14 @@ struct TripModel {
         trips.append(trip)
     }
     mutating func importFromJson(data: Data) {
-        if let dowloadedTrips = try? JSONDecoder().decode([Trip].self, from: data){
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        if let dowloadedTrips = try? decoder.decode([Trip].self, from: data){
             trips = dowloadedTrips
 
-        }else{
-            
         }
+        
     }
 }
 

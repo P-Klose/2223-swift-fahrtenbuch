@@ -12,6 +12,7 @@
 		E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4B29D4079C00B3AC82 /* ViewRides.swift */; };
 		E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */; };
 		E4072E5129D4330200B3AC82 /* VehicleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4072E5029D4330200B3AC82 /* VehicleModel.swift */; };
+		E41E51E42A0B804800DEBE30 /* ViewTrips.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E51E32A0B804800DEBE30 /* ViewTrips.swift */; };
 		E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */; };
 		E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41FA40729B8A8F200154E7F /* ContentView.swift */; };
 		E41FA40A29B8A8F400154E7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E41FA40929B8A8F400154E7F /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		E4072E4B29D4079C00B3AC82 /* ViewRides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRides.swift; sourceTree = "<group>"; };
 		E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		E4072E5029D4330200B3AC82 /* VehicleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleModel.swift; sourceTree = "<group>"; };
+		E41E51E32A0B804800DEBE30 /* ViewTrips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTrips.swift; sourceTree = "<group>"; };
 		E41FA40229B8A8F200154E7F /* Fahrtenbuch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fahrtenbuch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41FA40529B8A8F200154E7F /* FahrtenbuchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrtenbuchApp.swift; sourceTree = "<group>"; };
 		E41FA40729B8A8F200154E7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				E4072E4929D4079300B3AC82 /* ViewVehicle.swift */,
 				E4072E4B29D4079C00B3AC82 /* ViewRides.swift */,
 				E44D4F9F29F846B700F2DCED /* MapView.swift */,
+				E41E51E32A0B804800DEBE30 /* ViewTrips.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				E46559552A0AC53D008A8D35 /* TripModel.swift in Sources */,
 				E41FA40629B8A8F200154E7F /* FahrtenbuchApp.swift in Sources */,
 				E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */,
+				E41E51E42A0B804800DEBE30 /* ViewTrips.swift in Sources */,
 				E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */,
 				E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */,
 				E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */,

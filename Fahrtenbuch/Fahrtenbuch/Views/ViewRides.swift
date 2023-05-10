@@ -38,6 +38,7 @@ struct ViewRides: View {
                         Section{
                             List {
                                 Picker("Fahrzeug", selection: $selectedVehicleId) {
+                                    Text("bitte auswählen")
                                     ForEach(vehicleViewModel.vehicles.indices) { index in
                                         Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                                     }
@@ -72,10 +73,9 @@ struct ViewRides: View {
                 }
                 
             }
-            .navigationTitle("Fahrten")
+            .navigationTitle("Aufzeichnen")
             .onAppear(perform: {
                 vehicleViewModel.downloadAllVehicles()
-                LOG.debug("\(vehicleViewModel.vehicles.count)")
             })
         }
     }
