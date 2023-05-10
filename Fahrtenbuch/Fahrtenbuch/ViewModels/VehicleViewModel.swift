@@ -35,7 +35,7 @@ class VehicleViewModel: ObservableObject {
     
     func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String) {
         
-        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl )
+        let newVehilce = Vehicle(id: vehicles.count, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl )
         print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
@@ -69,10 +69,7 @@ class VehicleViewModel: ObservableObject {
     }
     
     func deleteVehicle(_ vehicle: Vehicle) {
-        var finalUrl = "\(DATABASE)/\(0)"
-        if let myId = vehicle.id {
-            finalUrl =  "\(DATABASE)/\(myId)"
-        }
+        let finalUrl =  "\(DATABASE)/\(vehicle.id)"
         
         if let url = URL(string: finalUrl){
             print(finalUrl)
@@ -100,10 +97,7 @@ class VehicleViewModel: ObservableObject {
     
     func saveCarToDatabase(vehicle: Vehicle, httpMethod: String, completion: @escaping (Bool) -> Void) {
         var success = true
-        var finalUrl = DATABASE
-        if let myId = vehicle.id {
-            finalUrl =  "\(DATABASE)/\(myId)"
-        }
+        let finalUrl =  "\(DATABASE)/\(vehicle.id)"
         
         if let url = URL(string: finalUrl){
             print(finalUrl)

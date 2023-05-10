@@ -25,7 +25,7 @@ struct VehicleModel {
 
 struct Vehicle: Codable, Identifiable, Hashable {
 
-    var id: Int?
+    var id: Int
     var vin: String
     var make: String
     var numberplate: String
@@ -37,7 +37,7 @@ struct Vehicle: Codable, Identifiable, Hashable {
         return make + " " + model
     }
     func getFullName() -> String {
-        return "\(id!) " + make + " " + model
+        return "\(id) " + make + " " + model
     }
     
 }

@@ -163,7 +163,7 @@ struct ExpensesFormView: View {
     
     @State private var date = Date()
     @State private var selectedExpenseType: ExpenseType = .other
-    @State private var selectedVehicleId = ""
+    @State private var selectedVehicleId = -1
     
     
     var body: some View {
@@ -173,8 +173,8 @@ struct ExpensesFormView: View {
                 Section {
                     TextField("Preis:", text: $value).keyboardType(.numberPad)
                     Picker("Fahrzeug", selection: $selectedVehicleId) {
-                        ForEach(vehicleVM.vehicles, id: \.id) { vehicle in
-                            Text(vehicle.getName()).tag(vehicle.getFullName())
+                        ForEach(vehicleVM.vehicles.indices) { index in
+                            Text(self.vehicleVM.vehicles[index].getName()).tag(index)
                         }
                     }
                     
@@ -218,6 +218,7 @@ struct ExpensesFormView: View {
                         }
             }
         }
+        
     }
 }
 
@@ -234,3 +235,4 @@ enum ExpenseType: String, CaseIterable, Identifiable {
     case gas, cleaning, parking, other
     var id: Self { self }
 }
+
