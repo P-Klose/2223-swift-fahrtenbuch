@@ -35,18 +35,14 @@ class VehicleViewModel: ObservableObject {
     
     func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String) {
         
-        let newVehilce = Vehicle(id: vehicles.count, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl )
+        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl )
         print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
             if success {
-                //                let alert = UIAlertController(title: "Erfolg", message: "Das Auto wurde erfolgreich gespeichert", preferredStyle: .alert)
-                //                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                //                self.present(alert, animated: true)
+                
             } else {
-                //                let alert = UIAlertController(title: "Fehler", message: "Das Auto konnte nicht gespeichert werden", preferredStyle: .alert)
-                //                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                //                self.present(alert, animated: true)
+                
             }
         }
     }

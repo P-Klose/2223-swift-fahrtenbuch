@@ -25,7 +25,7 @@ struct VehicleModel {
 
 struct Vehicle: Codable, Identifiable, Hashable {
 
-    var id: Int
+    var id: Int?
     var vin: String
     var make: String
     var numberplate: String
