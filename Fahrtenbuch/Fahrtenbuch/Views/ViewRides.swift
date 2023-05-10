@@ -7,6 +7,7 @@
 import SwiftUI
 import MapKit
 import OSLog
+import Charts
 
 
 struct ViewRides: View {
@@ -23,15 +24,50 @@ struct ViewRides: View {
     
     @State private var selectedVehicleId = -1
     
+    var data: [ToyShape] = [
+        .init(type: "Cube", count: 5),
+        .init(type: "Sphere", count: 4),
+        .init(type: "Pyramid", count: 4)
+    ]
+    
     let LOG = Logger()
     
     var body: some View {
         
         NavigationStack {
             ZStack {
-                VStack {
+                VStack (alignment: .leading) {
+                    
+                    Text("Verlauf").padding(15)
+                    
+                    Chart {
+                        BarMark(
+                                x: .value("Shape Type", data[0].type),
+                                y: .value("Total Count", data[0].count)
+                            )
+                            BarMark(
+                                 x: .value("Shape Type", data[1].type),
+                                 y: .value("Total Count", data[1].count)
+                            )
+                            BarMark(
+                                 x: .value("Shape Type", data[2].type),
+                                 y: .value("Total Count", data[2].count)
+                            )
+                    }
+                    .padding(15)
+                    
+                    Button(action: {
+                        print("Details")
+                    }) {
+                        Text("Details")
+                            .foregroundColor(.blue)
+                            .padding(15)
+                    }
+                    
+                    Text("Übersicht").padding(15)
+
                     MapView(mapViewModel: mapViewModel)
-                        .frame(height: 350, alignment: .top)
+                        .frame(height: 220, alignment: .top)
                     Spacer()
                     
                     Form {
@@ -44,10 +80,10 @@ struct ViewRides: View {
                                     }
                                 }
                             }
-                            Toggle("Berufliche Fahrt", isOn: $beruflicheFahrt)
-                                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                            /*Toggle("Berufliche Fahrt", isOn: $beruflicheFahrt)
+                                .toggleStyle(SwitchToggleStyle(tint: .blue))*/
                         }
-                        
+                        /*
                         Section {
                             Button(action: {
                                 if selectedVehicleId != -1 {
@@ -67,7 +103,7 @@ struct ViewRides: View {
                             }){
                                 Text("Fahrt beenden").foregroundColor(.red)
                             }
-                        }
+                        }*/
                     }
                     
                 }
@@ -89,6 +125,12 @@ struct ViewRides: View {
     }
     
     
+}
+
+struct ToyShape: Identifiable {
+    var type: String
+    var count: Double
+    var id = UUID()
 }
 
 struct ViewRides_Previews: PreviewProvider {
