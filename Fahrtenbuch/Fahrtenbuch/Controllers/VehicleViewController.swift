@@ -13,10 +13,10 @@ class VehicleViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String) {
+    /*func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String) {
         
         // Erstelle ein neues Car-Objekt
-        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model,milage: milage, imageUrl: "")
+        let newVehilce = Vehicle(id: -1, vin: vin, make: make, numberplate: numberplate, model: model,milage: milage, imageUrl: "")
         
         // Speichere das neue Auto in der Datenbank
         saveCarToDatabase(vehicle: newVehilce) { success in
@@ -32,7 +32,7 @@ class VehicleViewController: UIViewController {
                 self.present(alert, animated: true)
             }
         }
-    }
+    }*/
     
     func saveCarToDatabase(vehicle: Vehicle, completion: @escaping (Bool) -> Void) {
         // Implementiere hier die Logik zum Speichern des Autos in der Datenbank
