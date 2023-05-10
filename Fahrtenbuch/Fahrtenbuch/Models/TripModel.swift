@@ -17,27 +17,27 @@ struct TripModel {
     mutating func initData() {
         
     }
-    mutating func addTrip(vehicleId: Int, date: Date, coordinates: [[Double]]) {
-        trips.append(Trip(id: trips.count, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: 0, date: date))
+    mutating func add(trip: Trip) {
+        trips.append(trip)
     }
-    private func IntArrayToCoordinatesUsing(numbers: [[Double]]) -> [Coordinate] {
-        var finalCoordinates = [Coordinate]()
-        for (index,coordinates) in numbers.enumerated() {
-            finalCoordinates.append(Coordinate(id: index, latitude: coordinates[0], longitude: coordinates[1]))
+    mutating func importFromJson(data: Data) {
+        if let dowloadedTrips = try? JSONDecoder().decode([Trip].self, from: data){
+            trips = dowloadedTrips
+
+        }else{
+            
         }
-        return finalCoordinates
     }
-    
 }
 
-struct Trip: Identifiable {
-    var id: Int
+struct Trip: Codable, Identifiable, Hashable {
+    var id: Int?
     var coordinates: [Coordinate]
     var length: Double
     var date: Date
 }
 
-struct Coordinate: Identifiable {
+struct Coordinate: Codable, Identifiable, Hashable {
     var id: Int
     var latitude: Double
     var longitude: Double

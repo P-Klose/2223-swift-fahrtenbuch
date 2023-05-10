@@ -1,13 +1,13 @@
 {
   "vehicles": [
     {
-      "id": 1,
-      "vin": "yyyyyyyy",
-      "numberplate": "UU-48MM",
-      "model": "T7",
       "make": "VW",
-      "milage": "125023",
-      "imageUrl": ""
+      "milage": "125070",
+      "id": 0,
+      "vin": "yyyyyyyy",
+      "model": "T7",
+      "imageUrl": "",
+      "numberplate": "UU-48MM"
     },
     {
       "vin": "yyyyyyyy",
@@ -16,16 +16,7 @@
       "make": "Audi",
       "milage": "125023",
       "imageUrl": "",
-      "id": 2
-    },
-    {
-      "numberplate": "W-150XY",
-      "model": "F-150",
-      "vin": "",
-      "imageUrl": "",
-      "make": "Ford",
-      "milage": "25640",
-      "id": 3
+      "id": 1
     },
     {
       "numberplate": "UU455FF",
@@ -34,15 +25,164 @@
       "imageUrl": "",
       "make": "Audi",
       "milage": "32000",
+      "id": 3
+    },
+    {
+      "numberplate": "UU",
+      "model": "A7",
+      "vin": "",
+      "imageUrl": "",
+      "make": "Audi ",
+      "milage": "88899",
       "id": 4
     }
   ],
   "trips": [
     {
-      "id": 1,
-      "body": "some comment",
-      "startpoint": 1,
-      "endpoint": 2
+      "id": 0,
+      "length": 10,
+      "date": "",
+      "coordinates": [
+        {
+          "id": 0,
+          "latitude": -122.07904631,
+          "longitude": 37.33442102
+        },
+        {
+          "id": 1,
+          "latitude": -122.0793639,
+          "longitude": 37.33457244
+        }
+      ]
+    },
+    {
+      "date": 705395534.918617,
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.33503868,
+          "latitude": -122.03265072
+        },
+        {
+          "id": 1,
+          "longitude": 37.33500926,
+          "latitude": -122.03272188
+        },
+        {
+          "id": 2,
+          "longitude": 37.33497737,
+          "latitude": -122.03281282
+        },
+        {
+          "id": 3,
+          "longitude": 37.33494812,
+          "latitude": -122.0329212
+        },
+        {
+          "id": 4,
+          "longitude": 37.33492222,
+          "latitude": -122.03304215
+        },
+        {
+          "id": 5,
+          "longitude": 37.33489242,
+          "latitude": -122.03318372
+        },
+        {
+          "id": 6,
+          "longitude": 37.33485843,
+          "latitude": -122.03334424
+        },
+        {
+          "id": 7,
+          "longitude": 37.33482105,
+          "latitude": -122.03350886
+        },
+        {
+          "id": 8,
+          "longitude": 37.33477977,
+          "latitude": -122.03369603
+        },
+        {
+          "id": 9,
+          "longitude": 37.33474691,
+          "latitude": -122.03389325
+        },
+        {
+          "id": 10,
+          "longitude": 37.33470894,
+          "latitude": -122.03411085
+        },
+        {
+          "id": 11,
+          "longitude": 37.33467638,
+          "latitude": -122.03432425
+        },
+        {
+          "id": 12,
+          "longitude": 37.33464561,
+          "latitude": -122.03455442
+        }
+      ],
+      "length": 0,
+      "id": 1
+    },
+    {
+      "date": 705395914.91502,
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.37755308,
+          "latitude": -122.14919429
+        },
+        {
+          "id": 1,
+          "longitude": 37.37778312,
+          "latitude": -122.14944148
+        },
+        {
+          "id": 2,
+          "longitude": 37.3780272,
+          "latitude": -122.14968145
+        },
+        {
+          "id": 3,
+          "longitude": 37.37828075,
+          "latitude": -122.14990349
+        },
+        {
+          "id": 4,
+          "longitude": 37.37854172,
+          "latitude": -122.15010976
+        },
+        {
+          "id": 5,
+          "longitude": 37.3787954,
+          "latitude": -122.15030297
+        },
+        {
+          "id": 6,
+          "longitude": 37.37906991,
+          "latitude": -122.15049139
+        },
+        {
+          "id": 7,
+          "longitude": 37.37933964,
+          "latitude": -122.15066314
+        },
+        {
+          "id": 8,
+          "longitude": 37.37961188,
+          "latitude": -122.15082139
+        },
+        {
+          "id": 9,
+          "longitude": 37.37989138,
+          "latitude": -122.15096748
+        }
+      ],
+      "length": 0,
+      "id": 2
     }
   ]
 }
