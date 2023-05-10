@@ -17,13 +17,13 @@ struct TripModel {
     mutating func initData() {
         
     }
-    mutating func addTrip(key: Int?, vehicleId: Int, date: Date, coordinates: [[Double]]) {
-        trips.append(Trip(id: key, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: 0, date: date))
+    mutating func addTrip(vehicleId: Int, date: Date, coordinates: [[Double]]) {
+        trips.append(Trip(id: trips.count, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: 0, date: date))
     }
     private func IntArrayToCoordinatesUsing(numbers: [[Double]]) -> [Coordinate] {
         var finalCoordinates = [Coordinate]()
-        for coordinates in numbers {
-            finalCoordinates.append(Coordinate(latitude: coordinates[0], longitude: coordinates[1]))
+        for (index,coordinates) in numbers.enumerated() {
+            finalCoordinates.append(Coordinate(id: index, latitude: coordinates[0], longitude: coordinates[1]))
         }
         return finalCoordinates
     }
@@ -31,14 +31,14 @@ struct TripModel {
 }
 
 struct Trip: Identifiable {
-    var id: Int?
+    var id: Int
     var coordinates: [Coordinate]
     var length: Double
     var date: Date
 }
 
 struct Coordinate: Identifiable {
-    var id: Int?
+    var id: Int
     var latitude: Double
     var longitude: Double
 }

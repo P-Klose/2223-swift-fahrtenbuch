@@ -31,6 +31,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var cancellable: AnyCancellable?
     var recording = false
     var isStopped = false
+    var selectedVehicleId = -1
 //    var regionUpdated = false
     
     let LOG = Logger()
@@ -68,16 +69,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
 //        }
     }
     
-    func startRecording(){
+    func startRecording(vehicle: Int){
         recording = true
+        selectedVehicleId = vehicle
     }
     func stopRecording(){
         recording = false
         isStopped = true
     }
     
-    func saveTripToDatabase(key: Int?, vehicleId: Int, date: Date, coordinates: [[Double]]) {
-        self.tripModel.addTrip(key: key, vehicleId: vehicleId, date: date, coordinates: coordinates)
+    func saveTripToDatabase(vehicleId: Int, date: Date, coordinates: [[Double]]) {
+        self.tripModel.addTrip(vehicleId: vehicleId, date: date, coordinates: coordinates)
     }
     
     
@@ -85,8 +87,10 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     private func locationChange(_ latestLocation: CLLocation) {
         if(isStopped && recentLocations.count != 0){
             self.LOG.debug("Stop Recording")
+            
             let coordinatesArray = recentLocations.map { [$0.coordinate.longitude, $0.coordinate.latitude] }
-            saveTripToDatabase(key: nil, vehicleId: 1, date: Date(), coordinates: coordinatesArray)
+            saveTripToDatabase(vehicleId: selectedVehicleId, date: Date(), coordinates: coordinatesArray)
+            
             self.LOG.debug("Recent Locations: \(coordinatesArray)")
             recentLocations = [CLLocation]()
             isStopped=false

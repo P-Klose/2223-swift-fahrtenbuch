@@ -21,7 +21,7 @@ struct ViewRides: View {
     @StateObject  var mapViewModel: MapViewModel
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
-    @State private var selectedVehicle = ""
+    @State private var selectedVehicleId = -1
     
     let LOG = Logger()
     
@@ -37,11 +37,9 @@ struct ViewRides: View {
                     Form {
                         Section{
                             List {
-                                Picker("Auto", selection: $selectedVehicle) {
-                                    ForEach(vehicleViewModel.vehicles, id: \.id) { vehicle in
-                                        //                                        LOG.debug("\(vehicle.numberplate)")
-                                        Text(vehicle.numberplate).tag(vehicle.numberplate)
-                                        
+                                Picker("Fahrzeug", selection: $selectedVehicleId) {
+                                    ForEach(vehicleViewModel.vehicles.indices) { index in
+                                        Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                                     }
                                 }
                             }
@@ -51,13 +49,20 @@ struct ViewRides: View {
                         
                         Section {
                             Button(action: {
-                                mapViewModel.startRecording()
+                                if selectedVehicleId != -1 {
+                                    mapViewModel.startRecording(vehicle:  selectedVehicleId)
+                                } else {
+                                    LOG.error("🔴 Starten der Fahrt fehlgeschlagen - Kein Fahrzeug wurde ausgewählt")
+                                    //display error
+                                }
                             }) {
                                 Text("Fahrt starten")
                             }
                             
                             Button(action: {
+                
                                 mapViewModel.stopRecording()
+                                
                             }){
                                 Text("Fahrt beenden").foregroundColor(.red)
                             }
