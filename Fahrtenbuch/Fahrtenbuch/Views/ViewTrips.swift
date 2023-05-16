@@ -16,6 +16,7 @@ struct ViewTrips: View {
     @State private var selectedVehicleId = -1
     @State private var startDate = Date()
     @State private var endDate = Date()
+//    @State private var showAllert = true
     
     
     let LOG = Logger()
@@ -75,6 +76,11 @@ struct ViewTrips: View {
                     }
                 }
             }
+//            .alert(isPresented: $showAllert) {
+//                Alert(title: Text("Fehler"),
+//                                  message: Text("Ein Fehler ist aufgetreten!"),
+//                                  dismissButton: .default(Text("OK")))
+//            }
             .navigationTitle("Fahrten")
             .onAppear(perform: {
                 LOG.info("\(mapViewModel.trips.count)")
