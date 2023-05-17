@@ -65,7 +65,7 @@ class VehicleViewModel: ObservableObject {
     }
     
     func deleteVehicle(_ vehicle: Vehicle) {
-        let finalUrl =  "\(DATABASE)/\(vehicle.id)"
+        let finalUrl =  "\(DATABASE)/\(vehicle.id ?? -1)"
         
         if let url = URL(string: finalUrl){
             print(finalUrl)
@@ -93,7 +93,7 @@ class VehicleViewModel: ObservableObject {
     
     func saveCarToDatabase(vehicle: Vehicle, httpMethod: String, completion: @escaping (Bool) -> Void) {
         var success = true
-        let finalUrl =  "\(DATABASE)/\(vehicle.id)"
+        let finalUrl =  "\(DATABASE)"
         
         if let url = URL(string: finalUrl){
             print(finalUrl)

@@ -37,7 +37,7 @@ struct Vehicle: Codable, Identifiable, Hashable {
         return make + " " + model
     }
     func getFullName() -> String {
-        return "\(id) " + make + " " + model
+        return "\(id ?? -1) " + make + " " + model
     }
     
 }
