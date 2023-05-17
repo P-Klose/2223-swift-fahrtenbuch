@@ -25,6 +25,14 @@
 		E44D4FA029F846B700F2DCED /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D4F9F29F846B700F2DCED /* MapView.swift */; };
 		E46559552A0AC53D008A8D35 /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46559542A0AC53D008A8D35 /* TripModel.swift */; };
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
+		E4B34D6F2A13EA87004BE086 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B34D6E2A13EA87004BE086 /* WidgetKit.framework */; };
+		E4B34D712A13EA87004BE086 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B34D702A13EA87004BE086 /* SwiftUI.framework */; };
+		E4B34D742A13EA87004BE086 /* DriveingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D732A13EA87004BE086 /* DriveingWidgetBundle.swift */; };
+		E4B34D762A13EA87004BE086 /* DriveingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D752A13EA87004BE086 /* DriveingWidget.swift */; };
+		E4B34D782A13EA89004BE086 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4B34D772A13EA89004BE086 /* Assets.xcassets */; };
+		E4B34D7C2A13EA89004BE086 /* DriveingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E4B34D822A13EC7B004BE086 /* DriveAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */; };
+		E4B34D832A13EC7B004BE086 /* DriveAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */; };
 		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 		E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */; };
 		E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */; };
@@ -46,7 +54,28 @@
 			remoteGlobalIDString = E41FA40129B8A8F200154E7F;
 			remoteInfo = Fahrtenbuch;
 		};
+		E4B34D7A2A13EA89004BE086 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E41FA3FA29B8A8F200154E7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4B34D6B2A13EA87004BE086;
+			remoteInfo = DriveingWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E4B34D7D2A13EA89004BE086 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E4B34D7C2A13EA89004BE086 /* DriveingWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		979D5A2929C9B1D7006D1DEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +100,14 @@
 		E44D4F9F29F846B700F2DCED /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		E46559542A0AC53D008A8D35 /* TripModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DriveingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B34D6E2A13EA87004BE086 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E4B34D702A13EA87004BE086 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		E4B34D732A13EA87004BE086 /* DriveingWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveingWidgetBundle.swift; sourceTree = "<group>"; };
+		E4B34D752A13EA87004BE086 /* DriveingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveingWidget.swift; sourceTree = "<group>"; };
+		E4B34D772A13EA89004BE086 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E4B34D792A13EA89004BE086 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveAttributes.swift; sourceTree = "<group>"; };
 		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
@@ -96,6 +133,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4B34D692A13EA87004BE086 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4B34D712A13EA87004BE086 /* SwiftUI.framework in Frameworks */,
+				E4B34D6F2A13EA87004BE086 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +177,8 @@
 				E41FA40429B8A8F200154E7F /* Fahrtenbuch */,
 				E41FA41529B8A8F400154E7F /* FahrtenbuchTests */,
 				E41FA41F29B8A8F400154E7F /* FahrtenbuchUITests */,
+				E4B34D722A13EA87004BE086 /* DriveingWidget */,
+				E4B34D6D2A13EA87004BE086 /* Frameworks */,
 				E41FA40329B8A8F200154E7F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -141,6 +189,7 @@
 				E41FA40229B8A8F200154E7F /* Fahrtenbuch.app */,
 				E41FA41229B8A8F400154E7F /* FahrtenbuchTests.xctest */,
 				E41FA41C29B8A8F400154E7F /* FahrtenbuchUITests.xctest */,
+				E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,6 +207,7 @@
 				E427DECB29E407EE0032F98E /* HomeViewController.swift */,
 				E41FA40929B8A8F400154E7F /* Assets.xcassets */,
 				E41FA40B29B8A8F400154E7F /* Preview Content */,
+				E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */,
 			);
 			path = Fahrtenbuch;
 			sourceTree = "<group>";
@@ -195,6 +245,26 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		E4B34D6D2A13EA87004BE086 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4B34D6E2A13EA87004BE086 /* WidgetKit.framework */,
+				E4B34D702A13EA87004BE086 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4B34D722A13EA87004BE086 /* DriveingWidget */ = {
+			isa = PBXGroup;
+			children = (
+				E4B34D732A13EA87004BE086 /* DriveingWidgetBundle.swift */,
+				E4B34D752A13EA87004BE086 /* DriveingWidget.swift */,
+				E4B34D772A13EA89004BE086 /* Assets.xcassets */,
+				E4B34D792A13EA89004BE086 /* Info.plist */,
+			);
+			path = DriveingWidget;
+			sourceTree = "<group>";
+		};
 		E4CE9E2929E579AC007632FA /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,10 +286,12 @@
 				E41FA3FE29B8A8F200154E7F /* Sources */,
 				E41FA3FF29B8A8F200154E7F /* Frameworks */,
 				E41FA40029B8A8F200154E7F /* Resources */,
+				E4B34D7D2A13EA89004BE086 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E4B34D7B2A13EA89004BE086 /* PBXTargetDependency */,
 			);
 			name = Fahrtenbuch;
 			productName = Fahrtenbuch;
@@ -262,6 +334,23 @@
 			productReference = E41FA41C29B8A8F400154E7F /* FahrtenbuchUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		E4B34D6B2A13EA87004BE086 /* DriveingWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4B34D802A13EA89004BE086 /* Build configuration list for PBXNativeTarget "DriveingWidgetExtension" */;
+			buildPhases = (
+				E4B34D682A13EA87004BE086 /* Sources */,
+				E4B34D692A13EA87004BE086 /* Frameworks */,
+				E4B34D6A2A13EA87004BE086 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DriveingWidgetExtension;
+			productName = DriveingWidgetExtension;
+			productReference = E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -269,7 +358,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					E41FA40129B8A8F200154E7F = {
@@ -282,6 +371,9 @@
 					E41FA41B29B8A8F400154E7F = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = E41FA40129B8A8F200154E7F;
+					};
+					E4B34D6B2A13EA87004BE086 = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -301,6 +393,7 @@
 				E41FA40129B8A8F200154E7F /* Fahrtenbuch */,
 				E41FA41129B8A8F400154E7F /* FahrtenbuchTests */,
 				E41FA41B29B8A8F400154E7F /* FahrtenbuchUITests */,
+				E4B34D6B2A13EA87004BE086 /* DriveingWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -329,6 +422,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4B34D6A2A13EA87004BE086 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4B34D782A13EA89004BE086 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -337,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */,
+				E4B34D822A13EC7B004BE086 /* DriveAttributes.swift in Sources */,
 				E4072E5129D4330200B3AC82 /* VehicleModel.swift in Sources */,
 				E4FDF5EE2A0271A90048A089 /* NavigationModel.swift in Sources */,
 				E44D4FA029F846B700F2DCED /* MapView.swift in Sources */,
@@ -373,6 +475,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4B34D682A13EA87004BE086 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4B34D742A13EA87004BE086 /* DriveingWidgetBundle.swift in Sources */,
+				E4B34D832A13EC7B004BE086 /* DriveAttributes.swift in Sources */,
+				E4B34D762A13EA87004BE086 /* DriveingWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -385,6 +497,11 @@
 			isa = PBXTargetDependency;
 			target = E41FA40129B8A8F200154E7F /* Fahrtenbuch */;
 			targetProxy = E41FA41D29B8A8F400154E7F /* PBXContainerItemProxy */;
+		};
+		E4B34D7B2A13EA89004BE086 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4B34D6B2A13EA87004BE086 /* DriveingWidgetExtension */;
+			targetProxy = E4B34D7A2A13EA89004BE086 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -506,6 +623,7 @@
 		E41FA42729B8A8F400154E7F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -520,6 +638,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -541,6 +660,7 @@
 		E41FA42829B8A8F400154E7F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -555,6 +675,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -645,6 +766,62 @@
 			};
 			name = Release;
 		};
+		E4B34D7E2A13EA89004BE086 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQYCK7QNT8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DriveingWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DriveingWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "at.ac.htl-leonding.bhitm19.fahrtenbuch.Fahrtenbuch.DriveingWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E4B34D7F2A13EA89004BE086 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQYCK7QNT8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DriveingWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DriveingWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "at.ac.htl-leonding.bhitm19.fahrtenbuch.Fahrtenbuch.DriveingWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -680,6 +857,15 @@
 			buildConfigurations = (
 				E41FA42D29B8A8F400154E7F /* Debug */,
 				E41FA42E29B8A8F400154E7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4B34D802A13EA89004BE086 /* Build configuration list for PBXNativeTarget "DriveingWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4B34D7E2A13EA89004BE086 /* Debug */,
+				E4B34D7F2A13EA89004BE086 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
