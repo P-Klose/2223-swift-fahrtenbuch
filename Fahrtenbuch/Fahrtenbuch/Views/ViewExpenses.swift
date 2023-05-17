@@ -21,7 +21,7 @@ struct ViewExpenses: View {
     @ObservedObject var expenseViewModel: evm
     @ObservedObject var vehicleViewModel: vvm
     
-    
+
     
     var body: some View {
         NavigationStack {
@@ -160,6 +160,10 @@ struct ExpensesFormView: View {
     @State private var vehicleName: String = "alle"
     @State private var value: String = ""
     
+    @State private var showAlertNoVehicleExpenses = false
+    @State private var showAlertNoPriceExpenses = false
+
+
     
     @State private var date = Date()
     @State private var selectedExpenseType: ExpenseType = .other
@@ -173,6 +177,7 @@ struct ExpensesFormView: View {
                 Section {
                     TextField("Preis:", text: $value).keyboardType(.numberPad)
                     Picker("Fahrzeug", selection: $selectedVehicleId) {
+                        Text("bitte auswählen")
                         ForEach(vehicleVM.vehicles.indices) { index in
                             Text(self.vehicleVM.vehicles[index].getName()).tag(index)
                         }
@@ -208,17 +213,33 @@ struct ExpensesFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date)
-                                LOG.info("\(selectedVehicleId)")
-                                dismiss()
+                                if selectedVehicleId != -1 {
+                                    expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date)
+                                    LOG.info("\(selectedVehicleId)")
+                                    dismiss()
+                                } else {
+                                    showAlertNoVehicleExpenses = true
+                                    //LOG.error("🔴 Eintrag konnte nicht erstellt werden - Kein Fahrzeug wurde ausgewählt")
+                                }
+                                
+                                if value == "" {
+                                    showAlertNoPriceExpenses = true
+                                }
+                                
                             }) {
                                 Text("Speichern")
                             }
                             
                         }
             }
-        }
-        
+        }.alert(isPresented: $showAlertNoVehicleExpenses) {
+            Alert(title: Text("Fehler"),
+                  message: Text("Bitte wählen Sie ein Fahrzeug aus!"),
+                  dismissButton: .default(Text("OK")))}
+        .alert(isPresented: $showAlertNoPriceExpenses) {
+            Alert(title: Text("Fehler"),
+                  message: Text("Bitte geben sie einen Wert ein!"),
+                  dismissButton: .default(Text("OK")))}
     }
 }
 

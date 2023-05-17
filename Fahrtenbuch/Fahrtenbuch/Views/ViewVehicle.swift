@@ -126,6 +126,8 @@ struct VehicleFormView: View {
     @State private var milageTextField = ""
     @State private var numberplateTextField = ""
     
+    @State private var showalertAddVehicle = false
+    
     var body: some View {
         
         NavigationView{
@@ -179,9 +181,12 @@ struct VehicleFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                print("ImageURL: \(imageUrl ?? "")")
-                                vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "")
-                                dismiss()
+                                if makeTextField == "" || modelTextField == "" || numberplateTextField == "" || milageTextField == "" || vinTextField == "" {
+                                    showalertAddVehicle = true
+                                } else {
+                                    print("ImageURL: \(imageUrl ?? "")")
+                                    vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "")
+                                    dismiss()}
                             }) {
                                 Text("Speichern")
                             }
@@ -193,6 +198,10 @@ struct VehicleFormView: View {
                     .ignoresSafeArea()
             }
         }
+        .alert(isPresented: $showalertAddVehicle) {
+            Alert(title: Text("Fehler"),
+                  message: Text("Bitte überprüfen Sie ihre Angaben! Alle Felder müssen ausgefüllt sein!"),
+                  dismissButton: .default(Text("OK")))}
     }
 }
 

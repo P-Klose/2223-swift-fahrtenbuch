@@ -27,6 +27,7 @@ struct ViewRides: View {
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
     @State private var selectedVehicleId = -1
+    @State private var showAlert = false
     
     let LOG = Logger()
     
@@ -64,7 +65,9 @@ struct ViewRides: View {
                                     
                                     mapViewModel.startRecording(vehicle:  selectedVehicleId)
                                 } else {
-                                    LOG.error("🔴 Starten der Fahrt fehlgeschlagen - Kein Fahrzeug wurde ausgewählt")
+
+                                    showAlert = true
+                                    //LOG.error("🔴 Starten der Fahrt fehlgeschlagen - Kein Fahrzeug wurde ausgewählt")
                                     //display error
                                 }
                             }) {
@@ -87,10 +90,12 @@ struct ViewRides: View {
                             }
                         }
                     }
-                    
                 }
-                
             }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Fehler"),
+                      message: Text("Bitte wählen Sie ein Fahrzeug aus!"),
+                      dismissButton: .default(Text("OK")))}
             .navigationTitle("Aufzeichnen")
             .onAppear(perform: {
                 vehicleViewModel.downloadAllVehicles()

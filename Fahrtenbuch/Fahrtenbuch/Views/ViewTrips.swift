@@ -16,7 +16,7 @@ struct ViewTrips: View {
     @State private var selectedVehicleId = -1
     @State private var startDate = Date()
     @State private var endDate = Date()
-//    @State private var showAllert = true
+    @State private var showAlertFahrt = false
     
     
     let LOG = Logger()
@@ -58,38 +58,48 @@ struct ViewTrips: View {
                             displayedComponents: [.date]
                         )
                         .datePickerStyle(.automatic)
+                        
                         DatePicker(
                             "End-Datum",
                             selection: $endDate,
                             displayedComponents: [.date]
                         )
                         .datePickerStyle(.automatic)
-                        
                     }
-                }
-                
-                
-                List(filteredTrips) { trip in
-                    VStack(alignment: .leading) {
-                        Text("AM: \(formattedDate(for: trip.date))")
-                        Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(2)))km")
+                    .onChange(of: startDate) { newValue in
+                        if startDate > endDate {
+                            showAlertFahrt = true
+                        }
+                    }
+                    .onChange(of: endDate) { newValue in
+                        if startDate > endDate {
+                            showAlertFahrt = true
+                        }
                     }
                 }
             }
-//            .alert(isPresented: $showAllert) {
-//                Alert(title: Text("Fehler"),
-//                                  message: Text("Ein Fehler ist aufgetreten!"),
-//                                  dismissButton: .default(Text("OK")))
-//            }
-            .navigationTitle("Fahrten")
-            .onAppear(perform: {
-                LOG.info("\(mapViewModel.trips.count)")
-                if let lastTrip = mapViewModel.trips.last {
-                    LOG.info("\(lastTrip.date)")
+            
+            
+            List(filteredTrips) { trip in
+                VStack(alignment: .leading) {
+                    Text("AM: \(formattedDate(for: trip.date))")
+                    Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(2)))km")
                 }
-                
-            })
+            }
         }
+        .alert(isPresented: $showAlertFahrt) {
+            Alert(title: Text("Fehler"),
+                  message: Text("Ein Fehler ist aufgetreten!"),
+                  dismissButton: .default(Text("OK")))
+        }
+        .navigationTitle("Fahrten")
+        .onAppear(perform: {
+            LOG.info("\(mapViewModel.trips.count)")
+            if let lastTrip = mapViewModel.trips.last {
+                LOG.info("\(lastTrip.date)")
+            }
+            
+        })
     }
     var filteredTrips: [Trip] {
         let calendar = Calendar.current
@@ -109,12 +119,12 @@ struct ViewTrips: View {
         dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: date)
     }
-}
-
-struct ViewTrips_Previews: PreviewProvider {
-    static let vehicleViewModel = VehicleViewModel()
-    static let mapViewModel = MapViewModel()
-    static var previews: some View {
-        ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
+    
+    struct ViewTrips_Previews: PreviewProvider {
+        static let vehicleViewModel = VehicleViewModel()
+        static let mapViewModel = MapViewModel()
+        static var previews: some View {
+            ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
+        }
     }
 }
