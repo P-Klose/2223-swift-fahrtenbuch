@@ -52,29 +52,12 @@ struct ViewTrips: View {
                                 Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                             }
                         }
-                        DatePicker(
-                            "Start-Datum",
-                            selection: $startDate,
-                            displayedComponents: [.date]
-                        )
-                        .datePickerStyle(.automatic)
+                        DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                                       .datePickerStyle(.automatic)
+                                   
+                                   DatePicker("End-Datum", selection: $endDate, in: startDate..., displayedComponents: .date)
+                                       .datePickerStyle(.automatic)
                         
-                        DatePicker(
-                            "End-Datum",
-                            selection: $endDate,
-                            displayedComponents: [.date]
-                        )
-                        .datePickerStyle(.automatic)
-                    }
-                    .onChange(of: startDate) { newValue in
-                        if startDate > endDate {
-                            showAlertFahrt = true
-                        }
-                    }
-                    .onChange(of: endDate) { newValue in
-                        if startDate > endDate {
-                            showAlertFahrt = true
-                        }
                     }
                 }
             }
@@ -86,11 +69,6 @@ struct ViewTrips: View {
                     Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(2)))km")
                 }
             }
-        }
-        .alert(isPresented: $showAlertFahrt) {
-            Alert(title: Text("Fehler"),
-                  message: Text("Ein Fehler ist aufgetreten!"),
-                  dismissButton: .default(Text("OK")))
         }
         .navigationTitle("Fahrten")
         .onAppear(perform: {
