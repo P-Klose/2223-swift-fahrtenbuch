@@ -25,6 +25,8 @@
 		E44D4FA029F846B700F2DCED /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D4F9F29F846B700F2DCED /* MapView.swift */; };
 		E46559552A0AC53D008A8D35 /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46559542A0AC53D008A8D35 /* TripModel.swift */; };
 		E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */; };
+		E4806C922A1A065B0014FE79 /* ExampleCarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4806C902A1A065B0014FE79 /* ExampleCarPlaySceneDelegate.swift */; };
+		E4806C932A1A065B0014FE79 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4806C912A1A065B0014FE79 /* Assets.swift */; };
 		E4B34D6F2A13EA87004BE086 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B34D6E2A13EA87004BE086 /* WidgetKit.framework */; };
 		E4B34D712A13EA87004BE086 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B34D702A13EA87004BE086 /* SwiftUI.framework */; };
 		E4B34D742A13EA87004BE086 /* DriveingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D732A13EA87004BE086 /* DriveingWidgetBundle.swift */; };
@@ -78,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		979D5A2929C9B1D7006D1DEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		979D5A2929C9B1D7006D1DEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4072E4729D4078B00B3AC82 /* ViewExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExpenses.swift; sourceTree = "<group>"; };
 		E4072E4929D4079300B3AC82 /* ViewVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewVehicle.swift; sourceTree = "<group>"; };
 		E4072E4B29D4079C00B3AC82 /* ViewRides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRides.swift; sourceTree = "<group>"; };
@@ -100,6 +102,9 @@
 		E44D4F9F29F846B700F2DCED /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		E46559542A0AC53D008A8D35 /* TripModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
 		E46E0CEC29C8E01F007E74EB /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E4806C8F2A1A065B0014FE79 /* FahrtenbuchCarPlay.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = FahrtenbuchCarPlay.entitlements; sourceTree = "<group>"; };
+		E4806C902A1A065B0014FE79 /* ExampleCarPlaySceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCarPlaySceneDelegate.swift; sourceTree = "<group>"; };
+		E4806C912A1A065B0014FE79 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DriveingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B34D6E2A13EA87004BE086 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E4B34D702A13EA87004BE086 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -207,6 +212,9 @@
 				E427DECB29E407EE0032F98E /* HomeViewController.swift */,
 				E41FA40929B8A8F400154E7F /* Assets.xcassets */,
 				E41FA40B29B8A8F400154E7F /* Preview Content */,
+				E4806C912A1A065B0014FE79 /* Assets.swift */,
+				E4806C8F2A1A065B0014FE79 /* FahrtenbuchCarPlay.entitlements */,
+				E4806C902A1A065B0014FE79 /* ExampleCarPlaySceneDelegate.swift */,
 				E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */,
 			);
 			path = Fahrtenbuch;
@@ -453,7 +461,9 @@
 				E4072E4E29D41D8900B3AC82 /* MapViewModel.swift in Sources */,
 				E41E51E42A0B804800DEBE30 /* ViewTrips.swift in Sources */,
 				E4072E4A29D4079300B3AC82 /* ViewVehicle.swift in Sources */,
+				E4806C922A1A065B0014FE79 /* ExampleCarPlaySceneDelegate.swift in Sources */,
 				E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */,
+				E4806C932A1A065B0014FE79 /* Assets.swift in Sources */,
 				E4072E4C29D4079C00B3AC82 /* ViewRides.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,6 +654,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -681,6 +692,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
