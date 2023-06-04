@@ -58,12 +58,12 @@ struct ViewRides: View {
                             Button(action: {
                                 if selectedVehicleId != -1 {
                                     startTime = .now
-                                    let attributes = DriveAttributes(vehicleName: "\(selectedVehicleId)")
+                                    let attributes = DriveAttributes(vehicleName: vehicleViewModel.vehicles[selectedVehicleId].getName())
                                     let state = DriveAttributes.ContentState(startTime: .now, distance: 0)
                                     
                                     activity = try? Activity<DriveAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
                                     
-                                    mapViewModel.startRecording(vehicle:  selectedVehicleId)
+                                    mapViewModel.startRecording(vehicle: selectedVehicleId)
                                 } else {
 
                                     showAlert = true

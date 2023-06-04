@@ -17,11 +17,24 @@ struct DriveingWidgetView : View {
     
     var body: some View {
         VStack {
-            Text(context.attributes.vehicleName)
+            Text("Aktuelle Fahrt:")
                 .font(.headline)
-            Text(context.state.startTime, style: .relative)
+            
+            HStack (alignment: .center) {
+                Image(systemName: "car.circle.fill")
+                    .resizable()
+                    .frame(width: 25, height: 25)
+                Text(context.attributes.vehicleName)
+                    .font(.system(size: 14))
+                Image(systemName: "timer.circle.fill")
+                    .resizable()
+                    .frame(width: 25, height: 25)
+                Text(context.state.startTime, style: .relative)
+                    .font(.system(size: 14))
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
         }
-        .padding(.horizontal)
+        .padding()
     }
 }
 
