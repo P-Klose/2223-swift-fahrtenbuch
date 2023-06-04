@@ -22,10 +22,12 @@ struct ViewExpenses: View {
     @ObservedObject var vehicleViewModel: vvm
     
     @State var currentTab: String = "Woche"
-
+    
     @State var gasExpense = [Expense]()
     @State var parkExpense = [Expense]()
     @State var washExpense = [Expense]()
+    
+    @State var chartDisplayUnit = Calendar.Component.day
     
     
     var body: some View {
@@ -103,21 +105,25 @@ struct ViewExpenses: View {
                 
             })
             .onChange(of: currentTab) { newValue in
-                setExpenses()
-                //trips = mapViewModel.trips
-                if newValue != "Woche" {
-                    for (index,_) in gasExpense.enumerated() {
-                        gasExpense[index].expenseValue = .random(in: 5...80)
-                    }
-                    for (index,_) in parkExpense.enumerated() {
-                        parkExpense[index].expenseValue = .random(in: 5...80)
-                    }
-                    for (index,_) in washExpense.enumerated() {
-                        washExpense[index].expenseValue = .random(in: 5...80)
-                    }
+                switch newValue {
+                case "Woche":
+                    chartDisplayUnit = Calendar.Component.day
+                    gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
+                    parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
+                    washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
+                case "Monat":
+                    chartDisplayUnit = Calendar.Component.day
+                    gasExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 0)
+                    parkExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 1)
+                    washExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 2)
+                case "Jahr":
+                    chartDisplayUnit = Calendar.Component.month
+                    gasExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 0)
+                    parkExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 1)
+                    washExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 2)
+                default:
+                    return
                 }
-                
-//                animateGraph()
             }
             .toolbar(){
                 ToolbarItemGroup(placement:
@@ -140,69 +146,69 @@ struct ViewExpenses: View {
     func AnimatedChart() -> some View {
         let max = expenseViewModel.summ()
         Chart {
-            let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
-                .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
-            RuleMark(y: .value("Mean", gasAverage))
-                .foregroundStyle(.orange)
-                .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
+//            let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
+//                .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
+//            RuleMark(y: .value("Mean", gasAverage))
+//                .foregroundStyle(.orange)
+//                .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
             
             ForEach(gasExpense) { expense in
                 BarMark(
-                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
             .foregroundStyle(Color.orange.gradient)
             ForEach(parkExpense) { expense in
                 BarMark(
-                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
             .foregroundStyle(Color.purple.gradient)
             ForEach(washExpense) { expense in
                 BarMark(
-                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
             .foregroundStyle(Color.blue.gradient)
         }
-        .chartOverlay(content: { proxy in
-            GeometryReader { innerProxy in
-                Rectangle()
-                    .fill(.clear).containerShape(Rectangle())
-                    .gesture(
-                        DragGesture()
-                            .onChanged({ value in
-                                let location = value.location
-                                if let data: Date = proxy.value(atX: location.x){
-                                    print("Y: \(data)")
-                                }
-                            
-                            })
-                            .onEnded({ value in
-                                <#code#>
-                            })
-                    )
-            }
-        })
+        //        .chartOverlay(content: { proxy in
+        //            GeometryReader { innerProxy in
+        //                Rectangle()
+        //                    .fill(.clear).containerShape(Rectangle())
+        //                    .gesture(
+        //                        DragGesture()
+        //                            .onChanged({ value in
+        //                                let location = value.location
+        //                                if let data: Date = proxy.value(atX: location.x){
+        //                                    print("Y: \(data)")
+        //                                }
+        //
+        //                            })
+        //                            .onEnded({ value in
+        //                                //none
+        //                            })
+        //                    )
+        //            }
+        //        })
         .frame(height: 250)
         .chartXAxis {
             AxisMarks()
         }
     }
     
-//    func animateGraph() {
-//        for (index,_) in expenseViewModel.trips.enumerated(){
-//            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
-//                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-//                    mapViewModel.animateTrip(index: index)
-//                }
-//            }
-//        }
-//    }
+    //    func animateGraph() {
+    //        for (index,_) in expenseViewModel.trips.enumerated(){
+    //            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
+    //                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+    //                    mapViewModel.animateTrip(index: index)
+    //                }
+    //            }
+    //        }
+    //    }
     func setExpenses() {
-        gasExpense = expenseViewModel.expenses[0]
-        parkExpense = expenseViewModel.expenses[1]
-        washExpense = expenseViewModel.expenses[2]
+        gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
+        parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
+        washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
     }
 }
 
@@ -248,8 +254,8 @@ struct ExpensesFormView: View {
     
     @State private var showAlertNoVehicleExpenses = false
     @State private var showAlertNoPriceExpenses = false
-
-
+    
+    
     
     @State private var date = Date()
     @State private var selectedExpenseType: ExpenseType = .other

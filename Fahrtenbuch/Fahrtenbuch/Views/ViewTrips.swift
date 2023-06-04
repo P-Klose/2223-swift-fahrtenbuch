@@ -21,7 +21,7 @@ struct ViewTrips: View {
     @State private var showAlertFahrt = false
     
     @State var currentTab: String = "Woche"
-    
+    @State var chartDisplayUnit = Calendar.Component.weekOfMonth
     let LOG = Logger()
     
     var body: some View {
@@ -86,12 +86,12 @@ struct ViewTrips: View {
                                     Text("Am: \(formattedDate(for: trip.date))")
                                     Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(1)))km")
                                 }
-//                                .overlay(
-//                                    Rectangle()
-//                                        .frame(height: 4)
-//                                        .foregroundColor(.blue),
-//                                    alignment: .bottom
-//                                )
+                                //                                .overlay(
+                                //                                    Rectangle()
+                                //                                        .frame(height: 4)
+                                //                                        .foregroundColor(.blue),
+                                //                                    alignment: .bottom
+                                //                                )
                             }
                         }
                         .padding()
@@ -107,6 +107,16 @@ struct ViewTrips: View {
             .navigationTitle("Fahrten")
             .onChange(of: currentTab) { newValue in
                 trips = mapViewModel.trips
+                switch newValue {
+                case "Woche":
+                    chartDisplayUnit = Calendar.Component.day
+                case "Monat":
+                    chartDisplayUnit = Calendar.Component.day
+                case "Jahr":
+                    chartDisplayUnit = Calendar.Component.month
+                default:
+                    return
+                }
                 if newValue != "Woche" {
                     for (index,_) in trips.enumerated() {
                         trips[index].length = .random(in: 500...5000)
@@ -129,28 +139,48 @@ struct ViewTrips: View {
         Chart {
             ForEach(trips) { trip in
                 BarMark(
-                    x: .value("Datum", trip.date, unit: .weekOfMonth),
-                    y: .value("Strecke", trip.animate ? trip.length : 0)
+                    x: .value("Datum", trip.date, unit: chartDisplayUnit),
+                    y: .value("Strecke", trip.length )
                 )
             }
             .foregroundStyle(Color.blue.gradient)
         }
-//        .chartYScale(domain: 0...(max + 50))
+        //        .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
+        .chartXAxis {
+            //            AxisValueLabel(format: .dateTime.day())
+            if currentTab == "Woche" {
+                AxisMarks(values: trips.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.weekday())
+                }
+            }
+            if currentTab == "Monat" {
+                AxisMarks(values: trips.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
+                }
+            }
+            if currentTab == "Jahr" {
+                AxisMarks(values: trips.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.month(.narrow))
+                }
+            }
+            
+            
+        }
         .onAppear {
-//            animateGraph()
+            //            animateGraph()
         }
     }
     
-//    func animateGraph() {
-//        for (index,_) in mapViewModel.trips.enumerated(){
-//            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
-//                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-//                    mapViewModel.animateTrip(index: index)
-//                }
-//            }
-//        }
-//    }
+    //    func animateGraph() {
+    //        for (index,_) in mapViewModel.trips.enumerated(){
+    //            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
+    //                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+    //                    mapViewModel.animateTrip(index: index)
+    //                }
+    //            }
+    //        }
+    //    }
     
     var filteredTrips: [Trip] {
         let calendar = Calendar.current
@@ -183,31 +213,5 @@ struct ViewTrips: View {
 extension Double {
     var kmString: String {
         return String(format: "%.1fkm", self / 1000).replacingOccurrences(of: ".0", with: "")
-    }
-}
-
-struct TripDiagramView: View {
-    @StateObject  var mapViewModel: MapViewModel
-    var body: some View {
-        Chart {
-            let tripAverage = mapViewModel.trips.map(\.length)
-                .reduce(0.0, +) / Double(mapViewModel.trips.count)
-            RuleMark(y: .value("Mean", tripAverage))
-                .foregroundStyle(.orange)
-                .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
-            
-            
-            ForEach(mapViewModel.trips) { trip in
-                BarMark(
-                    x: .value("Datum", trip.date, unit: .weekOfMonth),
-                    y: .value("Strecke", trip.length)
-                )
-            }
-            .foregroundStyle(Color.blue.gradient)
-        }
-        .frame(height: 180)
-        .chartXAxis {
-            AxisMarks()
-        }
     }
 }
