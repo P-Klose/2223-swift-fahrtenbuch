@@ -13,6 +13,8 @@ struct ViewTrips: View {
     @StateObject  var mapViewModel: MapViewModel
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
+    @State var trips = [Trip]()
+    
     @State private var selectedVehicleId = -1
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -103,8 +105,18 @@ struct ViewTrips: View {
                 .padding()
             }
             .navigationTitle("Fahrten")
+            .onChange(of: currentTab) { newValue in
+                trips = mapViewModel.trips
+                if newValue != "Woche" {
+                    for (index,_) in trips.enumerated() {
+                        trips[index].length = .random(in: 500...5000)
+                    }
+                }
+                
+                //animateGraph()
+            }
             .onAppear(perform: {
-                //                LOG.info("\(mapViewModel.trips.count)")
+                trips = mapViewModel.trips
             })
         }
     }
@@ -115,7 +127,7 @@ struct ViewTrips: View {
             return item2.length > item1.length
         }?.length ?? 0
         Chart {
-            ForEach(mapViewModel.trips) { trip in
+            ForEach(trips) { trip in
                 BarMark(
                     x: .value("Datum", trip.date, unit: .weekOfMonth),
                     y: .value("Strecke", trip.animate ? trip.length : 0)
@@ -123,18 +135,22 @@ struct ViewTrips: View {
             }
             .foregroundStyle(Color.blue.gradient)
         }
-        .chartYScale(domain: 0...(max + 50))
+//        .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
         .onAppear {
-            for (index,_) in mapViewModel.trips.enumerated(){
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
-                    withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-                        mapViewModel.animateTrip(index: index)
-                    }
-                }
-            }
+//            animateGraph()
         }
     }
+    
+//    func animateGraph() {
+//        for (index,_) in mapViewModel.trips.enumerated(){
+//            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
+//                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+//                    mapViewModel.animateTrip(index: index)
+//                }
+//            }
+//        }
+//    }
     
     var filteredTrips: [Trip] {
         let calendar = Calendar.current

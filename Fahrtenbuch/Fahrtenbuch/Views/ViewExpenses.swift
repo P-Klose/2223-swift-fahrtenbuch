@@ -21,51 +21,44 @@ struct ViewExpenses: View {
     @ObservedObject var expenseViewModel: evm
     @ObservedObject var vehicleViewModel: vvm
     
+    @State var currentTab: String = "Woche"
 
+    @State var gasExpense = [Expense]()
+    @State var parkExpense = [Expense]()
+    @State var washExpense = [Expense]()
+    
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Übersicht")
-                    
-                    Text("Insgesammt: \(expenseViewModel.summ(), format: .number.precision(.fractionLength(1)))")
-                        .fontWeight(.semibold)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 12)
-                    
-                    Chart {
-                        let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
-                            .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
-                        RuleMark(y: .value("Mean", gasAverage))
-                            .foregroundStyle(.orange)
-                            .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Übersicht")
+                                .fontWeight(.semibold)
+                            Picker("", selection: $currentTab) {
+                                Text("Woche")
+                                    .tag("Woche")
+                                Text("Monat")
+                                    .tag("Monat")
+                                Text("Jahr")
+                                    .tag("Jahr")
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.leading,40)
+                        }
                         
-                        ForEach(expenseViewModel.expenses[0]) { expense in
-                            BarMark(
-                                x: .value("Datum", expense.date, unit: .weekOfMonth),
-                                y: .value("Kosten", expense.expenseValue))
-                        }
-                        .foregroundStyle(Color.orange.gradient)
-                        ForEach(expenseViewModel.expenses[1]) { expense in
-                            BarMark(
-                                x: .value("Datum", expense.date, unit: .weekOfMonth),
-                                y: .value("Kosten", expense.expenseValue))
-                        }
-                        .foregroundStyle(Color.purple.gradient)
-                        ForEach(expenseViewModel.expenses[2]) { expense in
-                            BarMark(
-                                x: .value("Datum", expense.date, unit: .weekOfMonth),
-                                y: .value("Kosten", expense.expenseValue))
-                        }
-                        .foregroundStyle(Color.blue.gradient)
+                        Text("\(expenseViewModel.summ(), format: .number.precision(.fractionLength(2))) €")
+                            .font(.largeTitle.bold())
+                        AnimatedChart()
+                        DesciptionView()
                     }
-                    .frame(height: 180)
-                    .chartXAxis {
-                        AxisMarks()
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(.white.shadow(.drop(radius: 2)))
                     }
-                    DesciptionView()
+                    
                     
                     Spacer()
                     
@@ -106,8 +99,26 @@ struct ViewExpenses: View {
             .onAppear(perform: {
                 expenseViewModel.reloadAllExpenses()
                 vehicleViewModel.downloadAllVehicles()
+                setExpenses()
                 
             })
+            .onChange(of: currentTab) { newValue in
+                setExpenses()
+                //trips = mapViewModel.trips
+                if newValue != "Woche" {
+                    for (index,_) in gasExpense.enumerated() {
+                        gasExpense[index].expenseValue = .random(in: 5...80)
+                    }
+                    for (index,_) in parkExpense.enumerated() {
+                        parkExpense[index].expenseValue = .random(in: 5...80)
+                    }
+                    for (index,_) in washExpense.enumerated() {
+                        washExpense[index].expenseValue = .random(in: 5...80)
+                    }
+                }
+                
+//                animateGraph()
+            }
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
@@ -123,6 +134,75 @@ struct ViewExpenses: View {
             ExpensesFormView(vehicleVM: vehicleViewModel, expenseVM: expenseViewModel)
                 .presentationDetents([.medium])
         }
+    }
+    
+    @ViewBuilder
+    func AnimatedChart() -> some View {
+        let max = expenseViewModel.summ()
+        Chart {
+            let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
+                .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
+            RuleMark(y: .value("Mean", gasAverage))
+                .foregroundStyle(.orange)
+                .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
+            
+            ForEach(gasExpense) { expense in
+                BarMark(
+                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    y: .value("Kosten", expense.expenseValue))
+            }
+            .foregroundStyle(Color.orange.gradient)
+            ForEach(parkExpense) { expense in
+                BarMark(
+                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    y: .value("Kosten", expense.expenseValue))
+            }
+            .foregroundStyle(Color.purple.gradient)
+            ForEach(washExpense) { expense in
+                BarMark(
+                    x: .value("Datum", expense.date, unit: .weekOfMonth),
+                    y: .value("Kosten", expense.expenseValue))
+            }
+            .foregroundStyle(Color.blue.gradient)
+        }
+        .chartOverlay(content: { proxy in
+            GeometryReader { innerProxy in
+                Rectangle()
+                    .fill(.clear).containerShape(Rectangle())
+                    .gesture(
+                        DragGesture()
+                            .onChanged({ value in
+                                let location = value.location
+                                if let data: Date = proxy.value(atX: location.x){
+                                    print("Y: \(data)")
+                                }
+                            
+                            })
+                            .onEnded({ value in
+                                <#code#>
+                            })
+                    )
+            }
+        })
+        .frame(height: 250)
+        .chartXAxis {
+            AxisMarks()
+        }
+    }
+    
+//    func animateGraph() {
+//        for (index,_) in expenseViewModel.trips.enumerated(){
+//            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
+//                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+//                    mapViewModel.animateTrip(index: index)
+//                }
+//            }
+//        }
+//    }
+    func setExpenses() {
+        gasExpense = expenseViewModel.expenses[0]
+        parkExpense = expenseViewModel.expenses[1]
+        washExpense = expenseViewModel.expenses[2]
     }
 }
 
