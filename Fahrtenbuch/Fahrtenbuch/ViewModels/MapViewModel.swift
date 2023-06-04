@@ -152,6 +152,90 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             }
         }
     }
+    
+    func generateYearlyTrips() -> [Trip] {
+        var yearlyTrips = [Trip]()
+        
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        for month in 1...12 {
+            let monthDateComponents = DateComponents(year: currentYear, month: month)
+            guard let monthDate = calendar.date(from: monthDateComponents) else {
+                continue
+            }
+            
+            let trip = Trip(length: calculateExpenseSum(forMonth: month), date: monthDate, vehicleId: -1)
+            yearlyTrips.append(trip)
+        }
+        
+        return yearlyTrips
+    }
+    
+    func generateWeeklyTrips() -> [Trip] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+
+        var expenses = [Trip]()
+
+        // Generiere Ausgaben für jeden Wochentag der aktuellen Woche
+        for day in 1...7 {
+            guard let weekday = calendar.date(byAdding: .day, value: day - calendar.component(.weekday, from: currentDate), to: currentDate) else {
+                continue
+            }
+
+            let expense = Trip(length: calculateExpenseSum(forDay: weekday), date: weekday, vehicleId: -1)
+            expenses.append(expense)
+        }
+
+        return expenses
+    }
+    
+    func generateMonthlyTrips() -> [Trip] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        let currentMonth = calendar.component(.month, from: currentDate)
+
+        var expenses = [Trip]()
+
+        // Generiere Ausgaben für jeden Tag des aktuellen Monats
+        if let range = calendar.range(of: .day, in: .month, for: currentDate) {
+            for day in range {
+                let dayDateComponents = DateComponents(year: currentYear, month: currentMonth, day: day)
+                guard let dayDate = calendar.date(from: dayDateComponents) else {
+                    continue
+                }
+
+                let expense = Trip(length: calculateExpenseSum(forDay: dayDate), date: dayDate, vehicleId: -1)
+                expenses.append(expense)
+            }
+        }
+
+        return expenses
+    }
+    
+    
+    func calculateExpenseSum(forMonth month: Int) -> Double {
+        let calendar = Calendar.current
+        let filteredExpenses = trips.filter { calendar.component(.month, from: $0.date) == month }
+        let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.length }
+        return expenseSum
+    }
+    
+    func calculateExpenseSum(forDay day: Date) -> Double {
+        let calendar = Calendar.current
+        let filteredExpenses = trips.filter { calendar.isDate($0.date, inSameDayAs: day) }
+        
+        // Berechne die Summe der expenseValue-Werte für das angegebene Datum
+        let expenseSum = filteredExpenses.reduce(0) { $0 + $1.length }
+        
+        return expenseSum
+    }
+    
+    
+    
     static func load() -> Data? {
         var data: Data?
         if let url = URL(string: TripModel.DATABASE) {

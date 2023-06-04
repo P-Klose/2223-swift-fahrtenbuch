@@ -36,7 +36,7 @@ struct TripModel {
 
 struct Trip: Codable, Identifiable, Hashable {
     var id: Int?
-    var coordinates: [Coordinate]
+    var coordinates: [Coordinate]?
     var length: Double
     var date: Date
     var vehicleId: Int

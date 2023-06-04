@@ -21,7 +21,7 @@ struct ViewTrips: View {
     @State private var showAlertFahrt = false
     
     @State var currentTab: String = "Woche"
-    @State var chartDisplayUnit = Calendar.Component.weekOfMonth
+    @State var chartDisplayUnit = Calendar.Component.day
     let LOG = Logger()
     
     var body: some View {
@@ -30,77 +30,76 @@ struct ViewTrips: View {
             
             ScrollView {
                 VStack {
-                    if (mapViewModel.trips.count > 0){
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Text("Gefahrene km")
-                                    .fontWeight(.semibold)
-                                Picker("", selection: $currentTab) {
-                                    Text("Woche")
-                                        .tag("Woche")
-                                    Text("Monat")
-                                        .tag("Monat")
-                                    Text("Jahr")
-                                        .tag("Jahr")
-                                }
-                                .pickerStyle(.segmented)
-                                .padding(.leading,40)
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Gefahrene km")
+                                .fontWeight(.semibold)
+                            Picker("", selection: $currentTab) {
+                                Text("Woche")
+                                    .tag("Woche")
+                                Text("Monat")
+                                    .tag("Monat")
+                                Text("Jahr")
+                                    .tag("Jahr")
                             }
-                            
-                            let tripTotal = mapViewModel.trips.map(\.length)
-                                .reduce(0.0, +)
-                            
-                            Text(tripTotal.kmString)
-                                .font(.largeTitle.bold())
-                            AnimatedChart()
+                            .pickerStyle(.segmented)
+                            .padding(.leading,40)
                         }
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(.white.shadow(.drop(radius: 2)))
-                        }
-                        //                    TripDiagramView(mapViewModel: mapViewModel)
-                        VStack {
-                            Picker("Fahrzeug", selection: $selectedVehicleId) {
-                                Text("bitte auswählen")
-                                    .tag(-1)
-                                ForEach(vehicleViewModel.vehicles.indices) { index in
-                                    Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
-                                }
-                            }
-                            DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)
-                                .datePickerStyle(.automatic)
-                            
-                            DatePicker("End-Datum", selection: $endDate, in: startDate..., displayedComponents: .date)
-                                .datePickerStyle(.automatic)
-                            
-                        }
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(.white.shadow(.drop(radius: 2)))
-                        }
-                        VStack {
-                            ForEach(filteredTrips) { trip in
-                                VStack(alignment: .leading) {
-                                    Text("Am: \(formattedDate(for: trip.date))")
-                                    Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(1)))km")
-                                }
-                                //                                .overlay(
-                                //                                    Rectangle()
-                                //                                        .frame(height: 4)
-                                //                                        .foregroundColor(.blue),
-                                //                                    alignment: .bottom
-                                //                                )
+                        
+                        let tripTotal = mapViewModel.trips.map(\.length)
+                            .reduce(0.0, +)
+                        
+                        Text(tripTotal.kmString)
+                            .font(.largeTitle.bold())
+                        AnimatedChart()
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(.white.shadow(.drop(radius: 2)))
+                    }
+                    //                    TripDiagramView(mapViewModel: mapViewModel)
+                    VStack {
+                        Picker("Fahrzeug", selection: $selectedVehicleId) {
+                            Text("bitte auswählen")
+                                .tag(-1)
+                            ForEach(vehicleViewModel.vehicles.indices) { index in
+                                Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                             }
                         }
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(.white.shadow(.drop(radius: 2)))
+                        DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                            .datePickerStyle(.automatic)
+                        
+                        DatePicker("End-Datum", selection: $endDate, in: startDate..., displayedComponents: .date)
+                            .datePickerStyle(.automatic)
+                        
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(.white.shadow(.drop(radius: 2)))
+                    }
+                    VStack {
+                        ForEach(filteredTrips) { trip in
+                            VStack(alignment: .leading) {
+                                Text("Am: \(formattedDate(for: trip.date))")
+                                Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(1)))km")
+                            }
+                            //                                .overlay(
+                            //                                    Rectangle()
+                            //                                        .frame(height: 4)
+                            //                                        .foregroundColor(.blue),
+                            //                                    alignment: .bottom
+                            //                                )
                         }
                     }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(.white.shadow(.drop(radius: 2)))
+                    }
                 }
+                
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .padding()
             }
@@ -110,23 +109,26 @@ struct ViewTrips: View {
                 switch newValue {
                 case "Woche":
                     chartDisplayUnit = Calendar.Component.day
+                    trips = mapViewModel.generateWeeklyTrips()
                 case "Monat":
                     chartDisplayUnit = Calendar.Component.day
+                    trips = mapViewModel.generateMonthlyTrips()
+                    for (index,_) in trips.enumerated() {
+                        trips[index].length = .random(in: 0...500)
+                    }
                 case "Jahr":
                     chartDisplayUnit = Calendar.Component.month
+                    trips = mapViewModel.generateYearlyTrips()
+                    for (index,_) in trips.enumerated() {
+                        trips[index].length = .random(in: 100...5000)
+                    }
                 default:
                     return
                 }
-                if newValue != "Woche" {
-                    for (index,_) in trips.enumerated() {
-                        trips[index].length = .random(in: 500...5000)
-                    }
-                }
-                
                 //animateGraph()
             }
             .onAppear(perform: {
-                trips = mapViewModel.trips
+                trips = mapViewModel.generateWeeklyTrips()
             })
         }
     }
@@ -148,22 +150,23 @@ struct ViewTrips: View {
         //        .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
         .chartXAxis {
-            //            AxisValueLabel(format: .dateTime.day())
-            if currentTab == "Woche" {
-                AxisMarks(values: trips.map {$0.date }) { date in
-                    AxisValueLabel(format: .dateTime.weekday())
-                }
-            }
-            if currentTab == "Monat" {
-                AxisMarks(values: trips.map {$0.date }) { date in
-                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
-                }
-            }
-            if currentTab == "Jahr" {
-                AxisMarks(values: trips.map {$0.date }) { date in
-                    AxisValueLabel(format: .dateTime.month(.narrow))
-                }
-            }
+            AxisMarks()
+            // NOTE: Vustom Axis Marks but a little bit buggy
+//            if currentTab == "Woche" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.weekday(.short))
+//                }
+//            }
+//            if currentTab == "Monat" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
+//                }
+//            }
+//            if currentTab == "Jahr" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.month(.narrow))
+//                }
+//            }
             
             
         }
