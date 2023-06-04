@@ -18,19 +18,50 @@ struct ViewTrips: View {
     @State private var endDate = Date()
     @State private var showAlertFahrt = false
     
+    @State var currentTab: String = "Woche"
     
     let LOG = Logger()
     
     var body: some View {
         
         NavigationStack {
-            VStack {
-                if (mapViewModel.trips.count > 0){
-                    TripDiagramView(mapViewModel: mapViewModel)
-                    Form{
-                        Section{
+            
+            ScrollView {
+                VStack {
+                    if (mapViewModel.trips.count > 0){
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Text("Gefahrene km")
+                                    .fontWeight(.semibold)
+                                Picker("", selection: $currentTab) {
+                                    Text("Woche")
+                                        .tag("Woche")
+                                    Text("Monat")
+                                        .tag("Monat")
+                                    Text("Jahr")
+                                        .tag("Jahr")
+                                }
+                                .pickerStyle(.segmented)
+                                .padding(.leading,40)
+                            }
+                            
+                            let tripTotal = mapViewModel.trips.map(\.length)
+                                .reduce(0.0, +)
+                            
+                            Text(tripTotal.kmString)
+                                .font(.largeTitle.bold())
+                            AnimatedChart()
+                        }
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.white.shadow(.drop(radius: 2)))
+                        }
+                        //                    TripDiagramView(mapViewModel: mapViewModel)
+                        VStack {
                             Picker("Fahrzeug", selection: $selectedVehicleId) {
                                 Text("bitte auswählen")
+                                    .tag(-1)
                                 ForEach(vehicleViewModel.vehicles.indices) { index in
                                     Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                                 }
@@ -42,37 +73,78 @@ struct ViewTrips: View {
                                 .datePickerStyle(.automatic)
                             
                         }
-                    }
-                    ViewSelectedTrips(trips: filteredTrips)
-                }else{
-                    Text("Oops")
-                        .foregroundStyle(.blue.gradient)
-                        .font(.largeTitle)
-                        .bold()
                         .padding()
-                    Text("Es sind noch keine Fahrten aufgenommen worden. Kommen sie später wieder")
-                        .padding(.horizontal)
-                        
+                        .background {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.white.shadow(.drop(radius: 2)))
+                        }
+                        VStack {
+                            ForEach(filteredTrips) { trip in
+                                VStack(alignment: .leading) {
+                                    Text("Am: \(formattedDate(for: trip.date))")
+                                    Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(1)))km")
+                                }
+//                                .overlay(
+//                                    Rectangle()
+//                                        .frame(height: 4)
+//                                        .foregroundColor(.blue),
+//                                    alignment: .bottom
+//                                )
+                            }
+                        }
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.white.shadow(.drop(radius: 2)))
+                        }
+                    }
                 }
-                
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .padding()
             }
             .navigationTitle("Fahrten")
             .onAppear(perform: {
-                LOG.info("\(mapViewModel.trips.count)")
+                //                LOG.info("\(mapViewModel.trips.count)")
             })
         }
     }
+    
+    @ViewBuilder
+    func AnimatedChart() -> some View {
+        let max = mapViewModel.trips.max { item1, item2 in
+            return item2.length > item1.length
+        }?.length ?? 0
+        Chart {
+            ForEach(mapViewModel.trips) { trip in
+                BarMark(
+                    x: .value("Datum", trip.date, unit: .weekOfMonth),
+                    y: .value("Strecke", trip.length)
+                )
+            }
+            .foregroundStyle(Color.blue.gradient)
+        }
+        .chartYScale(domain: 0...(max + 50))
+        .frame(height: 250)
+    }
+    
     var filteredTrips: [Trip] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: startDate)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
         
+        
         return mapViewModel.trips.filter { trip in
-            
             return trip.date >= startOfDay && trip.date <= endOfDay && trip.vehicleId == selectedVehicleId
         }
     }
-    
+    func formattedDate(for date: Date?) -> String {
+        guard let date = date else {
+            return "Unbekanntes Datum"
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: date)
+    }
     
     struct ViewTrips_Previews: PreviewProvider {
         static let vehicleViewModel = VehicleViewModel()
@@ -80,6 +152,12 @@ struct ViewTrips: View {
         static var previews: some View {
             ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
         }
+    }
+}
+
+extension Double {
+    var kmString: String {
+        return String(format: "%.1fkm", self / 1000).replacingOccurrences(of: ".0", with: "")
     }
 }
 
@@ -106,25 +184,5 @@ struct TripDiagramView: View {
         .chartXAxis {
             AxisMarks()
         }
-    }
-}
-
-struct ViewSelectedTrips: View {
-    var trips: [Trip]
-    var body: some View {
-        List(trips) { trip in
-            VStack(alignment: .leading) {
-                Text("AM: \(formattedDate(for: trip.date))")
-                Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(2)))km")
-            }
-        }
-    }
-    func formattedDate(for date: Date?) -> String {
-        guard let date = date else {
-            return "Unknown Date"
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        return dateFormatter.string(from: date)
     }
 }
