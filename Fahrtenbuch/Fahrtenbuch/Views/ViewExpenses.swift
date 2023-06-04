@@ -44,19 +44,19 @@ struct ViewExpenses: View {
                         
                         ForEach(expenseViewModel.expenses[0]) { expense in
                             BarMark(
-                                x: .value("Datum", expense.date),
+                                x: .value("Datum", expense.date, unit: .weekOfMonth),
                                 y: .value("Kosten", expense.expenseValue))
                         }
                         .foregroundStyle(Color.orange.gradient)
                         ForEach(expenseViewModel.expenses[1]) { expense in
                             BarMark(
-                                x: .value("Datum", expense.date),
+                                x: .value("Datum", expense.date, unit: .weekOfMonth),
                                 y: .value("Kosten", expense.expenseValue))
                         }
                         .foregroundStyle(Color.purple.gradient)
                         ForEach(expenseViewModel.expenses[2]) { expense in
                             BarMark(
-                                x: .value("Datum", expense.date),
+                                x: .value("Datum", expense.date, unit: .weekOfMonth),
                                 y: .value("Kosten", expense.expenseValue))
                         }
                         .foregroundStyle(Color.blue.gradient)

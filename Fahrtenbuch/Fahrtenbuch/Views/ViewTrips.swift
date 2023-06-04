@@ -35,8 +35,9 @@ struct ViewTrips: View {
                     
                     ForEach(mapViewModel.trips) { trip in
                         BarMark(
-                            x: .value("Datum", formattedDate(for: trip.date)),
-                            y: .value("Strecke", trip.length))
+                            x: .value("Datum", trip.date, unit: .weekOfMonth),
+                            y: .value("Strecke", trip.length)
+                            )
                     }
                     .foregroundStyle(Color.blue.gradient)
                 }
