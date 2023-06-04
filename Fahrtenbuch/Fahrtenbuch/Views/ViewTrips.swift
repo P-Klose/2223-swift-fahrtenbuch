@@ -118,13 +118,22 @@ struct ViewTrips: View {
             ForEach(mapViewModel.trips) { trip in
                 BarMark(
                     x: .value("Datum", trip.date, unit: .weekOfMonth),
-                    y: .value("Strecke", trip.length)
+                    y: .value("Strecke", trip.animate ? trip.length : 0)
                 )
             }
             .foregroundStyle(Color.blue.gradient)
         }
         .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
+        .onAppear {
+            for (index,_) in mapViewModel.trips.enumerated(){
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
+                    withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+                        mapViewModel.animateTrip(index: index)
+                    }
+                }
+            }
+        }
     }
     
     var filteredTrips: [Trip] {

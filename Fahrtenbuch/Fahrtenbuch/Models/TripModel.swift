@@ -28,7 +28,9 @@ struct TripModel {
             trips = dowloadedTrips
 
         }
-        
+    }
+    mutating func animateTrip (index: Int){
+        trips[index].animate = true
     }
 }
 
@@ -38,6 +40,7 @@ struct Trip: Codable, Identifiable, Hashable {
     var length: Double
     var date: Date
     var vehicleId: Int
+    var animate: Bool = false
 }
 
 struct Coordinate: Codable, Identifiable, Hashable {

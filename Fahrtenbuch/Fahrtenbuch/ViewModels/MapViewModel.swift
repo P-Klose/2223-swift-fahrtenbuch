@@ -99,6 +99,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         return finalCoordinates
     }
     
+
+    func animateTrip(index: Int) {
+        tripModel.animateTrip(index: index)
+    }
+    
     func saveTripToDatabase(trip: Trip, completion: @escaping (Bool) -> Void) {
         var success = true
         let finalUrl = "\(DATABASE)"
