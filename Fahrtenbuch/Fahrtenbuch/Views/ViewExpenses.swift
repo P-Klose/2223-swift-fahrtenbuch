@@ -65,30 +65,7 @@ struct ViewExpenses: View {
                     .chartXAxis {
                         AxisMarks()
                     }
-                    HStack {
-                        Image(systemName: "square.fill")
-                            .foregroundColor(.orange)
-                        Text("Tanken")
-                            .foregroundColor(.secondary)
-                    }
-                    .font(.caption2)
-                    .padding(.leading, 4)
-                    HStack {
-                        Image(systemName: "square.fill")
-                            .foregroundColor(.purple)
-                        Text("Parken")
-                            .foregroundColor(.secondary)
-                    }
-                    .font(.caption2)
-                    .padding(.leading, 4)
-                    HStack {
-                        Image(systemName: "square.fill")
-                            .foregroundColor(.blue)
-                        Text("Waschen")
-                            .foregroundColor(.secondary)
-                    }
-                    .font(.caption2)
-                    .padding(.leading, 4)
+                    DesciptionView()
                     
                     Spacer()
                     
@@ -146,6 +123,35 @@ struct ViewExpenses: View {
             ExpensesFormView(vehicleVM: vehicleViewModel, expenseVM: expenseViewModel)
                 .presentationDetents([.medium])
         }
+    }
+}
+
+struct DesciptionView: View {
+    var body: some View {
+        HStack {
+            Image(systemName: "square.fill")
+                .foregroundColor(.orange)
+            Text("Tanken")
+                .foregroundColor(.secondary)
+        }
+        .font(.caption2)
+        .padding(.leading, 4)
+        HStack {
+            Image(systemName: "square.fill")
+                .foregroundColor(.purple)
+            Text("Parken")
+                .foregroundColor(.secondary)
+        }
+        .font(.caption2)
+        .padding(.leading, 4)
+        HStack {
+            Image(systemName: "square.fill")
+                .foregroundColor(.blue)
+            Text("Waschen")
+                .foregroundColor(.secondary)
+        }
+        .font(.caption2)
+        .padding(.leading, 4)
     }
 }
 
