@@ -150,8 +150,14 @@ struct ViewTrips: View {
         //        .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
         .chartXAxis {
-            AxisMarks()
-            // NOTE: Vustom Axis Marks but a little bit buggy
+            if currentTab == "Jahr" {
+                AxisMarks(values: trips.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.month(.narrow))
+                }
+            } else {
+                AxisMarks()
+            }
+            // NOTE: Custom Axis Marks but a little bit buggy
 //            if currentTab == "Woche" {
 //                AxisMarks(values: trips.map {$0.date }) { date in
 //                    AxisValueLabel(format: .dateTime.weekday(.short))
@@ -162,11 +168,7 @@ struct ViewTrips: View {
 //                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
 //                }
 //            }
-//            if currentTab == "Jahr" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.month(.narrow))
-//                }
-//            }
+
             
             
         }

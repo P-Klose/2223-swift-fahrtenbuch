@@ -192,7 +192,24 @@ struct ViewExpenses: View {
         //        })
         .frame(height: 250)
         .chartXAxis {
-            AxisMarks()
+            if currentTab == "Jahr" {
+                AxisMarks(values: gasExpense.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.month(.narrow))
+                }
+            } else {
+                AxisMarks()
+            }
+            // NOTE: Custom Axis Marks but a little bit buggy
+//            if currentTab == "Woche" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.weekday(.short))
+//                }
+//            }
+//            if currentTab == "Monat" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
+//                }
+//            }
         }
     }
     
