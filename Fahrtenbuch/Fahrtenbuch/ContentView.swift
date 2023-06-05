@@ -28,7 +28,7 @@ struct ContentView: View {
                     Image(systemName: "map")
                     Text("Aufzeichnen")
                 }
-            ViewTrips(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
+            ViewTrips(tripViewModel: mapViewModel.tripViewModel, vehicleViewModel: vehicleViewModel)
                 .tabItem {
                     Image(systemName: "road.lanes.curved.right")
                     Text("Fahrten")
@@ -37,6 +37,7 @@ struct ContentView: View {
         
     }
 }
+
 
 
 struct ContentView_Previews: PreviewProvider {

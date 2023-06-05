@@ -10,7 +10,7 @@ import OSLog
 import Charts
 
 struct ViewTrips: View {
-    @StateObject  var mapViewModel: MapViewModel
+    @StateObject  var tripViewModel: TripViewModel
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
     @State var trips = [Trip]()
@@ -46,7 +46,7 @@ struct ViewTrips: View {
                             .padding(.leading,40)
                         }
                         
-                        let tripTotal = mapViewModel.trips.map(\.length)
+                        let tripTotal = tripViewModel.trips.map(\.length)
                             .reduce(0.0, +)
                         
                         Text(tripTotal.kmString)
@@ -106,20 +106,20 @@ struct ViewTrips: View {
             }
             .navigationTitle("Fahrten")
             .onChange(of: currentTab) { newValue in
-                trips = mapViewModel.trips
+                trips = tripViewModel.trips
                 switch newValue {
                 case "Woche":
                     chartDisplayUnit = Calendar.Component.day
-                    trips = mapViewModel.generateWeeklyTrips()
+                    trips = tripViewModel.generateWeeklyTrips()
                 case "Monat":
                     chartDisplayUnit = Calendar.Component.day
-                    trips = mapViewModel.generateMonthlyTrips()
+                    trips = tripViewModel.generateMonthlyTrips()
                     for (index,_) in trips.enumerated() {
                         trips[index].length = .random(in: 0...500)
                     }
                 case "Jahr":
                     chartDisplayUnit = Calendar.Component.month
-                    trips = mapViewModel.generateYearlyTrips()
+                    trips = tripViewModel.generateYearlyTrips()
                     for (index,_) in trips.enumerated() {
                         trips[index].length = .random(in: 100...5000)
                     }
@@ -129,7 +129,7 @@ struct ViewTrips: View {
                 //animateGraph()
             }
             .onAppear(perform: {
-                trips = mapViewModel.generateWeeklyTrips()
+                trips = tripViewModel.generateWeeklyTrips()
             })
         }
     }
@@ -195,7 +195,7 @@ struct ViewTrips: View {
 
         
         
-        let filteredTrips = mapViewModel.trips.filter { trip in
+        let filteredTrips = tripViewModel.trips.filter { trip in
             return trip.date >= startOfDay && trip.date <= endOfDay && trip.vehicleId == selectedVehicleId
         }
         

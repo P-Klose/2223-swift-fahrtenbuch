@@ -35,6 +35,7 @@
 		E4B34D7C2A13EA89004BE086 /* DriveingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E4B34D6C2A13EA87004BE086 /* DriveingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E4B34D822A13EC7B004BE086 /* DriveAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */; };
 		E4B34D832A13EC7B004BE086 /* DriveAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */; };
+		E4CBF7BA2A2DDF3F003CC9F2 /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CBF7B92A2DDF3F003CC9F2 /* TripViewModel.swift */; };
 		E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */; };
 		E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */; };
 		E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */; };
@@ -113,6 +114,7 @@
 		E4B34D772A13EA89004BE086 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4B34D792A13EA89004BE086 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4B34D812A13EC7B004BE086 /* DriveAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveAttributes.swift; sourceTree = "<group>"; };
+		E4CBF7B92A2DDF3F003CC9F2 /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
 		E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				E4072E4D29D41D8900B3AC82 /* MapViewModel.swift */,
 				E4CE9E2A29E579EB007632FA /* VehicleViewModel.swift */,
 				E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */,
+				E4CBF7B92A2DDF3F003CC9F2 /* TripViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				E44D4FA029F846B700F2DCED /* MapView.swift in Sources */,
 				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
+				E4CBF7BA2A2DDF3F003CC9F2 /* TripViewModel.swift in Sources */,
 				E4CE9E2B29E579EB007632FA /* VehicleViewModel.swift in Sources */,
 				E46E0CED29C8E01F007E74EB /* HomeViewModel.swift in Sources */,
 				E4072E4829D4078B00B3AC82 /* ViewExpenses.swift in Sources */,
