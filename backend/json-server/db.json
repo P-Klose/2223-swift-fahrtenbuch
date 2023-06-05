@@ -7,6 +7,7 @@
       "vin": "yyyyyyyy",
       "model": "T7",
       "imageUrl": "",
+      "vehicleType": "PKW",
       "numberplate": "UU-48MM"
     },
     {
@@ -15,6 +16,7 @@
       "model": "A6",
       "make": "Audi",
       "milage": "125023",
+      "vehicleType": "PKW",
       "imageUrl": "",
       "id": 1
     },
@@ -24,6 +26,7 @@
       "vin": "",
       "imageUrl": "",
       "make": "Audi",
+      "vehicleType": "PKW",
       "milage": "32000",
       "id": 3
     },
@@ -33,6 +36,7 @@
       "vin": "",
       "imageUrl": "",
       "make": "Audi ",
+      "vehicleType": "PKW",
       "milage": "88899",
       "id": 4
     }
