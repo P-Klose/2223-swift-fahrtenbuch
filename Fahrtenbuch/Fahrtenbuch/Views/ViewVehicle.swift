@@ -158,6 +158,8 @@ struct VehicleFormView: View {
                     TextField("Marke:", text: $makeTextField)
                     TextField("Modell:", text: $modelTextField)
                     TextField("Kennzeichen:",text: $numberplateTextField)
+                }
+                Section {
                     Picker("", selection: $vehicleType) {
                         Text("PKW")
                             .tag("PKW")
@@ -174,8 +176,6 @@ struct VehicleFormView: View {
                         Text("Hybrid")
                             .tag("Hybrid")
                     }
-                }
-                Section {
                     TextField("Kilometerstand:", text: $milageTextField)
                         .keyboardType(.numberPad)
                 }
@@ -199,7 +199,7 @@ struct VehicleFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                if makeTextField == "" || modelTextField == "" || numberplateTextField == "" || milageTextField == "" || vinTextField == "" {
+                                if makeTextField == "" || modelTextField == "" || numberplateTextField == "" || milageTextField == "" {
                                     showalertAddVehicle = true
                                 } else {
                                     print("ImageURL: \(imageUrl ?? "")")
@@ -284,6 +284,8 @@ struct VehicleEditFormView: View {
                     TextField("Marke:", text: $makeTextField)
                     TextField("Modell:", text: $modelTextField)
                     TextField("Kennzeichen:",text: $numberplateTextField)
+                }
+                Section {
                     Picker("", selection: $vehicleType) {
                         Text("PKW")
                             .tag("PKW")
@@ -300,8 +302,6 @@ struct VehicleEditFormView: View {
                         Text("Hybrid")
                             .tag("Hybrid")
                     }
-                }
-                Section {
                     TextField("Kilometerstand:", text: $milageTextField)
                         .keyboardType(.numberPad)
                 }
