@@ -80,14 +80,15 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
-        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
-        saveTripToDatabase(trip: toSaveTrip){ success in
-            if success {
-                self.LOG.info("🟢 Trip Saved in Database")
-            } else {
-                self.LOG.error("🔴 Trip not saved in Database")
-            }
-        }
+        let toSaveTrip = Trip(id: trips.count, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
+        // ONLY Working if Trp has nil as ID but problems in displaying otherwise
+//        saveTripToDatabase(trip: toSaveTrip){ success in
+//            if success {
+//                self.LOG.info("🟢 Trip Saved in Database")
+//            } else {
+//                self.LOG.error("🔴 Trip not saved in Database")
+//            }
+//        }
         self.tripModel.add(trip: toSaveTrip)
         LOG.info("#of trips \(self.tripModel.trips.count)")
     }

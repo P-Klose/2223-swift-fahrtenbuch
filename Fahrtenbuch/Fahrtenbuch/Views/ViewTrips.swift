@@ -80,10 +80,11 @@ struct ViewTrips: View {
                             .fill(.white.shadow(.drop(radius: 2)))
                     }
                     VStack {
-                        ForEach(filteredTrips) { trip in
+                        ForEach(filterTrips()) { trip in
+                            
                             VStack(alignment: .leading) {
                                 Text("Am: \(formattedDate(for: trip.date))")
-                                Text("Gefahren Strecke: \(trip.length/1000, format: .number.precision(.fractionLength(1)))km")
+                                Text("Gefahren Strecke: \(trip.length)km")
                             }
                             //                                .overlay(
                             //                                    Rectangle()
@@ -135,9 +136,9 @@ struct ViewTrips: View {
     
     @ViewBuilder
     func AnimatedChart() -> some View {
-        let max = mapViewModel.trips.max { item1, item2 in
-            return item2.length > item1.length
-        }?.length ?? 0
+//        let max = mapViewModel.trips.max { item1, item2 in
+//            return item2.length > item1.length
+//        }?.length ?? 0
         Chart {
             ForEach(trips) { trip in
                 BarMark(
@@ -187,15 +188,18 @@ struct ViewTrips: View {
     //        }
     //    }
     
-    var filteredTrips: [Trip] {
+    func filterTrips() -> [Trip] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: startDate)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
+
         
         
-        return mapViewModel.trips.filter { trip in
+        let filteredTrips = mapViewModel.trips.filter { trip in
             return trip.date >= startOfDay && trip.date <= endOfDay && trip.vehicleId == selectedVehicleId
         }
+        
+        return filteredTrips
     }
     func formattedDate(for date: Date?) -> String {
         guard let date = date else {
