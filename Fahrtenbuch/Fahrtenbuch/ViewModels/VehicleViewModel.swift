@@ -33,9 +33,9 @@ class VehicleViewModel: ObservableObject {
         return data
     }
     
-    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String) {
+    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String) {
         
-        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType )
+        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType, fuelType: fuelType)
         print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
@@ -46,9 +46,9 @@ class VehicleViewModel: ObservableObject {
             }
         }
     }
-    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String) {
+    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String) {
         
-        let updatedVehilce = Vehicle(id: vehicle.id, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType)
+        let updatedVehilce = Vehicle(id: vehicle.id, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType, fuelType: fuelType)
         print(imageUrl)
         
         saveCarToDatabase(vehicle: updatedVehilce, httpMethod: "PUT") { success in

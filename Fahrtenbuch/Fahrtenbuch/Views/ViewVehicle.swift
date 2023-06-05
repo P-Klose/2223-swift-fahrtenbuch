@@ -126,6 +126,7 @@ struct VehicleFormView: View {
     @State private var milageTextField = ""
     @State private var numberplateTextField = ""
     @State private var vehicleType = "PKW"
+    @State private var fuelType = "Kraftstoff"
     
     @State private var showalertAddVehicle = false
     
@@ -165,6 +166,14 @@ struct VehicleFormView: View {
                         Text("Oldtimer")
                             .tag("Oldtimer")
                     }
+                    Picker("", selection: $vehicleType) {
+                        Text("Kraftstoff")
+                            .tag("Kraftstoff")
+                        Text("Elekto")
+                            .tag("Elekto")
+                        Text("Hybrid")
+                            .tag("Hybrid")
+                    }
                 }
                 Section {
                     TextField("Kilometerstand:", text: $milageTextField)
@@ -194,7 +203,7 @@ struct VehicleFormView: View {
                                     showalertAddVehicle = true
                                 } else {
                                     print("ImageURL: \(imageUrl ?? "")")
-                                    vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "", vehicleType: vehicleType)
+                                    vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "", vehicleType: vehicleType, fuelType: fuelType)
                                     dismiss()}
                             }) {
                                 Text("Speichern")
@@ -252,6 +261,7 @@ struct VehicleEditFormView: View {
     @State private var milageTextField = ""
     @State private var numberplateTextField = ""
     @State private var vehicleType = "PKW"
+    @State private var fuelType = "Kraftstoff"
     
     
     init(vehicle: Vehicle, vehicleViewModel: VehicleViewModel) {
@@ -263,6 +273,7 @@ struct VehicleEditFormView: View {
         _milageTextField = State(initialValue: vehicle.milage)
         _numberplateTextField = State(initialValue: vehicle.numberplate)
         _vehicleType = State(initialValue: vehicle.vehicleType ?? "PKW")
+        _fuelType = State(initialValue: vehicle.fuelType ?? "Kraftstoff")
     }
     
     var body: some View {
@@ -280,6 +291,14 @@ struct VehicleEditFormView: View {
                             .tag("LKW")
                         Text("Oldtimer")
                             .tag("Oldtimer")
+                    }
+                    Picker("", selection: $vehicleType) {
+                        Text("Kraftstoff")
+                            .tag("Kraftstoff")
+                        Text("Elekto")
+                            .tag("Elekto")
+                        Text("Hybrid")
+                            .tag("Hybrid")
                     }
                 }
                 Section {
@@ -314,7 +333,7 @@ struct VehicleEditFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                vehicleViewModel.update(vehicle: vehicle, make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: "", vehicleType: vehicleType)
+                                vehicleViewModel.update(vehicle: vehicle, make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: "", vehicleType: vehicleType, fuelType: fuelType)
                                 dismiss()
                             }) {
                                 Text("Speichern")

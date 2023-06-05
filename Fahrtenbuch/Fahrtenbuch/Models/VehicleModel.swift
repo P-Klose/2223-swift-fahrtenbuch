@@ -33,6 +33,7 @@ struct Vehicle: Codable, Identifiable, Hashable {
     var milage: String
     var imageUrl: String
     var vehicleType: String?
+    var fuelType: String?
     
     func getName() -> String {
         return make + " " + model

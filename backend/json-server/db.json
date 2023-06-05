@@ -8,6 +8,7 @@
       "model": "T7",
       "imageUrl": "",
       "vehicleType": "PKW",
+      "fuelType": "Kraftstoff",
       "numberplate": "UU-48MM"
     },
     {
@@ -17,6 +18,7 @@
       "make": "Audi",
       "milage": "125023",
       "vehicleType": "PKW",
+      "fuelType": "Kraftstoff",
       "imageUrl": "",
       "id": 1
     },
@@ -27,6 +29,7 @@
       "imageUrl": "",
       "make": "Audi",
       "vehicleType": "PKW",
+      "fuelType": "Kraftstoff",
       "milage": "32000",
       "id": 3
     },
@@ -37,6 +40,7 @@
       "imageUrl": "",
       "make": "Audi ",
       "vehicleType": "PKW",
+      "fuelType": "Kraftstoff",
       "milage": "88899",
       "id": 4
     }
