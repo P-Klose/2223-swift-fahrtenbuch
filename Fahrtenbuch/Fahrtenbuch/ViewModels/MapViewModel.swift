@@ -32,10 +32,13 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var recentLocations = [CLLocation]()
     let subject = PassthroughSubject<CLLocation, Never>()
     var cancellable: AnyCancellable?
+    var regionUpdated = false
+    
+    //MARK: Trip Recoring
+    var selectedVehicleId: Int = -1
+    var isPrivateTrip: Bool = false
     var recording = false
     var isStopped = false
-    var selectedVehicleId = -1
-    var regionUpdated = false
     
     let LOG = Logger()
     
@@ -130,9 +133,10 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     //Trip
     
-    func startRecording(vehicle: Int){
+    func startRecording(vehicle: Int, isPrivat: Bool){
         recording = true
         selectedVehicleId = vehicle
+        isPrivateTrip = isPrivat
     }
     func stopRecording(){
         recording = false

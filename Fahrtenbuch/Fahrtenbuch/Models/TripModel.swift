@@ -40,6 +40,7 @@ struct Trip: Codable, Identifiable, Hashable {
     var length: Double
     var date: Date
     var vehicleId: Int
+    var isPrivat: Bool?
     var animate: Bool = false
 }
 

@@ -16,7 +16,7 @@ struct ViewRides: View {
     @State private var twoTextField = ""
     @State private var threeTextField = ""
     
-    @State private var beruflicheFahrt = true
+    @State private var privateTrip = false
     @State private var buttonStartIsPressed = false
     
     @State private var startTime: Date? = nil
@@ -45,12 +45,13 @@ struct ViewRides: View {
                             List {
                                 Picker("Fahrzeug", selection: $selectedVehicleId) {
                                     Text("bitte auswählen")
+                                        .tag(-1)
                                     ForEach(vehicleViewModel.vehicles.indices) { index in
                                         Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
                                     }
                                 }
                             }
-                            Toggle("Berufliche Fahrt", isOn: $beruflicheFahrt)
+                            Toggle("Berufliche Fahrt", isOn: $privateTrip)
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                         }
                         
@@ -63,7 +64,7 @@ struct ViewRides: View {
                                     
                                     activity = try? Activity<DriveAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
                                     
-                                    mapViewModel.startRecording(vehicle: selectedVehicleId)
+                                    mapViewModel.startRecording(vehicle: selectedVehicleId, isPrivat: privateTrip)
                                 } else {
 
                                     showAlert = true
