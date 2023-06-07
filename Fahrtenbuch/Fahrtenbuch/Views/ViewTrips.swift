@@ -116,8 +116,9 @@ struct ViewTrips: View {
                 //animateGraph()
             }
             .onAppear(perform: {
-                tripViewModel.downloadAllTrips()
-                trips = tripViewModel.generateWeeklyTrips()
+                tripViewModel.downloadAllTrips(){
+                    trips = tripViewModel.generateWeeklyTrips()
+                }
             })
         }
     }

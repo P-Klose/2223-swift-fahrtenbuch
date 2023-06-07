@@ -92,13 +92,14 @@ class TripViewModel: ObservableObject {
         completion(success)
     }
     
-    func downloadAllTrips() {
+    func downloadAllTrips(completion: @escaping () -> Void){
         let downloadQueue = DispatchQueue(label: "Download Trips")
         LOG.info("ℹ️ Start Downloading Trips")
         downloadQueue.async {
             if let data = TripViewModel.load(){
                 DispatchQueue.main.async {
                     self.tripModel.importFromJson(data: data)
+                    completion()
                 }
             }
         }
@@ -143,6 +144,7 @@ class TripViewModel: ObservableObject {
             guard let weekday = calendar.date(byAdding: .day, value: day - calendar.component(.weekday, from: currentDate), to: currentDate) else {
                 continue
             }
+            LOG.debug("WeekDay: \(weekday) Day: \(day)")
             
             let expense = Trip(length: calculateExpenseSum(for: weekday), date: weekday, vehicleId: -1)
             expenses.append(expense)
@@ -185,7 +187,12 @@ class TripViewModel: ObservableObject {
     
     func calculateExpenseSum(for day: Date) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = trips.filter { calendar.isDate($0.date, inSameDayAs: day) }
+        
+        let filteredExpenses = trips.filter {
+            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
+            return calendar.isDate($0.date, inSameDayAs: day)
+            
+        }
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum
         let expenseSum = filteredExpenses.reduce(0) { $0 + $1.length }

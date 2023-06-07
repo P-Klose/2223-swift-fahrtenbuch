@@ -44,7 +44,7 @@ extension Trip {
         self.coordinates = dto.coordinates
         self.length = dto.length ?? 0.0
         if let timestamp = dto.date {
-            self.date = Date(timeIntervalSince1970: timestamp)
+            self.date = Date(timeIntervalSinceReferenceDate: timestamp)
         } else {
             self.date = Date()
         }

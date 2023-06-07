@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import OSLog
 
 class ExpenseViewModel: ObservableObject {
     
     private final let DATABASE = "http://localhost:3000/expenses"
+    
+    let LOG = Logger()
     @Published private var model = ExpenseModel()
     var expenses: [[Expense]] {
         model.expenses
@@ -136,7 +139,11 @@ class ExpenseViewModel: ObservableObject {
     
     func calculateExpenseSum(forDay day: Date, expenseIndex: Int) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = expenses[expenseIndex].filter { calendar.isDate($0.date, inSameDayAs: day) }
+        let filteredExpenses = expenses[expenseIndex].filter {
+            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
+            return calendar.isDate($0.date, inSameDayAs: day)
+            
+        }
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum
         let expenseSum = filteredExpenses.reduce(0) { $0 + $1.expenseValue }
