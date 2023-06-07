@@ -47,7 +47,7 @@ struct ViewRides: View {
                                     Text("bitte auswählen")
                                         .tag(-1)
                                     ForEach(vehicleViewModel.vehicles.indices) { index in
-                                        Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
+                                        Text(self.vehicleViewModel.vehicles[index].getName()).tag(self.vehicleViewModel.vehicles[index].id)
                                     }
                                 }
                             }
@@ -99,7 +99,7 @@ struct ViewRides: View {
                       dismissButton: .default(Text("OK")))}
             .navigationTitle("Aufzeichnen")
             .onAppear(perform: {
-                vehicleViewModel.downloadAllVehicles()
+                vehicleViewModel.downloadAllVehicles(){}
             })
         }
     }

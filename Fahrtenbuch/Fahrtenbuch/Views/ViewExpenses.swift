@@ -100,7 +100,7 @@ struct ViewExpenses: View {
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
                 expenseViewModel.reloadAllExpenses()
-                vehicleViewModel.downloadAllVehicles()
+                vehicleViewModel.downloadAllVehicles(){}
                 setExpenses()
                 
             })

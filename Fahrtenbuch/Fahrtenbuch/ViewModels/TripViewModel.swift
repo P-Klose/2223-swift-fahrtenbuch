@@ -20,6 +20,7 @@ class TripViewModel: ObservableObject {
     
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
+    let vehicleViewModel = VehicleViewModel()
 
     var recording = false
     var isStopped = false
@@ -30,6 +31,7 @@ class TripViewModel: ObservableObject {
     
     func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
         let toSaveTrip = Trip(id: trips.count, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
+        vehicleViewModel.updateMillage(vehicleId: vehicleId, toAddMilage: distanceTraveled)
         // ONLY Working if Trp has nil as ID but problems in displaying otherwise
         //        saveTripToDatabase(trip: toSaveTrip){ success in
         //            if success {

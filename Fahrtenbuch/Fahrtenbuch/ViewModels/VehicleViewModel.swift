@@ -6,21 +6,24 @@
 //
 
 import Foundation
+import OSLog
 
 class VehicleViewModel: ObservableObject {
     
     private final let DATABASE = "http://localhost:3000/vehicles"
+    private var LOG = Logger()
     @Published private var model = VehicleModel()
     var vehicles:[Vehicle] {
         model.vehicles
     }
     
-    func downloadAllVehicles() {
+    func downloadAllVehicles(completion: @escaping () -> Void) {
         let downloadQueue = DispatchQueue(label: "Download Vehicles")
         downloadQueue.async {
             if let data = VehicleViewModel.load(){
                 DispatchQueue.main.async {
                     self.model.importFromJson(data: data)
+                    completion()
                 }
             }
         }
@@ -64,6 +67,22 @@ class VehicleViewModel: ObservableObject {
         }
     }
     
+    func updateMillage(vehicleId: Int, toAddMilage: Double){
+        self.downloadAllVehicles(){
+            if let toUpdateVehicle = self.model.updateMillage(vehicleId: vehicleId, toAddMilage: toAddMilage) {
+                self.saveCarToDatabase(vehicle: toUpdateVehicle, httpMethod: "PUT") { success in
+                    if success {
+                        self.LOG.info("🟢 Trip Saved in Database")
+                    } else {
+                        self.LOG.error("🔴 Trip not saved in Database")
+                    }
+                }
+            } else {
+                self.LOG.error("🔴 Vehicle couldn't be found")
+            }
+        }
+    }
+    
     func deleteVehicle(_ vehicle: Vehicle) {
         let finalUrl =  "\(DATABASE)/\(vehicle.id ?? -1)"
         
@@ -81,7 +100,7 @@ class VehicleViewModel: ObservableObject {
                     print("Fehler: \(error)")
                 } else if let data = data {
                     print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
-                    self.downloadAllVehicles()
+                    self.downloadAllVehicles(){}
                 } else {
                     print("Keine Daten erhalten")
                 }
@@ -93,7 +112,10 @@ class VehicleViewModel: ObservableObject {
     
     func saveCarToDatabase(vehicle: Vehicle, httpMethod: String, completion: @escaping (Bool) -> Void) {
         var success = true
-        let finalUrl =  "\(DATABASE)"
+        var finalUrl =  "\(DATABASE)"
+        if(httpMethod == "PUT"){
+            finalUrl = "\(DATABASE)/\(vehicle.id ?? -1)"
+        }
         
         if let url = URL(string: finalUrl){
             print(finalUrl)
@@ -112,13 +134,13 @@ class VehicleViewModel: ObservableObject {
             let task = session.dataTask(with: request) { data, response, error in
                 // Handle die Antwort vom Server
                 if let error = error {
-                    print("Fehler: \(error)")
+                    self.LOG.error("🔴 Fehler: \(error)")
                     success = false
                 } else if let data = data {
-                    print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
-                    self.downloadAllVehicles()
+                    self.LOG.info("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
+                    self.downloadAllVehicles(){}
                 } else {
-                    print("Keine Daten erhalten")
+                    self.LOG.debug("Keine Daten erhalten")
                     success = false
                 }
             }

@@ -5,11 +5,13 @@
 //  Created by Peter Klose on 29.03.23.
 //
 import Foundation
+import OSLog
 
 struct VehicleModel {
     private (set) var vehicles = [Vehicle]()
     
     static let DATABASE = "http://localhost:3000/vehicles"
+    let LOG = Logger()
     
     mutating func importFromJson(data: Data) {
         if let dowloadedVehicles = try? JSONDecoder().decode([Vehicle].self, from: data){
@@ -21,6 +23,22 @@ struct VehicleModel {
     mutating func choose(_ chosenVehicle: Vehicle){
         // change data
     }
+    mutating func updateMillage(vehicleId: Int, toAddMilage: Double) -> Vehicle? {
+        if let index = vehicles.firstIndex(where: { $0.id == vehicleId }) {
+            if let mileage = Double(vehicles[index].milage) {
+                let newMileage = mileage + (toAddMilage / 1000)
+                var vehicle = vehicles[index]
+                vehicle.milage = String(newMileage)
+                return vehicle
+            } else {
+                self.LOG.error("🔴 Something is wrong with Millage")
+            }
+        } else {
+            self.LOG.error("🔴 Vehicle couldn't be found")
+        }
+        return nil
+    }
+    
 }
 
 struct Vehicle: Codable, Identifiable, Hashable {

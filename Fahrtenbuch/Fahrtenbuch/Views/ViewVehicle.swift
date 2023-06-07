@@ -29,7 +29,7 @@ struct ViewVehicle: View {
             }
             .navigationTitle("Fahrzeuge")
             .onAppear(perform: {
-                vehicleViewModel.downloadAllVehicles()
+                vehicleViewModel.downloadAllVehicles(){}
             })
             .toolbar(){
                 ToolbarItemGroup(placement:
