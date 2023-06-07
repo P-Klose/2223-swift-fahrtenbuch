@@ -14,7 +14,7 @@ struct ViewVehicle: View {
     
     var filteredCars: [Vehicle] {
         guard !searchTerm.isEmpty else { return vehicleViewModel.vehicles}
-        return vehicleViewModel.vehicles.filter { $0.numberplate.localizedCaseInsensitiveContains(searchTerm)}
+        return vehicleViewModel.vehicles.filter { $0.getFullName().localizedCaseInsensitiveContains(searchTerm)}
     }
     
     
@@ -55,12 +55,12 @@ struct ViewVehicle: View {
                 
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
-                            Button(action: {
+                            /*Button(action: {
                                 print("Search pressed")
                             },label: {
                                 Image(systemName: "magnifyingglass")
                                     .foregroundColor(.gray)
-                            })
+                            })*/
                             
                             Button(action: {
                                 showVehicleCreateForm.toggle()
