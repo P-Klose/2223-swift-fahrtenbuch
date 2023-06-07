@@ -58,7 +58,6 @@ struct ViewTrips: View {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                             .fill(.white.shadow(.drop(radius: 2)))
                     }
-                    //                    TripDiagramView(mapViewModel: mapViewModel)
                     VStack {
                         Picker("Fahrzeug", selection: $selectedVehicleId) {
                             Text("bitte auswählen")
@@ -86,12 +85,6 @@ struct ViewTrips: View {
                                 Text("Am: \(formattedDate(for: trip.date))")
                                 Text("Gefahren Strecke: \(trip.length)km")
                             }
-                            //                                .overlay(
-                            //                                    Rectangle()
-                            //                                        .frame(height: 4)
-                            //                                        .foregroundColor(.blue),
-                            //                                    alignment: .bottom
-                            //                                )
                         }
                     }
                     .padding()
@@ -114,15 +107,9 @@ struct ViewTrips: View {
                 case "Monat":
                     chartDisplayUnit = Calendar.Component.day
                     trips = tripViewModel.generateMonthlyTrips()
-//                    for (index,_) in trips.enumerated() {
-//                        trips[index].length = .random(in: 0...500)
-//                    }
                 case "Jahr":
                     chartDisplayUnit = Calendar.Component.month
                     trips = tripViewModel.generateYearlyTrips()
-//                    for (index,_) in trips.enumerated() {
-//                        trips[index].length = .random(in: 100...5000)
-//                    }
                 default:
                     return
                 }
@@ -159,20 +146,6 @@ struct ViewTrips: View {
             } else {
                 AxisMarks()
             }
-            // NOTE: Custom Axis Marks but a little bit buggy
-//            if currentTab == "Woche" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.weekday(.short))
-//                }
-//            }
-//            if currentTab == "Monat" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
-//                }
-//            }
-
-            
-            
         }
         .onAppear {
             //            animateGraph()

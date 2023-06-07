@@ -22,17 +22,11 @@ struct TripModel {
     }
     mutating func importFromJson(data: Data) {
         LOG.info("Data: \(data)")
-//        let decoder = JSONDecoder()
-//        decoder.dateDecodingStrategy = .iso8601
-        
         if let dowloadedTrips = try? JSONDecoder().decode([TripDto].self, from: data){
             let myTrips = dowloadedTrips.map { Trip(dto: $0) }
             trips = myTrips
         }
     }
-//    mutating func animateTrip (index: Int){
-//        trips[index].animate = true
-//    }
 }
 
 struct Trip: Codable, Identifiable, Hashable {
