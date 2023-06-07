@@ -16,12 +16,12 @@ class TripViewModel: ObservableObject {
     var trips:[Trip] {
         tripModel.trips
     }
-
+    
     
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
     let vehicleViewModel = VehicleViewModel()
-
+    
     var recording = false
     var isStopped = false
     var selectedVehicleId = -1
@@ -30,17 +30,17 @@ class TripViewModel: ObservableObject {
     let LOG = Logger()
     
     func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
-        let toSaveTrip = Trip(id: trips.count, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
+        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
         vehicleViewModel.updateMillage(vehicleId: vehicleId, toAddMilage: distanceTraveled)
         // ONLY Working if Trp has nil as ID but problems in displaying otherwise
-        //        saveTripToDatabase(trip: toSaveTrip){ success in
-        //            if success {
-        //                self.LOG.info("🟢 Trip Saved in Database")
-        //            } else {
-        //                self.LOG.error("🔴 Trip not saved in Database")
-        //            }
-        //        }
-        self.tripModel.add(trip: toSaveTrip)
+        saveTripToDatabase(trip: toSaveTrip) { success in
+            if success {
+                self.LOG.info("🟢 Trip Saved in Database")
+            } else {
+                self.LOG.error("🔴 Trip not saved in Database")
+            }
+        }
+        //        self.tripModel.add(trip: toSaveTrip)
         LOG.info("#of trips \(self.tripModel.trips.count)")
     }
     private func IntArrayToCoordinatesUsing(numbers: [[Double]]) -> [Coordinate] {
@@ -50,12 +50,12 @@ class TripViewModel: ObservableObject {
         }
         return finalCoordinates
     }
-
-//    func animateTrip(index: Int) {
-//        tripModel.animateTrip(index: index)
-//    }
     
-    func saveTripToDatabase(trip: Trip) -> Bool {
+    //    func animateTrip(index: Int) {
+    //        tripModel.animateTrip(index: index)
+    //    }
+    
+    func saveTripToDatabase(trip: Trip, completion: @escaping (Bool) -> Void) {
         var success = true
         let finalUrl = "\(DATABASE)"
         
@@ -91,7 +91,7 @@ class TripViewModel: ObservableObject {
         } else {
             success = false
         }
-        return success
+        completion(success)
     }
     
     func downloadAllTrips() {
@@ -106,12 +106,12 @@ class TripViewModel: ObservableObject {
         }
     }
     static func load() -> Data? {
-            var data: Data?
-            if let url = URL(string: TripModel.DATABASE) {
-                data = try? Data(contentsOf: url)
-            }
-            return data
+        var data: Data?
+        if let url = URL(string: TripModel.DATABASE) {
+            data = try? Data(contentsOf: url)
         }
+        return data
+    }
     
     
     func generateYearlyTrips() -> [Trip] {
@@ -137,19 +137,19 @@ class TripViewModel: ObservableObject {
     func generateWeeklyTrips() -> [Trip] {
         let currentDate = Date()
         let calendar = Calendar.current
-
+        
         var expenses = [Trip]()
-
+        
         // Generiere Ausgaben für jeden Wochentag der aktuellen Woche
         for day in 1...7 {
             guard let weekday = calendar.date(byAdding: .day, value: day - calendar.component(.weekday, from: currentDate), to: currentDate) else {
                 continue
             }
-
+            
             let expense = Trip(length: calculateExpenseSum(for: weekday), date: weekday, vehicleId: -1)
             expenses.append(expense)
         }
-
+        
         return expenses
     }
     
@@ -158,9 +158,9 @@ class TripViewModel: ObservableObject {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: currentDate)
         let currentMonth = calendar.component(.month, from: currentDate)
-
+        
         var expenses = [Trip]()
-
+        
         // Generiere Ausgaben für jeden Tag des aktuellen Monats
         if let range = calendar.range(of: .day, in: .month, for: currentDate) {
             for day in range {
@@ -168,12 +168,12 @@ class TripViewModel: ObservableObject {
                 guard let dayDate = calendar.date(from: dayDateComponents) else {
                     continue
                 }
-
+                
                 let expense = Trip(length: calculateExpenseSum(for: dayDate), date: dayDate, vehicleId: -1)
                 expenses.append(expense)
             }
         }
-
+        
         return expenses
     }
     
@@ -200,4 +200,4 @@ class TripViewModel: ObservableObject {
     
 }
 
-    
+

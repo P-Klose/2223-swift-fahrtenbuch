@@ -23,15 +23,15 @@
       "id": 1
     },
     {
-      "numberplate": "UU455FF",
-      "model": "A3",
-      "vin": "",
-      "imageUrl": "",
       "make": "Audi",
-      "vehicleType": "PKW",
+      "milage": "32000.910958531633",
       "fuelType": "Kraftstoff",
-      "milage": "32000",
-      "id": 3
+      "id": 3,
+      "vin": "",
+      "model": "A3",
+      "imageUrl": "",
+      "vehicleType": "PKW",
+      "numberplate": "UU455FF"
     },
     {
       "numberplate": "UU",
@@ -2309,6 +2309,149 @@
       "date": 707578113.466988,
       "id": 11,
       "isPrivat": false
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.42160254,
+          "latitude": -122.22475346
+        },
+        {
+          "id": 1,
+          "longitude": 37.42180622,
+          "latitude": -122.225047
+        },
+        {
+          "id": 2,
+          "longitude": 37.42201069,
+          "latitude": -122.22533902
+        },
+        {
+          "id": 3,
+          "longitude": 37.42221534,
+          "latitude": -122.22563264
+        },
+        {
+          "id": 4,
+          "longitude": 37.42241462,
+          "latitude": -122.22592475
+        },
+        {
+          "id": 5,
+          "longitude": 37.42261989,
+          "latitude": -122.22622172
+        },
+        {
+          "id": 6,
+          "longitude": 37.4228281,
+          "latitude": -122.22651609
+        },
+        {
+          "id": 7,
+          "longitude": 37.42303224,
+          "latitude": -122.22680837
+        },
+        {
+          "id": 8,
+          "longitude": 37.42323378,
+          "latitude": -122.22710299
+        },
+        {
+          "id": 9,
+          "longitude": 37.4234391,
+          "latitude": -122.22739879
+        },
+        {
+          "id": 10,
+          "longitude": 37.42364424,
+          "latitude": -122.22769744
+        },
+        {
+          "id": 11,
+          "longitude": 37.42384553,
+          "latitude": -122.22799483
+        },
+        {
+          "id": 12,
+          "longitude": 37.42404586,
+          "latitude": -122.22828543
+        },
+        {
+          "id": 13,
+          "longitude": 37.42425797,
+          "latitude": -122.228585
+        },
+        {
+          "id": 14,
+          "longitude": 37.42447057,
+          "latitude": -122.22888717
+        },
+        {
+          "id": 15,
+          "longitude": 37.42467819,
+          "latitude": -122.22918858
+        },
+        {
+          "id": 16,
+          "longitude": 37.42488967,
+          "latitude": -122.22949008
+        },
+        {
+          "id": 17,
+          "longitude": 37.42510651,
+          "latitude": -122.22979057
+        },
+        {
+          "id": 18,
+          "longitude": 37.42533181,
+          "latitude": -122.230081
+        },
+        {
+          "id": 19,
+          "longitude": 37.42556261,
+          "latitude": -122.23036783
+        },
+        {
+          "id": 20,
+          "longitude": 37.42579001,
+          "latitude": -122.23064896
+        },
+        {
+          "id": 21,
+          "longitude": 37.42602726,
+          "latitude": -122.23093034
+        },
+        {
+          "id": 22,
+          "longitude": 37.42625701,
+          "latitude": -122.23121884
+        },
+        {
+          "id": 23,
+          "longitude": 37.42648156,
+          "latitude": -122.23149125
+        },
+        {
+          "id": 24,
+          "longitude": 37.42670804,
+          "latitude": -122.23176442
+        },
+        {
+          "id": 25,
+          "longitude": 37.42693422,
+          "latitude": -122.2320453
+        },
+        {
+          "id": 26,
+          "longitude": 37.42715911,
+          "latitude": -122.23231779
+        }
+      ],
+      "vehicleId": 3,
+      "length": 910.9585316341552,
+      "date": 707821516.902286,
+      "id": 12
     }
   ]
 }
