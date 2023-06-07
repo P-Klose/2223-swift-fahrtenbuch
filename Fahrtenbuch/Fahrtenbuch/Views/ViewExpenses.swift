@@ -144,6 +144,7 @@ struct ViewExpenses: View {
     
     @ViewBuilder
     func AnimatedChart() -> some View {
+ 
         let max = expenseViewModel.summ()
         Chart {
 //            let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
@@ -259,6 +260,9 @@ struct DesciptionView: View {
 }
 
 struct ExpensesFormView: View {
+    
+    
+    
     @ObservedObject var vehicleVM: vvm
     @ObservedObject var expenseVM: evm
     
@@ -277,10 +281,10 @@ struct ExpensesFormView: View {
     @State private var date = Date()
     @State private var selectedExpenseType: ExpenseType = .other
     @State private var selectedVehicleId = -1
-    
-    
+
     var body: some View {
         
+
         NavigationView{
             Form {
                 Section {
@@ -306,6 +310,8 @@ struct ExpensesFormView: View {
                         displayedComponents: [.date]
                     )
                     .datePickerStyle(.automatic)
+                    .environment(\.locale, Locale(identifier: "de_DE"))
+
                 }
             }
             .navigationTitle("Ausgabe hinzufügen")

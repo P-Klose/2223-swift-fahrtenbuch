@@ -68,9 +68,13 @@ struct ViewTrips: View {
                         }
                         DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)
                             .datePickerStyle(.automatic)
+                            .environment(\.locale, Locale(identifier: "de_DE"))
+
                         
                         DatePicker("End-Datum", selection: $endDate, in: startDate..., displayedComponents: .date)
                             .datePickerStyle(.automatic)
+                            .environment(\.locale, Locale(identifier: "de_DE"))
+
                         
                     }
                     .padding()
