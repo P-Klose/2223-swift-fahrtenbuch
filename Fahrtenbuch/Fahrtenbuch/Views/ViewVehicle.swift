@@ -10,28 +10,49 @@ import SwiftUI
 struct ViewVehicle: View {
     @State var showVehicleCreateForm = false
     @ObservedObject var vehicleViewModel: VehicleViewModel
+    @State private var searchTerm = "";
+    
+    var filteredCars: [Vehicle] {
+        guard !searchTerm.isEmpty else { return vehicleViewModel.vehicles}
+        return vehicleViewModel.vehicles.filter { $0.numberplate.localizedCaseInsensitiveContains(searchTerm)}
+    }
+    
     
     var body: some View {
         NavigationStack {
             List {
+                 ForEach(filteredCars, id: \.id) { vehicle in
+                     NavigationLink(value: vehicle) {
+                         Label(vehicle.numberplate, systemImage: "car.fill")
+                         Text(vehicle.make)
+                         Text(vehicle.model)
+                     }
+                 }
+             }
+             .navigationDestination(for: Vehicle.self) { vehicle in
+                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
+            
+           /* List {
                 ForEach(vehicleViewModel.vehicles, id: \.id) { vehicle in
                     NavigationLink(value: vehicle) {
                         Label(vehicle.numberplate, systemImage: "car.fill")
                         Text(vehicle.make)
                         Text(vehicle.model)
-                        
                     }
                 }
             }
             .navigationDestination(for: Vehicle.self) { vehicle in
                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-                
+                */
             }
             .navigationTitle("Fahrzeuge")
+            .searchable(text: $searchTerm, prompt: "Suche nach Autos")
             .onAppear(perform: {
                 vehicleViewModel.downloadAllVehicles(){}
+
             })
             .toolbar(){
+                
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
