@@ -47,23 +47,6 @@
   ],
   "trips": [
     {
-      "id": 0,
-      "length": 10,
-      "date": "",
-      "coordinates": [
-        {
-          "id": 0,
-          "latitude": -122.07904631,
-          "longitude": 37.33442102
-        },
-        {
-          "id": 1,
-          "latitude": -122.0793639,
-          "longitude": 37.33457244
-        }
-      ]
-    },
-    {
       "date": 705395534.918617,
       "coordinates": [
         {
@@ -132,8 +115,10 @@
           "latitude": -122.03455442
         }
       ],
+      "vehicleId": 0,
       "length": 0,
-      "id": 1
+      "id": 1,
+      "isPrivat": false
     },
     {
       "date": 705395914.91502,
@@ -189,8 +174,10 @@
           "latitude": -122.15096748
         }
       ],
+      "vehicleId": 0,
       "length": 0,
-      "id": 2
+      "id": 2,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -218,7 +205,8 @@
       "vehicleId": 1,
       "length": 100.34974438664946,
       "date": 705998487.228023,
-      "id": 3
+      "id": 3,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -461,7 +449,8 @@
       "vehicleId": 2,
       "length": 1079.9550151279584,
       "date": 706009329.605847,
-      "id": 4
+      "id": 4,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -519,7 +508,8 @@
       "vehicleId": 2,
       "length": 310.5559315428294,
       "date": 706011048.474679,
-      "id": 5
+      "id": 5,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -937,7 +927,8 @@
       "vehicleId": 2,
       "length": 394.20495141799927,
       "date": 706619349.184896,
-      "id": 6
+      "id": 6,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -2180,7 +2171,8 @@
       "vehicleId": 0,
       "length": 1478.9460425752673,
       "date": 706622736.894266,
-      "id": 7
+      "id": 7,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -2213,7 +2205,8 @@
       "vehicleId": 3,
       "length": 33.681384328434056,
       "date": 707576405.28043,
-      "id": 8
+      "id": 8,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -2241,7 +2234,8 @@
       "vehicleId": 2,
       "length": 25.019798325989303,
       "date": 707576456.313182,
-      "id": 9
+      "id": 9,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -2269,7 +2263,8 @@
       "vehicleId": 3,
       "length": 23.567426468937377,
       "date": 707576552.318622,
-      "id": 10
+      "id": 10,
+      "isPrivat": false
     },
     {
       "coordinates": [
@@ -2312,7 +2307,8 @@
       "vehicleId": 2,
       "length": 44.52601708009915,
       "date": 707578113.466988,
-      "id": 11
+      "id": 11,
+      "isPrivat": false
     }
   ]
 }

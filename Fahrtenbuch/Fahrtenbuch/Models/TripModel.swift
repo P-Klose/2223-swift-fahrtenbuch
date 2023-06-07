@@ -21,17 +21,18 @@ struct TripModel {
         trips.append(trip)
     }
     mutating func importFromJson(data: Data) {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        LOG.info("Data: \(data)")
+//        let decoder = JSONDecoder()
+//        decoder.dateDecodingStrategy = .iso8601
         
-        if let dowloadedTrips = try? decoder.decode([Trip].self, from: data){
-            trips = dowloadedTrips
-
+        if let dowloadedTrips = try? JSONDecoder().decode([TripDto].self, from: data){
+            let myTrips = dowloadedTrips.map { Trip(dto: $0) }
+            trips = myTrips
         }
     }
-    mutating func animateTrip (index: Int){
-        trips[index].animate = true
-    }
+//    mutating func animateTrip (index: Int){
+//        trips[index].animate = true
+//    }
 }
 
 struct Trip: Codable, Identifiable, Hashable {
@@ -41,7 +42,31 @@ struct Trip: Codable, Identifiable, Hashable {
     var date: Date
     var vehicleId: Int
     var isPrivat: Bool?
-    var animate: Bool = false
+//    var animate: Bool = false
+}
+extension Trip {
+    init(dto: TripDto) {
+        self.id = dto.id
+        self.coordinates = dto.coordinates
+        self.length = dto.length ?? 0.0
+        if let timestamp = dto.date {
+            self.date = Date(timeIntervalSince1970: timestamp)
+        } else {
+            self.date = Date()
+        }
+        self.vehicleId = dto.vehicleId
+        self.isPrivat = dto.isPrivat
+    }
+}
+
+struct TripDto: Codable, Identifiable, Hashable {
+    var id: Int?
+    var coordinates: [Coordinate]?
+    var length: Double?
+    var date: TimeInterval?
+    var vehicleId: Int
+    var isPrivat: Bool?
+//    var animate: Bool = false
 }
 
 struct Coordinate: Codable, Identifiable, Hashable {

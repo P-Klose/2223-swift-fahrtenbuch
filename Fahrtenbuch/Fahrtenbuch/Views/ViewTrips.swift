@@ -114,21 +114,22 @@ struct ViewTrips: View {
                 case "Monat":
                     chartDisplayUnit = Calendar.Component.day
                     trips = tripViewModel.generateMonthlyTrips()
-                    for (index,_) in trips.enumerated() {
-                        trips[index].length = .random(in: 0...500)
-                    }
+//                    for (index,_) in trips.enumerated() {
+//                        trips[index].length = .random(in: 0...500)
+//                    }
                 case "Jahr":
                     chartDisplayUnit = Calendar.Component.month
                     trips = tripViewModel.generateYearlyTrips()
-                    for (index,_) in trips.enumerated() {
-                        trips[index].length = .random(in: 100...5000)
-                    }
+//                    for (index,_) in trips.enumerated() {
+//                        trips[index].length = .random(in: 100...5000)
+//                    }
                 default:
                     return
                 }
                 //animateGraph()
             }
             .onAppear(perform: {
+                tripViewModel.downloadAllTrips()
                 trips = tripViewModel.generateWeeklyTrips()
             })
         }

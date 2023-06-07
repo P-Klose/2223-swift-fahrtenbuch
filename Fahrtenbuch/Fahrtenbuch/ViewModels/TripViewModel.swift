@@ -96,6 +96,7 @@ class TripViewModel: ObservableObject {
     
     func downloadAllTrips() {
         let downloadQueue = DispatchQueue(label: "Download Trips")
+        LOG.info("ℹ️ Start Downloading Trips")
         downloadQueue.async {
             if let data = TripViewModel.load(){
                 DispatchQueue.main.async {
@@ -126,7 +127,7 @@ class TripViewModel: ObservableObject {
                 continue
             }
             
-            let trip = Trip(length: calculateExpenseSum(forMonth: month), date: monthDate, vehicleId: -1)
+            let trip = Trip(length: calculateExpenseSum(for: month), date: monthDate, vehicleId: -1)
             yearlyTrips.append(trip)
         }
         
@@ -145,7 +146,7 @@ class TripViewModel: ObservableObject {
                 continue
             }
 
-            let expense = Trip(length: calculateExpenseSum(forDay: weekday), date: weekday, vehicleId: -1)
+            let expense = Trip(length: calculateExpenseSum(for: weekday), date: weekday, vehicleId: -1)
             expenses.append(expense)
         }
 
@@ -168,7 +169,7 @@ class TripViewModel: ObservableObject {
                     continue
                 }
 
-                let expense = Trip(length: calculateExpenseSum(forDay: dayDate), date: dayDate, vehicleId: -1)
+                let expense = Trip(length: calculateExpenseSum(for: dayDate), date: dayDate, vehicleId: -1)
                 expenses.append(expense)
             }
         }
@@ -177,14 +178,14 @@ class TripViewModel: ObservableObject {
     }
     
     
-    func calculateExpenseSum(forMonth month: Int) -> Double {
+    func calculateExpenseSum(for month: Int) -> Double {
         let calendar = Calendar.current
         let filteredExpenses = trips.filter { calendar.component(.month, from: $0.date) == month }
         let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.length }
         return expenseSum
     }
     
-    func calculateExpenseSum(forDay day: Date) -> Double {
+    func calculateExpenseSum(for day: Date) -> Double {
         let calendar = Calendar.current
         let filteredExpenses = trips.filter { calendar.isDate($0.date, inSameDayAs: day) }
         
