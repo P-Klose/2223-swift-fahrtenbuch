@@ -26,7 +26,7 @@ struct ViewRides: View {
     @StateObject  var mapViewModel: MapViewModel
     @ObservedObject var vehicleViewModel: VehicleViewModel
     
-    @State private var selectedVehicleId = -1
+    @State private var selectedVehicle = -1
     @State private var showAlert = false
     
     let LOG = Logger()
@@ -43,7 +43,7 @@ struct ViewRides: View {
                     Form {
                         Section{
                             List {
-                                Picker("Fahrzeug", selection: $selectedVehicleId) {
+                                Picker("Fahrzeug", selection: $selectedVehicle) {
                                     Text("bitte auswählen")
                                         .tag(-1)
                                     ForEach(vehicleViewModel.vehicles.indices, id: \.self) { index in
@@ -58,11 +58,12 @@ struct ViewRides: View {
                         
                         Section {
                             Button(action: {
-                                if selectedVehicleId != -1 {
+                                buttonStartPressed()
+                                if selectedVehicle != -1 {
                                     startTime = .now
-                                    let attributes = DriveAttributes(vehicleName: vehicleViewModel.vehicles[selectedVehicleId].getName())
+                                    let attributes = DriveAttributes(vehicleName: vehicleViewModel.vehicles[selectedVehicle].getName())
                                     let state = DriveAttributes.ContentState(startTime: .now, distance: 0)
-                                    
+                                    let selectedVehicleId = vehicleViewModel.vehicles[selectedVehicle].getId()
                                     activity = try? Activity<DriveAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
                                     
                                     mapViewModel.startRecording(vehicle: selectedVehicleId, isPrivat: privateTrip)
@@ -106,7 +107,7 @@ struct ViewRides: View {
     }
     
     func buttonStartPressed(){
-        
+        LOG.info("SelectedvehicleId: \(selectedVehicle)")
     }
     
     func buttonStopPressed(){

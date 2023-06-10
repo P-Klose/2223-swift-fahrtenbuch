@@ -24,7 +24,10 @@ struct VehicleModel {
         // change data
     }
     mutating func updateMillage(vehicleId: Int, toAddMilage: Double) -> Vehicle? {
+        LOG.info("vehicleid: \(vehicleId)")
         if let index = vehicles.firstIndex(where: { $0.id == vehicleId }) {
+            LOG.info("Index: \(index)")
+//            LOG.info("Vehicleid at index: \(self.vehicles[index].getFullName())")
             if let mileage = Double(vehicles[index].milage) {
                 let newMileage = mileage + (toAddMilage / 1000)
                 var vehicle = vehicles[index]
@@ -61,6 +64,9 @@ struct Vehicle: Codable, Identifiable, Hashable {
     }
     func getSortName() -> String {
         return numberplate + " " + make + " " + model
+    }
+    func getId() -> Int {
+        return id ?? -1
     }
     
 }

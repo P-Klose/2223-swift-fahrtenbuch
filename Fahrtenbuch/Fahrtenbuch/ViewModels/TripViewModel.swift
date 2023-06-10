@@ -77,7 +77,7 @@ class TripViewModel: ObservableObject {
                     print("Fehler: \(error)")
                     success = false
                 } else if let data = data {
-                    print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
+//                    print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
                     //self.downloadAllTrips()
                 } else {
                     print("Keine Daten erhalten")
