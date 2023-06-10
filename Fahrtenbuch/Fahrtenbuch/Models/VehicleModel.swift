@@ -59,6 +59,9 @@ struct Vehicle: Codable, Identifiable, Hashable {
     func getFullName() -> String {
         return "\(id ?? -1) " + make + " " + model
     }
+    func getSortName() -> String {
+        return numberplate + " " + make + " " + model
+    }
     
 }
 

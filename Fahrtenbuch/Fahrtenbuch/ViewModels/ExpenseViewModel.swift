@@ -140,7 +140,7 @@ class ExpenseViewModel: ObservableObject {
     func calculateExpenseSum(forDay day: Date, expenseIndex: Int) -> Double {
         let calendar = Calendar.current
         let filteredExpenses = expenses[expenseIndex].filter {
-            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
+//            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
             return calendar.isDate($0.date, inSameDayAs: day)
             
         }

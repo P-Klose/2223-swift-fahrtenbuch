@@ -14,7 +14,7 @@ struct ViewVehicle: View {
     
     var filteredCars: [Vehicle] {
         guard !searchTerm.isEmpty else { return vehicleViewModel.vehicles}
-        return vehicleViewModel.vehicles.filter { $0.getFullName().localizedCaseInsensitiveContains(searchTerm)}
+        return vehicleViewModel.vehicles.filter { $0.getSortName().localizedCaseInsensitiveContains(searchTerm)}
     }
     
     

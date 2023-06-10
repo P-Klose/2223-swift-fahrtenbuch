@@ -144,7 +144,7 @@ class TripViewModel: ObservableObject {
             guard let weekday = calendar.date(byAdding: .day, value: day - calendar.component(.weekday, from: currentDate), to: currentDate) else {
                 continue
             }
-            LOG.debug("WeekDay: \(weekday) Day: \(day)")
+//            LOG.debug("WeekDay: \(weekday) Day: \(day)")
             
             let expense = Trip(length: calculateExpenseSum(for: weekday), date: weekday, vehicleId: -1)
             expenses.append(expense)
@@ -189,7 +189,7 @@ class TripViewModel: ObservableObject {
         let calendar = Calendar.current
         
         let filteredExpenses = trips.filter {
-            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
+//            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
             return calendar.isDate($0.date, inSameDayAs: day)
             
         }
