@@ -181,7 +181,7 @@ struct VehicleFormView: View {
                     TextField("Kennzeichen:",text: $numberplateTextField)
                 }
                 Section {
-                    Picker("", selection: $vehicleType) {
+                    Picker("Fahrzeugtyp", selection: $vehicleType) {
                         Text("PKW")
                             .tag("PKW")
                         Text("LKW")
@@ -189,7 +189,7 @@ struct VehicleFormView: View {
                         Text("Oldtimer")
                             .tag("Oldtimer")
                     }
-                    Picker("", selection: $vehicleType) {
+                    Picker("Treibstoffart", selection: $fuelType) {
                         Text("Kraftstoff")
                             .tag("Kraftstoff")
                         Text("Elekto")

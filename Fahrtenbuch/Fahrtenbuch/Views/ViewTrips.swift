@@ -62,8 +62,9 @@ struct ViewTrips: View {
                         Picker("Fahrzeug", selection: $selectedVehicleId) {
                             Text("bitte auswählen")
                                 .tag(-1)
-                            ForEach(vehicleViewModel.vehicles.indices) { index in
-                                Text(self.vehicleViewModel.vehicles[index].getName()).tag(index)
+                            ForEach(vehicleViewModel.vehicles.indices, id: \.self) { index in
+                                Text(vehicleViewModel.vehicles[index].getName())
+                                    .tag(vehicleViewModel.vehicles[index].id)
                             }
                         }
                         DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)

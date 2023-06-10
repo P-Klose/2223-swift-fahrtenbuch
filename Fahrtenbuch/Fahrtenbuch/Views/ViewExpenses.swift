@@ -291,8 +291,9 @@ struct ExpensesFormView: View {
                     TextField("Preis:", text: $value).keyboardType(.numberPad)
                     Picker("Fahrzeug", selection: $selectedVehicleId) {
                         Text("bitte auswählen")
-                        ForEach(vehicleVM.vehicles.indices) { index in
-                            Text(self.vehicleVM.vehicles[index].getName()).tag(index)
+                        ForEach(vehicleVM.vehicles.indices, id: \.self) { index in
+                            Text(vehicleVM.vehicles[index].getName())
+                                .tag(vehicleVM.vehicles[index].id)
                         }
                     }
                     
