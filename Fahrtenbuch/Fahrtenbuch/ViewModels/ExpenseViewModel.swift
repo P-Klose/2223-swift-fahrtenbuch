@@ -10,13 +10,35 @@ import OSLog
 
 class ExpenseViewModel: ObservableObject {
     
-    private final let DATABASE = "http://localhost:3000/expenses"
+    private final let DATABASE = ExpenseModel.DATABASE
     
     let LOG = Logger()
     @Published private var model = ExpenseModel()
     var expenses: [Expense] {
         model.expenses
     }
+    
+    func downloadAllExpenses(completion: @escaping () -> Void){
+        let downloadQueue = DispatchQueue(label: "Download Trips")
+        LOG.info("ℹ️ Start Downloading Expenses")
+        downloadQueue.async {
+            if let data = ExpenseViewModel.load(){
+                DispatchQueue.main.async {
+                    self.model.importFromJson(data: data)
+                    completion()
+                }
+            }
+        }
+    }
+    static func load() -> Data? {
+        var data: Data?
+        if let url = URL(string: ExpenseModel.DATABASE) {
+            data = try? Data(contentsOf: url)
+        }
+        return data
+    }
+    
+    
     
     func reloadAllExpenses() {
         model.initData()
@@ -36,32 +58,67 @@ class ExpenseViewModel: ObservableObject {
     }
     
     func saveExpenses(in _Type: String, vehicleId: Int, expenseValue: Double, onDate: Date) {
+        var expenseType = -1
         switch _Type {
         case "gas":
-            saveGas(value: expenseValue, vehicleId: vehicleId, date: onDate)
+            expenseType = 0
         case "parking":
-            saveParking(value: expenseValue, vehicleId: vehicleId, date: onDate)
+            expenseType = 1
         case "cleaning":
-            saveCleaning(value: expenseValue, vehicleId: vehicleId, date: onDate)
-            
+            expenseType = 2
         default:
-            saveOther(value: expenseValue, vehicleId: vehicleId, date: onDate)
+            expenseType = 3
         }
-    }
-    private func saveGas(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(expenseType: 0, expenseValue: value, vehicleId: vehicleId, date: date)
+        let toSaveExpense = Expense(date: onDate, expenseValue: expenseValue, expenseType: expenseType, vehicleId: vehicleId)
+        
+        saveExpenseToDatabase(expense: toSaveExpense) { success in
+            if success {
+                self.LOG.info("🟢 Expense Saved in Database")
+            } else {
+                self.LOG.error("🔴 Expense not saved in Database")
+            }
+        }
+        //        self.tripModel.add(trip: toSaveTrip)
+        LOG.info("#of expenses \(self.model.expenses.count)")
     }
     
-    private func saveParking(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(expenseType: 1, expenseValue: value, vehicleId: vehicleId, date: date)
-    }
-    
-    private func saveCleaning(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(expenseType: 2, expenseValue: value, vehicleId: vehicleId, date: date)
-    }
-    
-    private func saveOther(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(expenseType: 3, expenseValue: value, vehicleId: vehicleId, date: date)
+    func saveExpenseToDatabase(expense: Expense, completion: @escaping (Bool) -> Void) {
+        var success = true
+        let finalUrl = "\(DATABASE)"
+        
+        if let url = URL(string: finalUrl){
+            print(finalUrl)
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let encoder = JSONEncoder()
+            let jsonData = try! encoder.encode(expense)
+            request.httpBody = jsonData
+            
+            // Erstelle die URLSession und den Datentask
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { data, response, error in
+                // Handle die Antwort vom Server
+                if let error = error {
+                    print("Fehler: \(error)")
+                    success = false
+                } else if let data = data {
+//                    print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
+                    //self.downloadAllTrips()
+                } else {
+                    print("Keine Daten erhalten")
+                    success = false
+                }
+            }
+            // Starte den Datentask
+            task.resume()
+        } else {
+            success = false
+        }
+        completion(success)
     }
     
     
