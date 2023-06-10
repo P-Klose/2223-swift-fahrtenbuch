@@ -14,7 +14,7 @@ class ExpenseViewModel: ObservableObject {
     
     let LOG = Logger()
     @Published private var model = ExpenseModel()
-    var expenses: [[Expense]] {
+    var expenses: [Expense] {
         model.expenses
     }
     
@@ -26,13 +26,13 @@ class ExpenseViewModel: ObservableObject {
         return summGas()+summPark()+summWash()
     }
     func summGas() -> Double{
-        expenses[0].reduce(0.0, { $0 + Double($1.expenseValue) })
+        expenses.filter { $0.expenseType == 0 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
     func summPark() -> Double{
-        expenses[1].reduce(0.0, { $0 + Double($1.expenseValue) })
+        expenses.filter { $0.expenseType == 1 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
     func summWash() -> Double{
-        expenses[2].reduce(0.0, { $0 + Double($1.expenseValue) })
+        expenses.filter { $0.expenseType == 2 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
     
     func saveExpenses(in _Type: String, vehicleId: Int, expenseValue: Double, onDate: Date) {
@@ -49,19 +49,19 @@ class ExpenseViewModel: ObservableObject {
         }
     }
     private func saveGas(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(IndexKey: 0, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+        model.addExpense(expenseType: 0, expenseValue: value, vehicleId: vehicleId, date: date)
     }
     
     private func saveParking(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(IndexKey: 1, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+        model.addExpense(expenseType: 1, expenseValue: value, vehicleId: vehicleId, date: date)
     }
     
     private func saveCleaning(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(IndexKey: 2, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+        model.addExpense(expenseType: 2, expenseValue: value, vehicleId: vehicleId, date: date)
     }
     
     private func saveOther(value: Double, vehicleId: Int, date: Date){
-        model.addExpense(IndexKey: 3, expenseValue: value, vehicleId: vehicleId, date: date, amount: nil)
+        model.addExpense(expenseType: 3, expenseValue: value, vehicleId: vehicleId, date: date)
     }
     
     
@@ -78,7 +78,7 @@ class ExpenseViewModel: ObservableObject {
                 continue
             }
             
-            let expense = Expense(date: monthDate, expenseValue: calculateExpenseSum(forMonth: month, expenseIndex: expenseIndex), vehicleId: -1)
+            let expense = Expense(date: monthDate, expenseValue: calculateExpenseSum(forMonth: month, expenseIndex: expenseIndex), expenseType: expenseIndex, vehicleId: -1)
             yearlyGasExpenses.append(expense)
         }
         
@@ -97,7 +97,7 @@ class ExpenseViewModel: ObservableObject {
                 continue
             }
             
-            let expense = Expense(date: weekday, expenseValue: calculateExpenseSum(forDay: weekday, expenseIndex: expenseIndex), vehicleId: -1)
+            let expense = Expense(date: weekday, expenseValue: calculateExpenseSum(forDay: weekday, expenseIndex: expenseIndex), expenseType: expenseIndex, vehicleId: -1)
             expenses.append(expense)
         }
         
@@ -121,7 +121,7 @@ class ExpenseViewModel: ObservableObject {
                     continue
                 }
                 
-                let expense = Expense(date: dayDate, expenseValue: calculateExpenseSum(forDay: dayDate, expenseIndex: expenseIndex), vehicleId: -1)
+                let expense = Expense(date: dayDate, expenseValue: calculateExpenseSum(forDay: dayDate, expenseIndex: expenseIndex), expenseType: -1, vehicleId: -1)
                 expenses.append(expense)
             }
         }
@@ -132,42 +132,20 @@ class ExpenseViewModel: ObservableObject {
     
     func calculateExpenseSum(forMonth month: Int, expenseIndex: Int) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = expenses[expenseIndex].filter { calendar.component(.month, from: $0.date) == month }
+        let filteredExpenses = expenses.filter { calendar.component(.month, from: $0.date) == month && $0.expenseType == expenseIndex }
         let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.expenseValue }
         return expenseSum
     }
     
     func calculateExpenseSum(forDay day: Date, expenseIndex: Int) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = expenses[expenseIndex].filter {
-//            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
-            return calendar.isDate($0.date, inSameDayAs: day)
-            
-        }
+        let filteredExpenses = expenses.filter { calendar.isDate($0.date, inSameDayAs: day) }
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum
         let expenseSum = filteredExpenses.reduce(0) { $0 + $1.expenseValue }
         
         return expenseSum
     }
-    
-    //    func downloadAllVehicles() {
-    //        let downloadQueue = DispatchQueue(label: "Download Vehicles")
-    //        downloadQueue.async {
-    //            if let data = VehicleViewModel.load(){
-    //                DispatchQueue.main.async {
-    //                    self.model.importFromJson(data: data)
-    //                }
-    //            }
-    //        }
-    //    }
-    //    static func load() -> Data? {
-    //        var data: Data?
-    //        if let url = URL(string: VehicleModel.DATABASE) {
-    //            data = try? Data(contentsOf: url)
-    //        }
-    //        return data
-    //    }
     
     
 }

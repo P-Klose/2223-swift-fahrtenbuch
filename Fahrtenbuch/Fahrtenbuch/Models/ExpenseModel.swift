@@ -10,7 +10,7 @@ import Foundation
 
 struct ExpenseModel {
     //typealias Gas = 0
-    private (set) var expenses = [[Expense](),[Expense](),[Expense](),[Expense]()]
+    private (set) var expenses = [Expense]()
     
     static let DATABASE = "http://localhost:3000/expenses"
     
@@ -24,51 +24,47 @@ struct ExpenseModel {
 //    mutating func choose(_ chosenVehicle: Vehicle){
 //        // change data
 //    }
+    
     mutating func initData() {
-        expenses[0] = [
-            .init(date: Date.from(year: 2023, month: 2, day: 3), expenseValue: 83, vehicleId: 1, amount: 50),
-            .init(date: Date.from(year: 2023, month: 2, day: 12), expenseValue: 80, vehicleId: 1, amount: 49.5),
-            .init(date: Date.from(year: 2023, month: 2, day: 21), expenseValue: 90, vehicleId: 1, amount: 52.4),
-            .init(date: Date.from(year: 2023, month: 2, day: 23), expenseValue: 79, vehicleId: 1, amount: 45.3),
-            .init(date: Date.from(year: 2023, month: 2, day: 30), expenseValue: 92, vehicleId: 1, amount: 62),
-            .init(date: Date.from(year: 2023, month: 3, day: 1), expenseValue: 29, vehicleId: 1, amount: 17.2),
-            .init(date: Date.from(year: 2023, month: 3, day: 5), expenseValue: 65, vehicleId: 1, amount: 40.8),
-            .init(date: Date.from(year: 2023, month: 3, day: 16), expenseValue: 34, vehicleId: 1, amount: 20.3),
-            .init(date: Date.from(year: 2023, month: 3, day: 23), expenseValue: 54, vehicleId: 1, amount: 26.9),
-            .init(date: Date.from(year: 2023, month: 4, day: 23), expenseValue: 45, vehicleId: 1, amount: 30.1),
-            .init(date: Date.from(year: 2023, month: 4, day: 25), expenseValue: 12, vehicleId: 1, amount: 7.5)
-        ]
-        expenses[1] = [
-            .init(date: Date.from(year: 2023, month: 2, day: 3), expenseValue: 2, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 2, day: 17), expenseValue: 2.5, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 3, day: 12), expenseValue: 4, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 3, day: 23), expenseValue: 5, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 4, day: 30), expenseValue: 2, vehicleId: 1)
-        ]
-        expenses[2] = [
-            .init(date: Date.from(year: 2023, month: 2, day: 4), expenseValue: 10, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 2, day: 16), expenseValue: 12.5, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 2, day: 28), expenseValue: 15, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 3, day: 1), expenseValue: 5, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 3, day: 10), expenseValue: 12.5, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 3, day: 27), expenseValue: 20, vehicleId: 1),
-            .init(date: Date.from(year: 2023, month: 4, day: 5), expenseValue: 5, vehicleId: 1)
-        ]
-        expenses[3] = [
-            .init(date: Date.from(year: 2023, month: 2, day: 4), expenseValue: 10, vehicleId: 1),
-        ]
+        addExpense(expenseType: 0, expenseValue: 80, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 12))
+        addExpense(expenseType: 0, expenseValue: 90, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 21))
+        addExpense(expenseType: 0, expenseValue: 79, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 23))
+        addExpense(expenseType: 0, expenseValue: 92, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 30))
+        addExpense(expenseType: 0, expenseValue: 29, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 1))
+        addExpense(expenseType: 0, expenseValue: 65, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 5))
+        addExpense(expenseType: 0, expenseValue: 34, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 16))
+        addExpense(expenseType: 0, expenseValue: 54, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 23))
+        addExpense(expenseType: 0, expenseValue: 45, vehicleId: 1, date: Date.from(year: 2023, month: 4, day: 23))
+        addExpense(expenseType: 0, expenseValue: 12, vehicleId: 1, date: Date.from(year: 2023, month: 4, day: 25))
+
+        addExpense(expenseType: 1, expenseValue: 2, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 3))
+        addExpense(expenseType: 1, expenseValue: 2.5, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 17))
+        addExpense(expenseType: 1, expenseValue: 4, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 12))
+        addExpense(expenseType: 1, expenseValue: 5, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 23))
+        addExpense(expenseType: 1, expenseValue: 2, vehicleId: 1, date: Date.from(year: 2023, month: 4, day: 30))
+        
+        addExpense(expenseType: 2, expenseValue: 10, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 4))
+        addExpense(expenseType: 2, expenseValue: 12.5, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 16))
+        addExpense(expenseType: 2, expenseValue: 15, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 28))
+        addExpense(expenseType: 2, expenseValue: 5, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 1))
+        addExpense(expenseType: 2, expenseValue: 12.5, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 10))
+        addExpense(expenseType: 2, expenseValue: 20, vehicleId: 1, date: Date.from(year: 2023, month: 3, day: 27))
+        addExpense(expenseType: 2, expenseValue: 5, vehicleId: 1, date: Date.from(year: 2023, month: 4, day: 5))
+        
+        addExpense(expenseType: 3, expenseValue: 10, vehicleId: 1, date: Date.from(year: 2023, month: 2, day: 4))
     }
-    mutating func addExpense(IndexKey: Int, expenseValue: Double, vehicleId: Int, date: Date, amount: Double?) {
-        expenses[IndexKey].append(Expense(date: date, expenseValue: expenseValue, vehicleId: vehicleId, amount: amount))
+    
+    mutating func addExpense(expenseType: Int, expenseValue: Double, vehicleId: Int, date: Date) {
+        expenses.append(Expense(date: date, expenseValue: expenseValue, expenseType: expenseType, vehicleId: vehicleId))
     }
 }
 
-struct Expense: Identifiable {
-    var id = UUID()
+struct Expense: Codable, Identifiable, Hashable {
+    var id: Int?
     var date: Date
     var expenseValue: Double
+    var expenseType: Int
     var vehicleId: Int
-    var amount: Double?
 }
 
 extension Date {
