@@ -29,6 +29,11 @@ struct ViewExpenses: View {
     
     @State var chartDisplayUnit = Calendar.Component.day
     
+    func setExpenses() {
+        gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
+        parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
+        washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
+    }
     
     var body: some View {
         NavigationStack {
@@ -99,10 +104,10 @@ struct ViewExpenses: View {
             }
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
-                expenseViewModel.downloadAllExpenses(){}
+                expenseViewModel.downloadAllExpenses(){
+                    setExpenses()
+                }
                 vehicleViewModel.downloadAllVehicles(){}
-                setExpenses()
-                
             })
             .onChange(of: currentTab) { newValue in
                 switch newValue {
@@ -139,6 +144,11 @@ struct ViewExpenses: View {
         .sheet(isPresented: $showExpenseCreateForm) {
             ExpensesFormView(vehicleVM: vehicleViewModel, expenseVM: expenseViewModel)
                 .presentationDetents([.medium])
+                .onDisappear{
+                    expenseViewModel.downloadAllExpenses(){
+                        setExpenses()
+                    }
+                }
         }
     }
     
@@ -147,12 +157,6 @@ struct ViewExpenses: View {
  
         let max = expenseViewModel.summ()
         Chart {
-//            let gasAverage = expenseViewModel.expenses[0].map(\.expenseValue)
-//                .reduce(0.0, +) / Double(expenseViewModel.expenses[0].count)
-//            RuleMark(y: .value("Mean", gasAverage))
-//                .foregroundStyle(.orange)
-//                .lineStyle(StrokeStyle(lineWidth: 1,dash: [5]))
-            
             ForEach(gasExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
@@ -172,25 +176,6 @@ struct ViewExpenses: View {
             }
             .foregroundStyle(Color.blue.gradient)
         }
-        //        .chartOverlay(content: { proxy in
-        //            GeometryReader { innerProxy in
-        //                Rectangle()
-        //                    .fill(.clear).containerShape(Rectangle())
-        //                    .gesture(
-        //                        DragGesture()
-        //                            .onChanged({ value in
-        //                                let location = value.location
-        //                                if let data: Date = proxy.value(atX: location.x){
-        //                                    print("Y: \(data)")
-        //                                }
-        //
-        //                            })
-        //                            .onEnded({ value in
-        //                                //none
-        //                            })
-        //                    )
-        //            }
-        //        })
         .frame(height: 250)
         .chartXAxis {
             if currentTab == "Jahr" {
@@ -212,21 +197,6 @@ struct ViewExpenses: View {
 //                }
 //            }
         }
-    }
-    
-    //    func animateGraph() {
-    //        for (index,_) in expenseViewModel.trips.enumerated(){
-    //            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
-    //                withAnimation(.interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-    //                    mapViewModel.animateTrip(index: index)
-    //                }
-    //            }
-    //        }
-    //    }
-    func setExpenses() {
-        gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
-        parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
-        washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
     }
 }
 
@@ -260,8 +230,6 @@ struct DesciptionView: View {
 }
 
 struct ExpensesFormView: View {
-    
-    
     
     @ObservedObject var vehicleVM: vvm
     @ObservedObject var expenseVM: evm
@@ -330,8 +298,9 @@ struct ExpensesFormView: View {
                         .navigationBarTrailing){
                             Button(action: {
                                 if selectedVehicleId != -1 {
-                                    expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date)
-                                    LOG.info("\(selectedVehicleId)")
+                                    expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date){
+                                        
+                                    }
                                     dismiss()
                                 } else {
                                     showAlertNoVehicleExpenses = true

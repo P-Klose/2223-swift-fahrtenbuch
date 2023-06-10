@@ -45,19 +45,22 @@ class ExpenseViewModel: ObservableObject {
     }
     
     func summ() -> Double{
-        return summGas()+summPark()+summWash()
+        return summGas() + summPark() + summWash() + summOther()
     }
-    func summGas() -> Double{
+    func summGas() -> Double {
         expenses.filter { $0.expenseType == 0 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
-    func summPark() -> Double{
+    func summPark() -> Double {
         expenses.filter { $0.expenseType == 1 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
-    func summWash() -> Double{
+    func summWash() -> Double {
         expenses.filter { $0.expenseType == 2 }.reduce(0.0, { $0 + Double($1.expenseValue) })
     }
+    func summOther() -> Double {
+        expenses.filter { $0.expenseType == 3 }.reduce(0.0, { $0 + Double($1.expenseValue) })
+    }
     
-    func saveExpenses(in _Type: String, vehicleId: Int, expenseValue: Double, onDate: Date) {
+    func saveExpenses(in _Type: String, vehicleId: Int, expenseValue: Double, onDate: Date, completion: @escaping () -> Void) {
         var expenseType = -1
         switch _Type {
         case "gas":
@@ -196,7 +199,7 @@ class ExpenseViewModel: ObservableObject {
     
     func calculateExpenseSum(forDay day: Date, expenseIndex: Int) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = expenses.filter { calendar.isDate($0.date, inSameDayAs: day) }
+        let filteredExpenses = expenses.filter { calendar.isDate($0.date, inSameDayAs: day) && $0.expenseType == expenseIndex}
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum
         let expenseSum = filteredExpenses.reduce(0) { $0 + $1.expenseValue }

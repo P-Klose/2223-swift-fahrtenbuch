@@ -2747,6 +2747,27 @@
       "expenseValue": 5,
       "date": 708126779.141514,
       "id": 10
+    },
+    {
+      "expenseType": 2,
+      "vehicleId": 1,
+      "expenseValue": 5,
+      "date": 708127376.023994,
+      "id": 11
+    },
+    {
+      "expenseType": 2,
+      "vehicleId": 1,
+      "expenseValue": 10,
+      "date": 707868780,
+      "id": 12
+    },
+    {
+      "expenseType": 1,
+      "vehicleId": 1,
+      "expenseValue": 3,
+      "date": 708128015.183965,
+      "id": 13
     }
   ]
 }
