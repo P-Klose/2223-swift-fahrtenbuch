@@ -69,7 +69,7 @@ extension Expense {
     init(dto: ExpenseDto) {
         self.id = dto.id
         self.expenseType = dto.expenseType
-        self.expenseValue = dto.expenseValue ?? 0.0
+        self.expenseValue = dto.expenseValue
         if let timestamp = dto.date {
             self.date = Date(timeIntervalSinceReferenceDate: timestamp)
         } else {

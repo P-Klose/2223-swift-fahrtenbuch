@@ -108,7 +108,7 @@ class ExpenseViewModel: ObservableObject {
                 if let error = error {
                     print("Fehler: \(error)")
                     success = false
-                } else if let data = data {
+                } else if data != nil {
 //                    print("Antwort: \(String(data: data, encoding: .utf8) ?? "")")
                     //self.downloadAllTrips()
                 } else {

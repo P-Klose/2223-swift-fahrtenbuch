@@ -70,4 +70,10 @@ struct Vehicle: Codable, Identifiable, Hashable {
     }
     
 }
+extension Date {
+    static func from(year: Int, month: Int) -> Date{
+        let components = DateComponents(year: year, month: month)
+        return Calendar.current.date(from: components)!
+    }
+}
 

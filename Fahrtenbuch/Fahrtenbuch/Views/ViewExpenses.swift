@@ -154,8 +154,6 @@ struct ViewExpenses: View {
     
     @ViewBuilder
     func AnimatedChart() -> some View {
- 
-        let max = expenseViewModel.summ()
         Chart {
             ForEach(gasExpense) { expense in
                 BarMark(

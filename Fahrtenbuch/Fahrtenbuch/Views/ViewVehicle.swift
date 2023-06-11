@@ -151,8 +151,7 @@ struct VehicleFormView: View {
     @State private var isInspectionEnabled = false
     @State private var selectedMonthIndex = 0
     @State private var selectedYearIndex = 0
-    var formatter = NumberFormatter().numberStyle = .none
-   
+    
     
     let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
     let years = Array(2020...2030)
@@ -214,7 +213,6 @@ struct VehicleFormView: View {
                         
                         Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
                             ForEach(0..<years.count) { index in
-                                
                                 Text("\(years[index])").tag(index)
                             }
                         }
@@ -248,8 +246,18 @@ struct VehicleFormView: View {
                                     showalertAddVehicle = true
                                 } else {
                                     print("ImageURL: \(imageUrl ?? "")")
-                                    vehicleViewModel.saveButtonTapped(make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: imageUrl ?? "", vehicleType: vehicleType, fuelType: fuelType)
-                                    dismiss()}
+                                    vehicleViewModel.saveButtonTapped(make: makeTextField,
+                                                                      model: modelTextField,
+                                                                      vin: vinTextField,
+                                                                      milage: milageTextField,
+                                                                      numberplate: numberplateTextField,
+                                                                      imageUrl: imageUrl ?? "",
+                                                                      vehicleType: vehicleType,
+                                                                      fuelType: fuelType,
+                                                                      inspectionMonth: months[selectedMonthIndex],
+                                                                      inspectionYear: years[selectedYearIndex])
+                                    dismiss()
+                                }
                             }) {
                                 Text("Speichern")
                             }
@@ -307,6 +315,13 @@ struct VehicleEditFormView: View {
     @State private var numberplateTextField = ""
     @State private var vehicleType = "PKW"
     @State private var fuelType = "Kraftstoff"
+    @State private var isInspectionEnabled = false
+    @State private var selectedMonthIndex = 0
+    @State private var selectedYearIndex = 0
+    
+    
+    let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+    let years = Array(2020...2030)
     
     
     init(vehicle: Vehicle, vehicleViewModel: VehicleViewModel) {
@@ -325,21 +340,21 @@ struct VehicleEditFormView: View {
         
         NavigationView{
             Form {
+                
                 Section {
-                    TextField("Marke:", text: $makeTextField)
-                    TextField("Modell:", text: $modelTextField)
-                    TextField("Kennzeichen:",text: $numberplateTextField)
+                    TextField("Marke", text: $makeTextField)
+                    TextField("Modell", text: $modelTextField)
+                    TextField("Nummernschild",text: $numberplateTextField)
+                    TextField("(Optional) Fahrgestellnummer", text: $vinTextField)
+                } header: {
+                    Text("Fahrzeugidentifikation")
+                } footer: {
+                    Text("Die Fahrgestellnummer ist eine einzigartige Nummer zur genauen Identifizierung Ihres Fahrzeugs")
                 }
                 Section {
-                    Picker("", selection: $vehicleType) {
-                        Text("PKW")
-                            .tag("PKW")
-                        Text("LKW")
-                            .tag("LKW")
-                        Text("Oldtimer")
-                            .tag("Oldtimer")
-                    }
-                    Picker("", selection: $vehicleType) {
+                    TextField("Kilometerstand:", text: $milageTextField)
+                        .keyboardType(.numberPad)
+                    Picker("Treibstoffart", selection: $fuelType) {
                         Text("Kraftstoff")
                             .tag("Kraftstoff")
                         Text("Elekto")
@@ -347,22 +362,49 @@ struct VehicleEditFormView: View {
                         Text("Hybrid")
                             .tag("Hybrid")
                     }
-                    TextField("Kilometerstand:", text: $milageTextField)
-                        .keyboardType(.numberPad)
+                    Picker("Fahrzeugtyp", selection: $vehicleType) {
+                        Text("PKW")
+                            .tag("PKW")
+                        Text("LKW")
+                            .tag("LKW")
+                        Text("Oldtimer")
+                            .tag("Oldtimer")
+                    }
+                } header: {
+                    Text("Fahrzeugeigenschaften")
+                } footer: {
+                    //                    Text("Zusätzliche Informationen:")
                 }
                 Section {
-                    TextField("Identifizierungsnummer:", text: $vinTextField)
-                } header: {
-                    Text("Zusätzliche Informationen:")
+                    Toggle(isOn: $isInspectionEnabled) {
+                        Text("Aktivieren")
+                    }
+                    if isInspectionEnabled {
+                        
+                        Picker(selection: $selectedMonthIndex, label: Text("Monat:")) {
+                            ForEach(0..<months.count) { index in
+                                Text(months[index]).tag(index)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        
+                        
+                        Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
+                            ForEach(0..<years.count) { index in
+                                Text("\(years[index])").tag(index)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        
+                        
+                    }
                 }
-                Button(action: {
-                    vehicleViewModel.deleteVehicle(vehicle)
-                    dismiss()
-                },label: {
-                    Text("Löschen")
-                        .foregroundColor(.red)
-                })
                 
+            header: {
+                Text("Inspektion \"Pickerl\"")
+            } footer: {
+                //                    Text("Zusätzliche Informationen:")
+            }
             }
             .navigationTitle("Fahrzeug bearbeiten")
             .navigationBarTitleDisplayMode(.inline)
@@ -378,7 +420,15 @@ struct VehicleEditFormView: View {
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             Button(action: {
-                                vehicleViewModel.update(vehicle: vehicle, make: makeTextField, model: modelTextField, vin: vinTextField, milage: milageTextField, numberplate: numberplateTextField, imageUrl: "", vehicleType: vehicleType, fuelType: fuelType)
+                                vehicleViewModel.update(vehicle: vehicle,
+                                                        make: makeTextField,
+                                                        model: modelTextField,
+                                                        vin: vinTextField,
+                                                        milage: milageTextField,
+                                                        numberplate: numberplateTextField,
+                                                        imageUrl: "",
+                                                        vehicleType: vehicleType,
+                                                        fuelType: fuelType)
                                 dismiss()
                             }) {
                                 Text("Speichern")
