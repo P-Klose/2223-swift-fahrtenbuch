@@ -21,19 +21,7 @@ struct ViewVehicle: View {
     var body: some View {
         NavigationStack {
             List {
-                 ForEach(filteredCars, id: \.id) { vehicle in
-                     NavigationLink(value: vehicle) {
-                         Label(vehicle.numberplate, systemImage: "car.fill")
-                         Text(vehicle.make)
-                         Text(vehicle.model)
-                     }
-                 }
-             }
-             .navigationDestination(for: Vehicle.self) { vehicle in
-                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-            
-           /* List {
-                ForEach(vehicleViewModel.vehicles, id: \.id) { vehicle in
+                ForEach(filteredCars, id: \.id) { vehicle in
                     NavigationLink(value: vehicle) {
                         Label(vehicle.numberplate, systemImage: "car.fill")
                         Text(vehicle.make)
@@ -43,24 +31,36 @@ struct ViewVehicle: View {
             }
             .navigationDestination(for: Vehicle.self) { vehicle in
                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-                */
+                
+                /* List {
+                 ForEach(vehicleViewModel.vehicles, id: \.id) { vehicle in
+                 NavigationLink(value: vehicle) {
+                 Label(vehicle.numberplate, systemImage: "car.fill")
+                 Text(vehicle.make)
+                 Text(vehicle.model)
+                 }
+                 }
+                 }
+                 .navigationDestination(for: Vehicle.self) { vehicle in
+                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
+                 */
             }
             .navigationTitle("Fahrzeuge")
             .searchable(text: $searchTerm, prompt: "Suche nach Autos")
             .onAppear(perform: {
                 vehicleViewModel.downloadAllVehicles(){}
-
+                
             })
             .toolbar(){
                 
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
                             /*Button(action: {
-                                print("Search pressed")
-                            },label: {
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(.gray)
-                            })*/
+                             print("Search pressed")
+                             },label: {
+                             Image(systemName: "magnifyingglass")
+                             .foregroundColor(.gray)
+                             })*/
                             
                             Button(action: {
                                 showVehicleCreateForm.toggle()
@@ -148,6 +148,14 @@ struct VehicleFormView: View {
     @State private var numberplateTextField = ""
     @State private var vehicleType = "PKW"
     @State private var fuelType = "Kraftstoff"
+    @State private var isInspectionEnabled = false
+    @State private var selectedMonthIndex = 0
+    @State private var selectedYearIndex = 0
+    var formatter = NumberFormatter().numberStyle = .none
+   
+    
+    let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+    let years = Array(2020...2030)
     
     @State private var showalertAddVehicle = false
     
@@ -155,40 +163,20 @@ struct VehicleFormView: View {
         
         NavigationView{
             Form {
-                Section("Bild") {
-                    Button {
-                        shouldShowImagePicker.toggle()
-                    } label: {
-                        VStack {
-                            if let image = self.image {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .cornerRadius(15)
-                            } else {
-                                Image(systemName: "car.fill")
-                                    .font(.system(size: 80))
-                                    .padding()
-                                    .foregroundColor(Color(.label))
-                            }
-                        }
-                    }
-                }
                 
                 Section {
-                    TextField("Marke:", text: $makeTextField)
-                    TextField("Modell:", text: $modelTextField)
-                    TextField("Kennzeichen:",text: $numberplateTextField)
+                    TextField("Marke", text: $makeTextField)
+                    TextField("Modell", text: $modelTextField)
+                    TextField("Nummernschild",text: $numberplateTextField)
+                    TextField("(Optional) Fahrgestellnummer", text: $vinTextField)
+                } header: {
+                    Text("Fahrzeugidentifikation")
+                } footer: {
+                    Text("Die Fahrgestellnummer ist eine einzigartige Nummer zur genauen Identifizierung Ihres Fahrzeugs")
                 }
                 Section {
-                    Picker("Fahrzeugtyp", selection: $vehicleType) {
-                        Text("PKW")
-                            .tag("PKW")
-                        Text("LKW")
-                            .tag("LKW")
-                        Text("Oldtimer")
-                            .tag("Oldtimer")
-                    }
+                    TextField("Kilometerstand:", text: $milageTextField)
+                        .keyboardType(.numberPad)
                     Picker("Treibstoffart", selection: $fuelType) {
                         Text("Kraftstoff")
                             .tag("Kraftstoff")
@@ -197,14 +185,50 @@ struct VehicleFormView: View {
                         Text("Hybrid")
                             .tag("Hybrid")
                     }
-                    TextField("Kilometerstand:", text: $milageTextField)
-                        .keyboardType(.numberPad)
+                    Picker("Fahrzeugtyp", selection: $vehicleType) {
+                        Text("PKW")
+                            .tag("PKW")
+                        Text("LKW")
+                            .tag("LKW")
+                        Text("Oldtimer")
+                            .tag("Oldtimer")
+                    }
+                } header: {
+                    Text("Fahrzeugeigenschaften")
+                } footer: {
+                    //                    Text("Zusätzliche Informationen:")
                 }
                 Section {
-                    TextField("Identifizierungsnummer:", text: $vinTextField)
-                } header: {
-                    Text("Zusätzliche Informationen:")
+                    Toggle(isOn: $isInspectionEnabled) {
+                        Text("Aktivieren")
+                    }
+                    if isInspectionEnabled {
+                        
+                        Picker(selection: $selectedMonthIndex, label: Text("Monat:")) {
+                            ForEach(0..<months.count) { index in
+                                Text(months[index]).tag(index)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        
+                        
+                        Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
+                            ForEach(0..<years.count) { index in
+                                
+                                Text("\(years[index])").tag(index)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        
+                        
+                    }
                 }
+                
+            header: {
+                Text("Inspektion \"Pickerl\"")
+            } footer: {
+                //                    Text("Zusätzliche Informationen:")
+            }
             }
             .navigationTitle("Fahrzeug hinzufügen")
             .navigationBarTitleDisplayMode(.inline)
@@ -248,7 +272,7 @@ struct VehicleDetailSectionView: View {
     var title: String
     var value: String
     var unit: String
-
+    
     
     var body: some View {
         Section {
