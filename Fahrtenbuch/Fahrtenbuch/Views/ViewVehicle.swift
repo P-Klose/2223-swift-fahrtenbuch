@@ -254,6 +254,7 @@ struct VehicleFormView: View {
                                                                       imageUrl: imageUrl ?? "",
                                                                       vehicleType: vehicleType,
                                                                       fuelType: fuelType,
+                                                                      isInspectionEnabled: isInspectionEnabled,
                                                                       inspectionMonth: months[selectedMonthIndex],
                                                                       inspectionYear: years[selectedYearIndex])
                                     dismiss()
@@ -428,7 +429,10 @@ struct VehicleEditFormView: View {
                                                         numberplate: numberplateTextField,
                                                         imageUrl: "",
                                                         vehicleType: vehicleType,
-                                                        fuelType: fuelType)
+                                                        fuelType: fuelType,
+                                                        isInspectionEnabled: isInspectionEnabled,
+                                                        inspectionMonth: months[selectedMonthIndex],
+                                                        inspectionYear: years[selectedYearIndex])
                                 dismiss()
                             }) {
                                 Text("Speichern")

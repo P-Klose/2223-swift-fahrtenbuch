@@ -36,9 +36,20 @@ class VehicleViewModel: ObservableObject {
         return data
     }
     
-    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String, inspectionMonth: String, inspectionYear: Int) {
+    func saveButtonTapped(make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String, isInspectionEnabled: Bool, inspectionMonth: String, inspectionYear: Int) {
         
-        let newVehilce = Vehicle(id: nil, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType, fuelType: fuelType)
+        let newVehilce = Vehicle(id: nil,
+                                 vin: vin,
+                                 make: make,
+                                 numberplate: numberplate,
+                                 model: model,
+                                 milage: milage,
+                                 imageUrl: imageUrl,
+                                 vehicleType: vehicleType,
+                                 fuelType: fuelType,
+                                 isInspectionEnabled: isInspectionEnabled,
+                                 inspectionYear: inspectionYear,
+                                 inspectionMonth: inspectionMonth)
         print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
@@ -49,10 +60,20 @@ class VehicleViewModel: ObservableObject {
             }
         }
     }
-    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String) {
+    func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String, isInspectionEnabled: Bool, inspectionMonth: String, inspectionYear: Int) {
         
-        let updatedVehilce = Vehicle(id: vehicle.id, vin: vin, make: make, numberplate: numberplate, model: model, milage: milage, imageUrl: imageUrl, vehicleType: vehicleType, fuelType: fuelType)
-        print(imageUrl)
+        let updatedVehilce = Vehicle(id: vehicle.id,
+                                     vin: vin,
+                                     make: make,
+                                     numberplate: numberplate,
+                                     model: model,
+                                     milage: milage,
+                                     imageUrl: imageUrl,
+                                     vehicleType: vehicleType,
+                                     fuelType: fuelType,
+                                     isInspectionEnabled: isInspectionEnabled,
+                                     inspectionYear: inspectionYear,
+                                     inspectionMonth: inspectionMonth)
         
         saveCarToDatabase(vehicle: updatedVehilce, httpMethod: "PUT") { success in
             if success {

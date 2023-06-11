@@ -9,7 +9,10 @@
       "imageUrl": "",
       "vehicleType": "PKW",
       "fuelType": "Kraftstoff",
-      "numberplate": "UU-48MM"
+      "numberplate": "UU-48MM",
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
+      "inspectionMonth": ""
     },
     {
       "vin": "yyyyyyyy",
@@ -20,7 +23,10 @@
       "vehicleType": "PKW",
       "fuelType": "Kraftstoff",
       "imageUrl": "",
-      "id": 1
+      "id": 1,
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
+      "inspectionMonth": ""
     },
     {
       "make": "Audi",
@@ -31,7 +37,10 @@
       "model": "A3",
       "imageUrl": "",
       "vehicleType": "PKW",
-      "numberplate": "UU455FF"
+      "numberplate": "UU455FF",
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
+      "inspectionMonth": ""
     },
     {
       "numberplate": "UU",
@@ -42,18 +51,10 @@
       "vehicleType": "PKW",
       "fuelType": "Kraftstoff",
       "milage": "88899",
-      "id": 4
-    },
-    {
-      "make": "BMW",
-      "milage": "0",
-      "fuelType": "Kraftstoff",
-      "vin": "0",
-      "model": "M3",
-      "imageUrl": "",
-      "vehicleType": "PKW",
-      "numberplate": "UU234P",
-      "id": 5
+      "id": 4,
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
+      "inspectionMonth": ""
     }
   ],
   "trips": [
