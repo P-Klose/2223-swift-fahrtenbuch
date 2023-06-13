@@ -29,6 +29,9 @@ struct ViewRides: View {
     @State private var selectedVehicle = -1
     @State private var showAlert = false
     
+    @State private var startButtonEnabled = true
+    @State private var endButtonEnabled = false
+    
     let LOG = Logger()
     
     var body: some View {
@@ -59,38 +62,22 @@ struct ViewRides: View {
                         Section {
                             Button(action: {
                                 buttonStartPressed()
-                                if selectedVehicle != -1 {
-                                    startTime = .now
-                                    let attributes = DriveAttributes(vehicleName: vehicleViewModel.vehicles[selectedVehicle].getName())
-                                    let state = DriveAttributes.ContentState(startTime: .now, distance: 0)
-                                    let selectedVehicleId = vehicleViewModel.vehicles[selectedVehicle].getId()
-                                    activity = try? Activity<DriveAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
-                                    
-                                    mapViewModel.startRecording(vehicle: selectedVehicleId, isPrivat: privateTrip)
-                                } else {
-
-                                    showAlert = true
-                                    //LOG.error("🔴 Starten der Fahrt fehlgeschlagen - Kein Fahrzeug wurde ausgewählt")
-                                    //display error
-                                }
                             }) {
                                 Text("Fahrt starten")
                             }
+                            .disabled(!startButtonEnabled)
+
                             
                             Button(action: {
-                                guard let startTime else { return }
-                                let state = DriveAttributes.ContentState(startTime: startTime, distance: 0)
-                                
-                                Task {
-                                    await activity?.end(using: state, dismissalPolicy: .immediate)
-                                }
-                                
-                                mapViewModel.stopRecording()
-                                self.startTime = nil
-                                
+                                buttonStopPressed()
                             }){
-                                Text("Fahrt beenden").foregroundColor(.red)
+                                if(endButtonEnabled){
+                                    Text("Fahrt beenden").foregroundColor(.red)
+                                }else{
+                                    Text("Fahrt beenden")
+                                }
                             }
+                            .disabled(!endButtonEnabled)
                         }
                     }
                 }
@@ -107,11 +94,37 @@ struct ViewRides: View {
     }
     
     func buttonStartPressed(){
+        LOG.info("start pressed")
+        startButtonEnabled = false
+        endButtonEnabled = true
         LOG.info("SelectedvehicleId: \(selectedVehicle)")
+        if selectedVehicle != -1 {
+            startTime = .now
+            let attributes = DriveAttributes(vehicleName: vehicleViewModel.vehicles[selectedVehicle].getName())
+            let state = DriveAttributes.ContentState(startTime: .now, distance: 0)
+            let selectedVehicleId = vehicleViewModel.vehicles[selectedVehicle].getId()
+            activity = try? Activity<DriveAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
+            
+            mapViewModel.startRecording(vehicle: selectedVehicleId, isPrivat: privateTrip)
+        } else {
+            showAlert = true
+        }
+        
     }
     
     func buttonStopPressed(){
+        LOG.info("stop pressed")
+        startButtonEnabled = true
+        endButtonEnabled = false
+        guard let startTime else { return }
+        let state = DriveAttributes.ContentState(startTime: startTime, distance: 0)
         
+        Task {
+            await activity?.end(using: state, dismissalPolicy: .immediate)
+        }
+        
+        mapViewModel.stopRecording()
+        self.startTime = nil
     }
     
     

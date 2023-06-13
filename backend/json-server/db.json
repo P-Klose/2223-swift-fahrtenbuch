@@ -15,46 +15,46 @@
       "inspectionMonth": ""
     },
     {
+      "id": 1,
+      "fuelType": "Kraftstoff",
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
       "vin": "yyyyyyyy",
       "numberplate": "UU-48MM",
-      "model": "A6",
-      "make": "Audi",
-      "milage": "125023",
-      "vehicleType": "PKW",
-      "fuelType": "Kraftstoff",
       "imageUrl": "",
-      "id": 1,
-      "isInspectionEnabled": false,
-      "inspectionYear": 0,
-      "inspectionMonth": ""
+      "inspectionMonth": "",
+      "make": "Audi",
+      "vehicleType": "PKW",
+      "milage": "125023.03164659187",
+      "model": "A6"
     },
     {
-      "make": "Audi",
-      "milage": "32002.22072820937",
-      "fuelType": "Kraftstoff",
       "id": 3,
-      "vin": "",
-      "model": "A3",
-      "imageUrl": "",
-      "vehicleType": "PKW",
-      "numberplate": "UU455FF",
+      "fuelType": "Kraftstoff",
       "isInspectionEnabled": false,
       "inspectionYear": 0,
-      "inspectionMonth": ""
+      "vin": "",
+      "numberplate": "UU455FF",
+      "imageUrl": "",
+      "inspectionMonth": "",
+      "make": "Audi",
+      "vehicleType": "PKW",
+      "milage": "32002.286629128674",
+      "model": "A3"
     },
     {
-      "numberplate": "UU",
-      "model": "A7",
+      "id": 4,
+      "fuelType": "Kraftstoff",
+      "isInspectionEnabled": false,
+      "inspectionYear": 0,
       "vin": "",
+      "numberplate": "UU",
       "imageUrl": "",
+      "inspectionMonth": "",
       "make": "Audi ",
       "vehicleType": "PKW",
-      "fuelType": "Kraftstoff",
-      "milage": "88899",
-      "id": 4,
-      "isInspectionEnabled": false,
-      "inspectionYear": 0,
-      "inspectionMonth": ""
+      "milage": "88899.37367104947",
+      "model": "A7"
     }
   ],
   "trips": [
@@ -2725,6 +2725,206 @@
       "length": 1178.435165538306,
       "date": 707826226.792128,
       "id": 14
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.69207683,
+          "latitude": -122.47025102
+        },
+        {
+          "id": 1,
+          "longitude": 37.69236818,
+          "latitude": -122.47025999
+        }
+      ],
+      "vehicleId": 3,
+      "length": 32.34680526592275,
+      "date": 708349816.569963,
+      "id": 15
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.73216768,
+          "latitude": -122.41480448
+        },
+        {
+          "id": 1,
+          "longitude": 37.73225548,
+          "latitude": -122.41446292
+        }
+      ],
+      "vehicleId": 1,
+      "length": 31.64659186855168,
+      "date": 708350062.57451,
+      "id": 16
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.74031301,
+          "latitude": -122.40778103
+        }
+      ],
+      "vehicleId": 4,
+      "length": 0,
+      "date": 708350105.588685,
+      "id": 17
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.7491293,
+          "latitude": -122.40362411
+        }
+      ],
+      "vehicleId": 3,
+      "length": 0,
+      "date": 708350145.583112,
+      "id": 18
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.33445945,
+          "latitude": -122.04342255
+        },
+        {
+          "id": 1,
+          "longitude": 37.33446146,
+          "latitude": -122.04380955
+        },
+        {
+          "id": 2,
+          "longitude": 37.33445832,
+          "latitude": -122.04420408
+        }
+      ],
+      "vehicleId": 4,
+      "length": 69.26187121255141,
+      "date": 708350261.659077,
+      "id": 19
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.33442613,
+          "latitude": -122.06864035
+        },
+        {
+          "id": 1,
+          "longitude": 37.33439537,
+          "latitude": -122.06901468
+        },
+        {
+          "id": 2,
+          "longitude": 37.33435661,
+          "latitude": -122.06939204
+        },
+        {
+          "id": 3,
+          "longitude": 37.33430397,
+          "latitude": -122.06976336
+        }
+      ],
+      "vehicleId": 4,
+      "length": 100.48685111066524,
+      "date": 708350331.639727,
+      "id": 20
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.3373963,
+          "latitude": -122.08332863
+        },
+        {
+          "id": 1,
+          "longitude": 37.33758129,
+          "latitude": -122.08362627
+        }
+      ],
+      "vehicleId": 4,
+      "length": 33.424632694364,
+      "date": 708350373.646084,
+      "id": 21
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.33947623,
+          "latitude": -122.08701088
+        },
+        {
+          "id": 1,
+          "longitude": 37.3396502,
+          "latitude": -122.08732093
+        },
+        {
+          "id": 2,
+          "longitude": 37.33981846,
+          "latitude": -122.08762326
+        }
+      ],
+      "vehicleId": 4,
+      "length": 66.2387438216348,
+      "date": 708350386.643998,
+      "id": 22
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.3658664,
+          "latitude": -122.13358057
+        },
+        {
+          "id": 1,
+          "longitude": 37.36597474,
+          "latitude": -122.1339342
+        }
+      ],
+      "vehicleId": 3,
+      "length": 33.554114038991024,
+      "date": 708350545.622474,
+      "id": 23
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.38201841,
+          "latitude": -122.1516569
+        },
+        {
+          "id": 1,
+          "longitude": 37.38232167,
+          "latitude": -122.15171758
+        },
+        {
+          "id": 2,
+          "longitude": 37.3826398,
+          "latitude": -122.15178036
+        },
+        {
+          "id": 3,
+          "longitude": 37.38294604,
+          "latitude": -122.15184264
+        }
+      ],
+      "vehicleId": 4,
+      "length": 104.25895063927578,
+      "date": 708350621.636006,
+      "id": 24
     }
   ],
   "expenses": [
