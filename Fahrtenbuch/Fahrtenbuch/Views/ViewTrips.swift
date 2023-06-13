@@ -58,32 +58,31 @@ struct ViewTrips: View {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                             .fill(.white.shadow(.drop(radius: 2)))
                     }
-                    VStack {
-                        Picker("Fahrzeug", selection: $selectedVehicleId) {
-                            Text("bitte auswählen")
-                                .tag(-1)
-                            ForEach(vehicleViewModel.vehicles.indices, id: \.self) { index in
-                                Text(vehicleViewModel.vehicles[index].getName())
-                                    .tag(vehicleViewModel.vehicles[index].id)
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Fahrzeug")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Spacer()
+                            Picker("Fahrzeug", selection: $selectedVehicleId) {
+                                Text("bitte auswählen")
+                                    .tag(-1)
+                                ForEach(vehicleViewModel.vehicles.indices, id: \.self) { index in
+                                    Text(vehicleViewModel.vehicles[index].getName())
+                                        .tag(vehicleViewModel.vehicles[index].id)
+                                }
                             }
+                            .pickerStyle(.menu)
                         }
-                        DatePicker("Start-Datum", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                        DatePicker("Von:", selection: $startDate, in: ...endDate, displayedComponents: .date)
                             .datePickerStyle(.automatic)
                             .environment(\.locale, Locale(identifier: "de_DE"))
 
                         
-                        DatePicker("End-Datum", selection: $endDate, in: startDate..., displayedComponents: .date)
+                        DatePicker("Bis:", selection: $endDate, in: startDate..., displayedComponents: .date)
                             .datePickerStyle(.automatic)
                             .environment(\.locale, Locale(identifier: "de_DE"))
 
-                        
-                    }
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(.white.shadow(.drop(radius: 2)))
-                    }
-                    VStack {
                         ForEach(filterTrips()) { trip in
                             
                             VStack(alignment: .leading) {
