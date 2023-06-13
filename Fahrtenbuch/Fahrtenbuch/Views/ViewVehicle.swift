@@ -212,8 +212,8 @@ struct VehicleFormView: View {
                         
                         
                         Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
-                            ForEach(0..<years.count) { index in
-                                Text("\(years[index])").tag(index)
+                            ForEach(years, id: \.self) { year in
+                                Text(String(format: "%04d", year)).tag(year)
                             }
                         }
                         .pickerStyle(.menu)
@@ -323,6 +323,8 @@ struct VehicleEditFormView: View {
     
     let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
     let years = Array(2020...2030)
+
+
     
     
     init(vehicle: Vehicle, vehicleViewModel: VehicleViewModel) {
@@ -390,9 +392,11 @@ struct VehicleEditFormView: View {
                         .pickerStyle(.menu)
                         
                         
+                        
+                        
                         Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
-                            ForEach(0..<years.count) { index in
-                                Text("\(years[index])").tag(index)
+                            ForEach(years, id: \.self) { year in
+                                Text(String(format: "%04d", year)).tag(year)
                             }
                         }
                         .pickerStyle(.menu)
