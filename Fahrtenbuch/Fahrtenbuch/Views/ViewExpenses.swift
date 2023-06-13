@@ -42,7 +42,8 @@ struct ViewExpenses: View {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text("Übersicht")
-                                .fontWeight(.semibold)
+                                .fontWeight(.bold)
+                                .font(.body)
                             Picker("", selection: $currentTab) {
                                 Text("Woche")
                                     .tag("Woche")

@@ -26,6 +26,11 @@ struct ViewTrips: View {
         NavigationStack {
             ScrollView {
                 VStack {
+                    Text("Statistiken")
+                        .fontWeight(.bold)
+                        .font(.title2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
                     ViewOverviewChart(tvm: tvm, trips: trips)
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
@@ -34,16 +39,6 @@ struct ViewTrips: View {
                 .padding()
             }
             .navigationTitle("Fahrten")
-            .toolbar(){
-                ToolbarItemGroup(placement:
-                        .navigationBarTrailing){
-                            Button(action: {
-                                showTripConfigSheet.toggle()
-                            },label: {
-                                Text("Edit")
-                            })
-                        }
-            }
         }
     }
     
@@ -72,8 +67,13 @@ struct ViewOverviewChart: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Gefahrene km")
-                    .fontWeight(.semibold)
+                HStack {
+                    Image(systemName: "road.lanes")
+                        .bold()
+                    Text("Strecken")
+                        .fontWeight(.bold)
+                        .font(.body)
+                }
                 Picker("", selection: $currentTab) {
                     Text("Woche")
                         .tag("Woche")
@@ -160,7 +160,8 @@ struct ViewTriplist: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Fahrzeug")
-                    .fontWeight(.semibold)
+                    .fontWeight(.bold)
+                    .font(.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
                 Picker("Fahrzeug", selection: $selectedVehicleId) {
@@ -176,12 +177,12 @@ struct ViewTriplist: View {
             DatePicker("Von:", selection: $startDate, in: ...endDate, displayedComponents: .date)
                 .datePickerStyle(.automatic)
                 .environment(\.locale, Locale(identifier: "de_DE"))
-
+            
             
             DatePicker("Bis:", selection: $endDate, in: startDate..., displayedComponents: .date)
                 .datePickerStyle(.automatic)
                 .environment(\.locale, Locale(identifier: "de_DE"))
-
+            
             ForEach(filterTrips()) { trip in
                 
                 VStack(alignment: .leading) {
@@ -200,7 +201,7 @@ struct ViewTriplist: View {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: startDate)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
-
+        
         
         
         let filteredTrips = tvm.trips.filter { trip in
