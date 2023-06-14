@@ -24,12 +24,20 @@ struct ViewTrips: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Text("Statistiken")
-                        .fontWeight(.bold)
-                        .font(.title2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer()
-                    ViewTripChart(tvm: tvm, totalTrips: tvm.trips, title: "Strecken")
+                    HStack {
+                        Text("Statistiken")
+                            .fontWeight(.bold)
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        Button(action: {
+                            showTripConfigSheet = true;
+                        }) {
+                            Text("Edit")
+                                .font(.body)
+                        }
+                    }
+                    ViewTripChart(tvm: tvm, totalTrips: tvm.trips, title: "Gesammt")
                     ViewTripChart(tvm: tvm ,totalTrips: tvm.privateTrips, title: "Privat")
                     ViewTripChart(tvm: tvm ,totalTrips: tvm.businessTrip, title: "Unternehmen")
                     ViewTriplist(vvm: vvm, tvm: tvm)
@@ -39,9 +47,9 @@ struct ViewTrips: View {
                 .padding()
             }
             .navigationTitle("Fahrten")
-            .background(Color("BackgroundColor"))
+            .background(Color("Background"))
         }
-        .background(Color("BackgroundColor"))
+        .background(Color("Background"))
     }
     
     
@@ -111,7 +119,7 @@ extension Double {
 //        .padding()
 //        .background {
 //            RoundedRectangle(cornerRadius: 10, style: .continuous)
-//                .fill(Color("ForgroundColor"))
+//                .fill(Color("Forground"))
 //        }
 //        .onChange(of: currentTab) { newValue in
 ////            trips = tvm.trips
@@ -201,7 +209,7 @@ struct ViewTripChart: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color("ForgroundColor"))
+                .fill(Color("Forground"))
         }
         .onChange(of: currentTab) { newValue in
             switch newValue {
@@ -229,7 +237,7 @@ struct ViewTripChart: View {
                     y: .value("Strecke", trip.length )
                 )
             }
-            .foregroundStyle(Color.blue.gradient)
+            .foregroundStyle((title == "Unternehmen" ? Color("BusinessTrip") : (title == "Privat" ? Color("PrivateTrip") : Color.blue)))
         }
         .frame(height: 250)
         .chartXAxis {
@@ -304,7 +312,7 @@ struct ViewTriplist: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color("ForgroundColor"))
+                .fill(Color("Forground"))
         }
     }
     func filterTrips() -> [Trip] {

@@ -3418,6 +3418,13 @@
       "expenseValue": 3,
       "date": 708128015.183965,
       "id": 13
+    },
+    {
+      "expenseType": 0,
+      "vehicleId": 1,
+      "expenseValue": 30,
+      "date": 708428524.659579,
+      "id": 14
     }
   ]
 }

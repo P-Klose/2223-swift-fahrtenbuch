@@ -60,7 +60,7 @@ struct ViewExpenses: View {
                     .padding()
                     .background {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color("ForgroundColor"))
+                            .fill(Color("Forground"))
                     }
                     
                     
@@ -99,7 +99,7 @@ struct ViewExpenses: View {
                 
                 
             }
-            .background(Color("BackgroundColor"))
+            .background(Color("Background"))
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
                 expenseViewModel.downloadAllExpenses(){
@@ -158,19 +158,19 @@ struct ViewExpenses: View {
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("GasExpenseColor").gradient)
+            .foregroundStyle(Color("GasExpense").gradient)
             ForEach(parkExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("ParkExpenseColor").gradient)
+            .foregroundStyle(Color("ParkExpense").gradient)
             ForEach(washExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("WashExpenseColor").gradient)
+            .foregroundStyle(Color("WashExpense").gradient)
         }
         .frame(height: 250)
 //        .foregroundColor(Color("ForgroundColor"))
@@ -201,7 +201,7 @@ struct DesciptionView: View {
     var body: some View {
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(Color("GasExpenseColor"))
+                .foregroundColor(Color("GasExpense"))
             Text("Tanken")
                 .foregroundColor(.secondary)
         }
@@ -209,7 +209,7 @@ struct DesciptionView: View {
         .padding(.leading, 4)
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(Color("ParkExpenseColor"))
+                .foregroundColor(Color("ParkExpense"))
             Text("Parken")
                 .foregroundColor(.secondary)
         }
@@ -217,7 +217,7 @@ struct DesciptionView: View {
         .padding(.leading, 4)
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(Color("WashExpenseColor"))
+                .foregroundColor(Color("WashExpense"))
             Text("Waschen")
                 .foregroundColor(.secondary)
         }
