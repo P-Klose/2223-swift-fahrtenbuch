@@ -5,9 +5,6 @@
 //  Created by Peter Klose on 29.03.23.
 //
 
-//Orange -> Tanken
-//Purple -> Parken
-//Blue -> Waschen
 
 import SwiftUI
 import Charts
@@ -56,15 +53,14 @@ struct ViewExpenses: View {
                             .padding(.leading,40)
                         }
                         
-                        Text("\(expenseViewModel.summ(), format: .number.precision(.fractionLength(2))) €")
-                            .font(.largeTitle.bold())
+                        expenseViewModel.summ().euroText()
                         AnimatedChart()
                         DesciptionView()
                     }
                     .padding()
                     .background {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(.white.shadow(.drop(radius: 2)))
+                            .fill(Color("ForgroundColor"))
                     }
                     
                     
@@ -103,6 +99,7 @@ struct ViewExpenses: View {
                 
                 
             }
+            .background(Color("BackgroundColor"))
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
                 expenseViewModel.downloadAllExpenses(){
@@ -161,21 +158,22 @@ struct ViewExpenses: View {
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color.orange.gradient)
+            .foregroundStyle(Color("GasExpenseColor"))
             ForEach(parkExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color.purple.gradient)
+            .foregroundStyle(Color("ParkExpenseColor"))
             ForEach(washExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color.blue.gradient)
+            .foregroundStyle(Color("WashExpenseColor"))
         }
         .frame(height: 250)
+//        .foregroundColor(Color("ForgroundColor"))
         .chartXAxis {
             if currentTab == "Jahr" {
                 AxisMarks(values: gasExpense.map {$0.date }) { date in
@@ -203,7 +201,7 @@ struct DesciptionView: View {
     var body: some View {
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(.orange)
+                .foregroundColor(Color("GasExpenseColor"))
             Text("Tanken")
                 .foregroundColor(.secondary)
         }
@@ -211,7 +209,7 @@ struct DesciptionView: View {
         .padding(.leading, 4)
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(.purple)
+                .foregroundColor(Color("ParkExpenseColor"))
             Text("Parken")
                 .foregroundColor(.secondary)
         }
@@ -219,7 +217,7 @@ struct DesciptionView: View {
         .padding(.leading, 4)
         HStack {
             Image(systemName: "square.fill")
-                .foregroundColor(.blue)
+                .foregroundColor(Color("WashExpenseColor"))
             Text("Waschen")
                 .foregroundColor(.secondary)
         }
@@ -341,3 +339,19 @@ enum ExpenseType: String, CaseIterable, Identifiable {
     var id: Self { self }
 }
 
+extension Double {
+    func euroText() -> Text {
+        let formattedNumber = String(
+            format: "%.2f",
+            locale: Locale(identifier: "de_DE"), self)
+            .replacingOccurrences(of: ".00", with: "")
+        let numberText = Text(formattedNumber)
+            .font(.largeTitle).bold()
+            .fontDesign(.rounded)
+        let euroText = Text(" €")
+            .font(.body).bold()
+            .foregroundColor(.gray)
+            .fontDesign(.rounded)
+        return numberText + euroText
+    }
+}

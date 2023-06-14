@@ -39,7 +39,9 @@ struct ViewTrips: View {
                 .padding()
             }
             .navigationTitle("Fahrten")
+            .background(Color("BackgroundColor"))
         }
+        .background(Color("BackgroundColor"))
     }
     
     
@@ -54,8 +56,20 @@ struct ViewTrips: View {
 }
 
 extension Double {
-    var kmString: String {
-        return String(format: "%.1fkm", self / 1000).replacingOccurrences(of: ".0", with: "")
+    func kmText() -> Text {
+        let formattedNumber = String(
+            format: "%.1f",
+            locale: Locale(identifier: "de_DE"),
+            self / 1000)
+            .replacingOccurrences(of: ".0", with: "")
+        let numberText = Text(formattedNumber)
+            .font(.largeTitle).bold()
+            .fontDesign(.rounded)
+        let euroText = Text(" km")
+            .font(.body).bold()
+            .foregroundColor(.gray)
+            .fontDesign(.rounded)
+        return numberText + euroText
     }
 }
 
@@ -89,14 +103,13 @@ struct ViewOverviewChart: View {
             let tripTotal = tvm.trips.map(\.length)
                 .reduce(0.0, +)
             
-            Text(tripTotal.kmString)
-                .font(.largeTitle.bold())
+            tripTotal.kmText()
             AnimatedChart()
         }
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(.white.shadow(.drop(radius: 2)))
+                .fill(Color("ForgroundColor"))
         }
         .onChange(of: currentTab) { newValue in
             trips = tvm.trips
@@ -194,7 +207,7 @@ struct ViewTriplist: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(.white.shadow(.drop(radius: 2)))
+                .fill(Color("ForgroundColor"))
         }
     }
     func filterTrips() -> [Trip] {
