@@ -13,8 +13,6 @@ struct ViewTrips: View {
     @StateObject  var tvm: TripViewModel
     @ObservedObject var vvm: VehicleViewModel
     
-    @State var trips = [Trip]()
-    
     @State private var showAlertFahrt = false
     @State private var showTripConfigSheet = false
     
@@ -31,8 +29,9 @@ struct ViewTrips: View {
                         .font(.title2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
-                    ViewOverviewChart(tvm: tvm, trips: trips)
-                    ViewPrivateChart(tvm: tvm, trips: trips)
+                    ViewTripChart(tvm: tvm, totalTrips: tvm.trips, title: "Strecken")
+                    ViewTripChart(tvm: tvm ,totalTrips: tvm.privateTrips, title: "Privat")
+                    ViewTripChart(tvm: tvm ,totalTrips: tvm.businessTrip, title: "Unternehmen")
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
                 
@@ -74,106 +73,110 @@ extension Double {
     }
 }
 
-struct ViewOverviewChart: View {
-    @StateObject  var tvm: TripViewModel
-    @State var currentTab: String = "Woche"
-    @State var chartDisplayUnit = Calendar.Component.day
-    @State var trips: [Trip]
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                HStack {
-                    Image(systemName: "road.lanes")
-                        .bold()
-                    Text("Strecken")
-                        .fontWeight(.bold)
-                        .font(.body)
-                }
-                Picker("", selection: $currentTab) {
-                    Text("Woche")
-                        .tag("Woche")
-                    Text("Monat")
-                        .tag("Monat")
-                    Text("Jahr")
-                        .tag("Jahr")
-                }
-                .pickerStyle(.segmented)
-                .padding(.leading,40)
-            }
-            
-            let tripTotal = tvm.trips.map(\.length)
-                .reduce(0.0, +)
-            
-            tripTotal.kmText()
-            AnimatedChart()
-        }
-        .padding()
-        .background {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color("ForgroundColor"))
-        }
-        .onChange(of: currentTab) { newValue in
-            trips = tvm.trips
-            switch newValue {
-            case "Woche":
-                chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: true)
-            case "Monat":
-                chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateMonthlyTrips(includePrivateTrip: true, includeBusinessTrip: true)
-            case "Jahr":
-                chartDisplayUnit = Calendar.Component.month
-                trips = tvm.generateYearlyTrips(includePrivateTrip: true, includeBusinessTrip: true)
-            default:
-                return
-            }
-            //animateGraph()
-        }
-    }
-    
-    @ViewBuilder
-    func AnimatedChart() -> some View {
-        Chart {
-            ForEach(trips) { trip in
-                BarMark(
-                    x: .value("Datum", trip.date, unit: chartDisplayUnit),
-                    y: .value("Strecke", trip.length )
-                )
-            }
-            .foregroundStyle(Color.blue.gradient)
-        }
-        //        .chartYScale(domain: 0...(max + 50))
-        .frame(height: 250)
-        .chartXAxis {
-            if currentTab == "Jahr" {
-                AxisMarks(values: trips.map {$0.date }) { date in
-                    AxisValueLabel(format: .dateTime.month(.narrow))
-                }
-            } else {
-                AxisMarks()
-            }
-        }
-        .onAppear {
-            tvm.downloadAllTrips(){
-                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: true)
-            }
-            //            animateGraph()
-        }
-    }
-}
+//struct ViewOverviewChart: View {
+//    @StateObject  var tvm: TripViewModel
+//    @State var currentTab: String = "Woche"
+//    @State var chartDisplayUnit = Calendar.Component.day
+//    @State var trips: [Trip]
+//    var totalTrips: [Trip]
+//    var title: String
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 12) {
+//            HStack {
+//                HStack {
+//                    Image(systemName: "road.lanes")
+//                        .bold()
+//                    Text(title)
+//                        .fontWeight(.bold)
+//                        .font(.body)
+//                }
+//                Picker("", selection: $currentTab) {
+//                    Text("Woche")
+//                        .tag("Woche")
+//                    Text("Monat")
+//                        .tag("Monat")
+//                    Text("Jahr")
+//                        .tag("Jahr")
+//                }
+//                .pickerStyle(.segmented)
+//                .padding(.leading,40)
+//            }
+//
+//            let tripTotal = totalTrips.map(\.length)
+//                .reduce(0.0, +)
+//
+//            tripTotal.kmText()
+//            AnimatedChart()
+//        }
+//        .padding()
+//        .background {
+//            RoundedRectangle(cornerRadius: 10, style: .continuous)
+//                .fill(Color("ForgroundColor"))
+//        }
+//        .onChange(of: currentTab) { newValue in
+////            trips = tvm.trips
+//            switch newValue {
+//            case "Woche":
+//                chartDisplayUnit = Calendar.Component.day
+//                trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
+//            case "Monat":
+//                chartDisplayUnit = Calendar.Component.day
+//                trips = tvm.generateMonthlyTrips(selectedTrips: tvm.trips)
+//            case "Jahr":
+//                chartDisplayUnit = Calendar.Component.month
+//                trips = tvm.generateYearlyTrips(selectedTrips: tvm.trips)
+//            default:
+//                return
+//            }
+//            //animateGraph()
+//        }
+//    }
+//
+//    @ViewBuilder
+//    func AnimatedChart() -> some View {
+//        Chart {
+//            ForEach(trips) { trip in
+//                BarMark(
+//                    x: .value("Datum", trip.date, unit: chartDisplayUnit),
+//                    y: .value("Strecke", trip.length )
+//                )
+//            }
+//            .foregroundStyle(Color.blue.gradient)
+//        }
+//        //        .chartYScale(domain: 0...(max + 50))
+//        .frame(height: 250)
+//        .chartXAxis {
+//            if currentTab == "Jahr" {
+//                AxisMarks(values: trips.map {$0.date }) { date in
+//                    AxisValueLabel(format: .dateTime.month(.narrow))
+//                }
+//            } else {
+//                AxisMarks()
+//            }
+//        }
+//        .onAppear {
+//            tvm.downloadAllTrips(){
+//                trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
+//            }
+//            //            animateGraph()
+//        }
+//    }
+//}
 
-struct ViewPrivateChart: View {
+struct ViewTripChart: View {
     @StateObject  var tvm: TripViewModel
     @State var currentTab: String = "Woche"
     @State var chartDisplayUnit = Calendar.Component.day
-    @State var trips: [Trip]
+    @State var trips = [Trip]()
+    var totalTrips: [Trip]
+    var title: String
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 HStack {
                     Image(systemName: "road.lanes")
                         .bold()
-                    Text("Privat")
+                    Text(title)
                         .fontWeight(.bold)
                         .font(.body)
                 }
@@ -189,7 +192,7 @@ struct ViewPrivateChart: View {
                 .padding(.leading,40)
             }
             
-            let tripTotal = tvm.privateTrips.map(\.length)
+            let tripTotal = totalTrips.map(\.length)
                 .reduce(0.0, +)
             
             tripTotal.kmText()
@@ -201,21 +204,19 @@ struct ViewPrivateChart: View {
                 .fill(Color("ForgroundColor"))
         }
         .onChange(of: currentTab) { newValue in
-            trips = tvm.trips
             switch newValue {
             case "Woche":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+                trips = tvm.generateWeeklyTrips(selectedTrips: totalTrips)
             case "Monat":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateMonthlyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+                trips = tvm.generateMonthlyTrips(selectedTrips: totalTrips)
             case "Jahr":
                 chartDisplayUnit = Calendar.Component.month
-                trips = tvm.generateYearlyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+                trips = tvm.generateYearlyTrips(selectedTrips: totalTrips)
             default:
                 return
             }
-            //animateGraph()
         }
     }
     
@@ -230,7 +231,6 @@ struct ViewPrivateChart: View {
             }
             .foregroundStyle(Color.blue.gradient)
         }
-        //        .chartYScale(domain: 0...(max + 50))
         .frame(height: 250)
         .chartXAxis {
             if currentTab == "Jahr" {
@@ -243,9 +243,15 @@ struct ViewPrivateChart: View {
         }
         .onAppear {
             tvm.downloadAllTrips(){
-                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+                if(title == "Privat") {
+                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.privateTrips)
+                }else if(title == "Unternehmen") {
+                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.businessTrip)
+                }else {
+                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
+                }
+                
             }
-            //            animateGraph()
         }
     }
 }
