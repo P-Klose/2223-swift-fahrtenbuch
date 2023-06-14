@@ -53,7 +53,7 @@
       "inspectionMonth": "",
       "make": "Audi ",
       "vehicleType": "PKW",
-      "milage": "88899.37367104947",
+      "milage": "88899.79204244471",
       "model": "A7"
     }
   ],
@@ -3374,6 +3374,75 @@
       "isPrivat": true,
       "date": 708422708.104696,
       "id": 28
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.38774539,
+          "latitude": -122.15510789
+        },
+        {
+          "id": 1,
+          "longitude": 37.38789928,
+          "latitude": -122.15540746
+        },
+        {
+          "id": 2,
+          "longitude": 37.38803876,
+          "latitude": -122.15572505
+        },
+        {
+          "id": 3,
+          "longitude": 37.38816025,
+          "latitude": -122.156047
+        },
+        {
+          "id": 4,
+          "longitude": 37.38827425,
+          "latitude": -122.1563775
+        },
+        {
+          "id": 5,
+          "longitude": 37.38845823,
+          "latitude": -122.15706146
+        },
+        {
+          "id": 6,
+          "longitude": 37.38852302,
+          "latitude": -122.15740629
+        },
+        {
+          "id": 7,
+          "longitude": 37.38858496,
+          "latitude": -122.15776739
+        },
+        {
+          "id": 8,
+          "longitude": 37.38863873,
+          "latitude": -122.158132
+        },
+        {
+          "id": 9,
+          "longitude": 37.38869141,
+          "latitude": -122.15849049
+        },
+        {
+          "id": 10,
+          "longitude": 37.38880101,
+          "latitude": -122.1592167
+        },
+        {
+          "id": 11,
+          "longitude": 37.38885423,
+          "latitude": -122.15958014
+        }
+      ],
+      "vehicleId": 4,
+      "length": 418.37139523834054,
+      "isPrivat": false,
+      "date": 708437862.130895,
+      "id": 29
     }
   ],
   "expenses": [
