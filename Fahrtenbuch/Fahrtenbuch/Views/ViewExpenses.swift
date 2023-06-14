@@ -158,19 +158,19 @@ struct ViewExpenses: View {
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("GasExpenseColor"))
+            .foregroundStyle(Color("GasExpenseColor").gradient)
             ForEach(parkExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("ParkExpenseColor"))
+            .foregroundStyle(Color("ParkExpenseColor").gradient)
             ForEach(washExpense) { expense in
                 BarMark(
                     x: .value("Datum", expense.date, unit: chartDisplayUnit),
                     y: .value("Kosten", expense.expenseValue))
             }
-            .foregroundStyle(Color("WashExpenseColor"))
+            .foregroundStyle(Color("WashExpenseColor").gradient)
         }
         .frame(height: 250)
 //        .foregroundColor(Color("ForgroundColor"))
