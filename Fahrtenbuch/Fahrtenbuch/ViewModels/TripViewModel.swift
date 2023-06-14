@@ -16,6 +16,12 @@ class TripViewModel: ObservableObject {
     var trips:[Trip] {
         tripModel.trips
     }
+    var privateTrips:[Trip] {
+        tripModel.trips.filter { $0.isPrivat }
+    }
+    var businessTrip:[Trip] {
+        tripModel.trips.filter { !$0.isPrivat}
+    }
     
     let navigationQueue = DispatchQueue(label: "navigation")
     let viewController =  HomeViewController()
@@ -28,8 +34,8 @@ class TripViewModel: ObservableObject {
     
     let LOG = Logger()
     
-    func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], distanceTraveled: Double) {
-        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId)
+    func saveTrip(vehicleId: Int, date: Date, coordinates: [[Double]], isPrivat: Bool, distanceTraveled: Double) {
+        let toSaveTrip = Trip(id: nil, coordinates: IntArrayToCoordinatesUsing(numbers: coordinates), length: distanceTraveled, date: date, vehicleId: vehicleId, isPrivat: isPrivat)
         vehicleViewModel.updateMillage(vehicleId: vehicleId, toAddMilage: distanceTraveled)
         saveTripToDatabase(trip: toSaveTrip) { success in
             if success {
@@ -113,7 +119,7 @@ class TripViewModel: ObservableObject {
     }
     
     
-    func generateYearlyTrips() -> [Trip] {
+    func generateYearlyTrips(includePrivateTrip: Bool, includeBusinessTrip: Bool) -> [Trip] {
         var yearlyTrips = [Trip]()
         
         let currentDate = Date()
@@ -126,14 +132,14 @@ class TripViewModel: ObservableObject {
                 continue
             }
             
-            let trip = Trip(length: calculateExpenseSum(for: month), date: monthDate, vehicleId: -1)
+            let trip = Trip(length: calculateExpenseSum(for: month, isPrivate: includePrivateTrip, isBusiness: includeBusinessTrip), date: monthDate, vehicleId: -1, isPrivat: false)
             yearlyTrips.append(trip)
         }
         
         return yearlyTrips
     }
     
-    func generateWeeklyTrips() -> [Trip] {
+    func generateWeeklyTrips(includePrivateTrip: Bool, includeBusinessTrip: Bool) -> [Trip] {
         let currentDate = Date()
         let calendar = Calendar.current
         
@@ -146,14 +152,14 @@ class TripViewModel: ObservableObject {
             }
 //            LOG.debug("WeekDay: \(weekday) Day: \(day)")
             
-            let expense = Trip(length: calculateExpenseSum(for: weekday), date: weekday, vehicleId: -1)
+            let expense = Trip(length: calculateExpenseSum(for: weekday, isPrivate: includePrivateTrip, isBusiness: includeBusinessTrip), date: weekday, vehicleId: -1, isPrivat: false)
             expenses.append(expense)
         }
         
         return expenses
     }
     
-    func generateMonthlyTrips() -> [Trip] {
+    func generateMonthlyTrips(includePrivateTrip: Bool, includeBusinessTrip: Bool) -> [Trip] {
         let currentDate = Date()
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: currentDate)
@@ -169,7 +175,7 @@ class TripViewModel: ObservableObject {
                     continue
                 }
                 
-                let expense = Trip(length: calculateExpenseSum(for: dayDate), date: dayDate, vehicleId: -1)
+                let expense = Trip(length: calculateExpenseSum(for: dayDate, isPrivate: includePrivateTrip, isBusiness: includeBusinessTrip), date: dayDate, vehicleId: -1, isPrivat: false)
                 expenses.append(expense)
             }
         }
@@ -178,20 +184,33 @@ class TripViewModel: ObservableObject {
     }
     
     
-    func calculateExpenseSum(for month: Int) -> Double {
+    func calculateExpenseSum(for month: Int, isPrivate: Bool, isBusiness: Bool) -> Double {
         let calendar = Calendar.current
-        let filteredExpenses = trips.filter { calendar.component(.month, from: $0.date) == month }
+        var filteredExpenses = trips.filter { calendar.component(.month, from: $0.date) == month }
+        if(isPrivate && !isBusiness){
+            filteredExpenses = filteredExpenses.filter { $0.isPrivat == isPrivate }
+            
+        }else if(isBusiness && !isPrivate){
+            filteredExpenses = filteredExpenses.filter { $0.isPrivat == !isBusiness }
+        }
+        
         let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.length }
         return expenseSum
     }
     
-    func calculateExpenseSum(for day: Date) -> Double {
+    func calculateExpenseSum(for day: Date, isPrivate: Bool, isBusiness: Bool) -> Double {
         let calendar = Calendar.current
         
-        let filteredExpenses = trips.filter {
+        var filteredExpenses = trips.filter {
 //            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
             return calendar.isDate($0.date, inSameDayAs: day)
             
+        }
+        if(isPrivate && !isBusiness){
+            filteredExpenses = filteredExpenses.filter { $0.isPrivat == isPrivate }
+            
+        }else if(isBusiness && !isPrivate){
+            filteredExpenses = filteredExpenses.filter { $0.isPrivat == !isBusiness }
         }
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum

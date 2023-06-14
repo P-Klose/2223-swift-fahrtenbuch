@@ -32,6 +32,7 @@ struct ViewTrips: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                     ViewOverviewChart(tvm: tvm, trips: trips)
+                    ViewPrivateChart(tvm: tvm, trips: trips)
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
                 
@@ -116,13 +117,13 @@ struct ViewOverviewChart: View {
             switch newValue {
             case "Woche":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateWeeklyTrips()
+                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: true)
             case "Monat":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateMonthlyTrips()
+                trips = tvm.generateMonthlyTrips(includePrivateTrip: true, includeBusinessTrip: true)
             case "Jahr":
                 chartDisplayUnit = Calendar.Component.month
-                trips = tvm.generateYearlyTrips()
+                trips = tvm.generateYearlyTrips(includePrivateTrip: true, includeBusinessTrip: true)
             default:
                 return
             }
@@ -154,7 +155,95 @@ struct ViewOverviewChart: View {
         }
         .onAppear {
             tvm.downloadAllTrips(){
-                trips = tvm.generateWeeklyTrips()
+                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: true)
+            }
+            //            animateGraph()
+        }
+    }
+}
+
+struct ViewPrivateChart: View {
+    @StateObject  var tvm: TripViewModel
+    @State var currentTab: String = "Woche"
+    @State var chartDisplayUnit = Calendar.Component.day
+    @State var trips: [Trip]
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack {
+                    Image(systemName: "road.lanes")
+                        .bold()
+                    Text("Privat")
+                        .fontWeight(.bold)
+                        .font(.body)
+                }
+                Picker("", selection: $currentTab) {
+                    Text("Woche")
+                        .tag("Woche")
+                    Text("Monat")
+                        .tag("Monat")
+                    Text("Jahr")
+                        .tag("Jahr")
+                }
+                .pickerStyle(.segmented)
+                .padding(.leading,40)
+            }
+            
+            let tripTotal = tvm.privateTrips.map(\.length)
+                .reduce(0.0, +)
+            
+            tripTotal.kmText()
+            AnimatedChart()
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color("ForgroundColor"))
+        }
+        .onChange(of: currentTab) { newValue in
+            trips = tvm.trips
+            switch newValue {
+            case "Woche":
+                chartDisplayUnit = Calendar.Component.day
+                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+            case "Monat":
+                chartDisplayUnit = Calendar.Component.day
+                trips = tvm.generateMonthlyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+            case "Jahr":
+                chartDisplayUnit = Calendar.Component.month
+                trips = tvm.generateYearlyTrips(includePrivateTrip: true, includeBusinessTrip: false)
+            default:
+                return
+            }
+            //animateGraph()
+        }
+    }
+    
+    @ViewBuilder
+    func AnimatedChart() -> some View {
+        Chart {
+            ForEach(trips) { trip in
+                BarMark(
+                    x: .value("Datum", trip.date, unit: chartDisplayUnit),
+                    y: .value("Strecke", trip.length )
+                )
+            }
+            .foregroundStyle(Color.blue.gradient)
+        }
+        //        .chartYScale(domain: 0...(max + 50))
+        .frame(height: 250)
+        .chartXAxis {
+            if currentTab == "Jahr" {
+                AxisMarks(values: trips.map {$0.date }) { date in
+                    AxisValueLabel(format: .dateTime.month(.narrow))
+                }
+            } else {
+                AxisMarks()
+            }
+        }
+        .onAppear {
+            tvm.downloadAllTrips(){
+                trips = tvm.generateWeeklyTrips(includePrivateTrip: true, includeBusinessTrip: false)
             }
             //            animateGraph()
         }
@@ -173,7 +262,7 @@ struct ViewTriplist: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Fahrzeug")
-                    .fontWeight(.bold)
+                    .fontWeight(.semibold)
                     .font(.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
@@ -187,14 +276,16 @@ struct ViewTriplist: View {
                 }
                 .pickerStyle(.menu)
             }
-            DatePicker("Von:", selection: $startDate, in: ...endDate, displayedComponents: .date)
-                .datePickerStyle(.automatic)
-                .environment(\.locale, Locale(identifier: "de_DE"))
-            
-            
-            DatePicker("Bis:", selection: $endDate, in: startDate..., displayedComponents: .date)
-                .datePickerStyle(.automatic)
-                .environment(\.locale, Locale(identifier: "de_DE"))
+            HStack {
+                DatePicker("Von:", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                    .datePickerStyle(.automatic)
+                    .environment(\.locale, Locale(identifier: "de_DE"))
+                
+                
+                DatePicker("Bis:", selection: $endDate, in: startDate..., displayedComponents: .date)
+                    .datePickerStyle(.automatic)
+                    .environment(\.locale, Locale(identifier: "de_DE"))
+            }
             
             ForEach(filterTrips()) { trip in
                 

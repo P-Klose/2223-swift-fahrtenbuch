@@ -88,7 +88,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
                 let distance = currentLocation.distance(from: nextLocation)
                 totalDistance += distance
             }
-            tripViewModel.saveTrip(vehicleId: selectedVehicleId, date: Date(), coordinates: coordinatesArray, distanceTraveled: totalDistance)
+            tripViewModel.saveTrip(vehicleId: selectedVehicleId, date: Date(), coordinates: coordinatesArray, isPrivat: isPrivateTrip, distanceTraveled: totalDistance)
             
             self.LOG.debug("Recent Locations: \(coordinatesArray)")
             recentLocations = [CLLocation]()

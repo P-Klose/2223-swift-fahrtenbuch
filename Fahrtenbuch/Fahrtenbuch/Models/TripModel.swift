@@ -35,7 +35,7 @@ struct Trip: Codable, Identifiable, Hashable {
     var length: Double
     var date: Date
     var vehicleId: Int
-    var isPrivat: Bool?
+    var isPrivat: Bool
 //    var animate: Bool = false
 }
 extension Trip {
@@ -49,7 +49,7 @@ extension Trip {
             self.date = Date()
         }
         self.vehicleId = dto.vehicleId
-        self.isPrivat = dto.isPrivat
+        self.isPrivat = dto.isPrivat ?? false
     }
 }
 

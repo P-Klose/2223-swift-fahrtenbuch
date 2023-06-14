@@ -55,7 +55,7 @@ struct ViewRides: View {
                                     }
                                 }
                             }
-                            Toggle("Berufliche Fahrt", isOn: $privateTrip)
+                            Toggle("Private Fahrt", isOn: $privateTrip)
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                         }
                         
