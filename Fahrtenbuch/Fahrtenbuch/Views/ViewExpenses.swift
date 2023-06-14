@@ -26,7 +26,7 @@ struct ViewExpenses: View {
     
     @State var chartDisplayUnit = Calendar.Component.day
     
-    func setExpenses() {
+    public func setExpenses() {
         gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
         parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
         washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
@@ -102,10 +102,7 @@ struct ViewExpenses: View {
             .background(Color("Background"))
             .navigationTitle("Ausgaben")
             .onAppear(perform: {
-                expenseViewModel.downloadAllExpenses(){
-                    setExpenses()
-                }
-                vehicleViewModel.downloadAllVehicles(){}
+                setExpenses()
             })
             .onChange(of: currentTab) { newValue in
                 switch newValue {
@@ -128,6 +125,9 @@ struct ViewExpenses: View {
                     return
                 }
             }
+            .onChange(of: expenseViewModel.expenses, perform: { newValue in
+                setExpenses()
+            })
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
@@ -182,17 +182,6 @@ struct ViewExpenses: View {
             } else {
                 AxisMarks()
             }
-            // NOTE: Custom Axis Marks but a little bit buggy
-//            if currentTab == "Woche" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.weekday(.short))
-//                }
-//            }
-//            if currentTab == "Monat" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.day(.defaultDigits))
-//                }
-//            }
         }
     }
 }

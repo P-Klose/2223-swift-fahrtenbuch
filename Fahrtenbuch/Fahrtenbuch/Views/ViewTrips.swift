@@ -10,12 +10,20 @@ import OSLog
 import Charts
 
 struct ViewTrips: View {
-    @StateObject  var tvm: TripViewModel
+    @ObservedObject  var tvm: TripViewModel
     @ObservedObject var vvm: VehicleViewModel
     
     @State private var showAlertFahrt = false
     @State private var showTripConfigSheet = false
     
+    @State var showOverviewChart: Bool = true
+    @State var showPrivateTripChart: Bool = false
+    @State var showBusinessTripChart: Bool = false
+    @State var showPercentageDifference: Bool = false
+    
+    @State var overviewTrips = [Trip]()
+    @State var privateTrips = [Trip]()
+    @State var businessTrips = [Trip]()
     
     let LOG = Logger()
     
@@ -37,9 +45,9 @@ struct ViewTrips: View {
                                 .font(.body)
                         }
                     }
-                    ViewTripChart(tvm: tvm, totalTrips: tvm.trips, title: "Gesammt")
-                    ViewTripChart(tvm: tvm ,totalTrips: tvm.privateTrips, title: "Privat")
-                    ViewTripChart(tvm: tvm ,totalTrips: tvm.businessTrip, title: "Unternehmen")
+                    if showOverviewChart { ViewTripChart(tvm: tvm ,trips: overviewTrips, totalTrips: tvm.trips, title: "Gesammt") }
+                    if showPrivateTripChart { ViewTripChart(tvm: tvm ,trips: privateTrips ,totalTrips: tvm.privateTrips, title: "Privat") }
+                    if showBusinessTripChart { ViewTripChart(tvm: tvm ,trips: businessTrips ,totalTrips: tvm.businessTrip, title: "Unternehmen") }
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
                 
@@ -48,8 +56,29 @@ struct ViewTrips: View {
             }
             .navigationTitle("Fahrten")
             .background(Color("Background"))
+            .gesture(DragGesture()
+                .onChanged { gesture in
+                    if gesture.startLocation.y < gesture.location.y {
+                        tvm.downloadAllTrips {}
+                    }
+                }
+            )
         }
-        .background(Color("Background"))
+        .sheet(isPresented: $showTripConfigSheet) {
+            WhatToDisplayView(showOverviewChart: $showOverviewChart, showPrivateTripChart: $showPrivateTripChart, showBusinessTripChart: $showBusinessTripChart, showPercentageDifference: $showPercentageDifference)
+                .presentationDetents([.large])
+                .onDisappear{
+                    
+                }
+        }
+        .onChange(of: tvm.trips) { newValue in
+            overviewTrips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
+            privateTrips = tvm.generateWeeklyTrips(selectedTrips: tvm.privateTrips)
+            businessTrips = tvm.generateWeeklyTrips(selectedTrips: tvm.businessTrip)
+            LOG.info("Trips updated")
+        }
+        
+        
     }
     
     
@@ -81,101 +110,11 @@ extension Double {
     }
 }
 
-//struct ViewOverviewChart: View {
-//    @StateObject  var tvm: TripViewModel
-//    @State var currentTab: String = "Woche"
-//    @State var chartDisplayUnit = Calendar.Component.day
-//    @State var trips: [Trip]
-//    var totalTrips: [Trip]
-//    var title: String
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 12) {
-//            HStack {
-//                HStack {
-//                    Image(systemName: "road.lanes")
-//                        .bold()
-//                    Text(title)
-//                        .fontWeight(.bold)
-//                        .font(.body)
-//                }
-//                Picker("", selection: $currentTab) {
-//                    Text("Woche")
-//                        .tag("Woche")
-//                    Text("Monat")
-//                        .tag("Monat")
-//                    Text("Jahr")
-//                        .tag("Jahr")
-//                }
-//                .pickerStyle(.segmented)
-//                .padding(.leading,40)
-//            }
-//
-//            let tripTotal = totalTrips.map(\.length)
-//                .reduce(0.0, +)
-//
-//            tripTotal.kmText()
-//            AnimatedChart()
-//        }
-//        .padding()
-//        .background {
-//            RoundedRectangle(cornerRadius: 10, style: .continuous)
-//                .fill(Color("Forground"))
-//        }
-//        .onChange(of: currentTab) { newValue in
-////            trips = tvm.trips
-//            switch newValue {
-//            case "Woche":
-//                chartDisplayUnit = Calendar.Component.day
-//                trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
-//            case "Monat":
-//                chartDisplayUnit = Calendar.Component.day
-//                trips = tvm.generateMonthlyTrips(selectedTrips: tvm.trips)
-//            case "Jahr":
-//                chartDisplayUnit = Calendar.Component.month
-//                trips = tvm.generateYearlyTrips(selectedTrips: tvm.trips)
-//            default:
-//                return
-//            }
-//            //animateGraph()
-//        }
-//    }
-//
-//    @ViewBuilder
-//    func AnimatedChart() -> some View {
-//        Chart {
-//            ForEach(trips) { trip in
-//                BarMark(
-//                    x: .value("Datum", trip.date, unit: chartDisplayUnit),
-//                    y: .value("Strecke", trip.length )
-//                )
-//            }
-//            .foregroundStyle(Color.blue.gradient)
-//        }
-//        //        .chartYScale(domain: 0...(max + 50))
-//        .frame(height: 250)
-//        .chartXAxis {
-//            if currentTab == "Jahr" {
-//                AxisMarks(values: trips.map {$0.date }) { date in
-//                    AxisValueLabel(format: .dateTime.month(.narrow))
-//                }
-//            } else {
-//                AxisMarks()
-//            }
-//        }
-//        .onAppear {
-//            tvm.downloadAllTrips(){
-//                trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
-//            }
-//            //            animateGraph()
-//        }
-//    }
-//}
-
 struct ViewTripChart: View {
-    @StateObject  var tvm: TripViewModel
+    @ObservedObject var tvm: TripViewModel
     @State var currentTab: String = "Woche"
     @State var chartDisplayUnit = Calendar.Component.day
-    @State var trips = [Trip]()
+    @State var trips: [Trip]
     var totalTrips: [Trip]
     var title: String
     var body: some View {
@@ -250,16 +189,7 @@ struct ViewTripChart: View {
             }
         }
         .onAppear {
-            tvm.downloadAllTrips(){
-                if(title == "Privat") {
-                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.privateTrips)
-                }else if(title == "Unternehmen") {
-                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.businessTrip)
-                }else {
-                    trips = tvm.generateWeeklyTrips(selectedTrips: tvm.trips)
-                }
-                
-            }
+            trips = tvm.generateWeeklyTrips(selectedTrips: totalTrips)
         }
     }
 }
@@ -335,5 +265,50 @@ struct ViewTriplist: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: date)
+    }
+}
+
+struct WhatToDisplayView: View {
+    
+    private let LOG = Logger()
+    
+    @Binding var showOverviewChart: Bool
+    @Binding var showPrivateTripChart: Bool
+    @Binding var showBusinessTripChart: Bool
+    @Binding var showPercentageDifference: Bool
+    
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        
+        
+        NavigationView{
+            VStack {
+                Toggle("Übersichts Chart", isOn: $showOverviewChart)
+                Toggle("Private Fahrten", isOn: $showPrivateTripChart)
+                Toggle("Geschäftliche Fahrten", isOn: $showBusinessTripChart)
+                Toggle("Privatanteil in Prozent", isOn: $showPercentageDifference)
+            }
+            .navigationTitle("Statistiken bearbeiten")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(){
+                ToolbarItemGroup(placement:
+                        .cancellationAction){
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Text("Abbrechen")
+                            }
+                        }
+                ToolbarItemGroup(placement:
+                        .confirmationAction){
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Text("Fertig")
+                            }
+                        }
+            }
+        }
     }
 }

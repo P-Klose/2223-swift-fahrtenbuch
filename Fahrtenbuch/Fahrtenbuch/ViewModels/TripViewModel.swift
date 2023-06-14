@@ -105,6 +105,7 @@ class TripViewModel: ObservableObject {
             if let data = TripViewModel.load(){
                 DispatchQueue.main.async {
                     self.tripModel.importFromJson(data: data)
+                    self.LOG.info("ℹ️ Downloading Trips finished")
                     completion()
                 }
             }

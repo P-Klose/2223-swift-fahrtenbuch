@@ -34,7 +34,13 @@ struct ContentView: View {
                     Image(systemName: "road.lanes.curved.right")
                     Text("Fahrten")
                 }.onAppear(perform: { tabColor = .pink })
-        }.tint(tabColor)
+        }
+        .tint(tabColor)
+        .onAppear{
+            expenseViewModel.downloadAllExpenses {}
+            mapViewModel.tripViewModel.downloadAllTrips {}
+            vehicleViewModel.downloadAllVehicles(){}
+        }
         
     }
 }
