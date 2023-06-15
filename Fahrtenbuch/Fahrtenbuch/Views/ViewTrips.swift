@@ -45,7 +45,7 @@ struct ViewTrips: View {
                                 .font(.body)
                         }
                     }
-                    if showOverviewChart { ViewTripChart(tvm: tvm ,trips: overviewTrips, totalTrips: tvm.trips, title: "Gesammt") }
+                    if showOverviewChart { ViewTripChart(tvm: tvm ,trips: overviewTrips, totalTrips: tvm.trips, title: "Gesamt") }
                     if showPrivateTripChart { ViewTripChart(tvm: tvm ,trips: privateTrips ,totalTrips: tvm.privateTrips, title: "Privat") }
                     if showBusinessTripChart { ViewTripChart(tvm: tvm ,trips: businessTrips ,totalTrips: tvm.businessTrip, title: "Unternehmen") }
                     ViewTriplist(vvm: vvm, tvm: tvm)
@@ -214,8 +214,8 @@ struct ViewTriplist: View {
                     Text("bitte auswählen")
                         .tag(-1)
                     ForEach(vvm.vehicles.indices, id: \.self) { index in
-                        Text(vvm.vehicles[index].getName())
-                            .tag(vvm.vehicles[index].id)
+                        Text("\(vvm.vehicles[index].getName())")
+                            .tag(vvm.vehicles[index].getId())
                     }
                 }
                 .pickerStyle(.menu)
@@ -235,7 +235,7 @@ struct ViewTriplist: View {
                 
                 VStack(alignment: .leading) {
                     Text("Am: \(formattedDate(for: trip.date))")
-                    Text("Gefahren Strecke: \(trip.length)km")
+                    Text("Gefahren Strecke: \(trip.length.kmText())")
                 }
             }
         }
@@ -277,17 +277,40 @@ struct WhatToDisplayView: View {
     @Binding var showBusinessTripChart: Bool
     @Binding var showPercentageDifference: Bool
     
+    @State var diagramType = "Linie"
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
         
         NavigationView{
-            VStack {
-                Toggle("Übersichts Chart", isOn: $showOverviewChart)
-                Toggle("Private Fahrten", isOn: $showPrivateTripChart)
-                Toggle("Geschäftliche Fahrten", isOn: $showBusinessTripChart)
-                Toggle("Privatanteil in Prozent", isOn: $showPercentageDifference)
+            Form {
+                
+                Section {
+                    Toggle("Übersichts Chart", isOn: $showOverviewChart)
+                    Toggle("Private Fahrten", isOn: $showPrivateTripChart)
+                    Toggle("Geschäftliche Fahrten", isOn: $showBusinessTripChart)
+                    Toggle("Privatanteil in Prozent", isOn: $showPercentageDifference)
+                } header: {
+                    Text("Diagramme")
+                } footer: {
+                    Text("")
+                }
+                Section {
+                    if showPercentageDifference {
+                        
+                        Picker("Diagramtyp", selection: $diagramType) {
+                            Text("Linie")
+                                .tag("Linie")
+                            Text("Kuchen")
+                                .tag("Kuchen")
+                        }
+                        .pickerStyle(.menu)
+                        
+                        
+                    }
+                }
             }
             .navigationTitle("Statistiken bearbeiten")
             .navigationBarTitleDisplayMode(.inline)

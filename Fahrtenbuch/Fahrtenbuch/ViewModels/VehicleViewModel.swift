@@ -49,7 +49,8 @@ class VehicleViewModel: ObservableObject {
                                  fuelType: fuelType,
                                  isInspectionEnabled: isInspectionEnabled,
                                  inspectionYear: inspectionYear,
-                                 inspectionMonth: inspectionMonth)
+                                 inspectionMonth: inspectionMonth,
+                                 isDeleted: false)
         print("ImageURL: \(imageUrl)")
         
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
@@ -73,7 +74,8 @@ class VehicleViewModel: ObservableObject {
                                      fuelType: fuelType,
                                      isInspectionEnabled: isInspectionEnabled,
                                      inspectionYear: inspectionYear,
-                                     inspectionMonth: inspectionMonth)
+                                     inspectionMonth: inspectionMonth,
+                                     isDeleted: false)
         
         saveCarToDatabase(vehicle: updatedVehilce, httpMethod: "PUT") { success in
             if success {
@@ -106,7 +108,8 @@ class VehicleViewModel: ObservableObject {
     
     func deleteVehicle(_ vehicle: Vehicle) {
         let finalUrl =  "\(DATABASE)/\(vehicle.id ?? -1)"
-        
+        var updatevehicle = vehicle
+        updatevehicle.isDeleted = true
         if let url = URL(string: finalUrl){
             print(finalUrl)
             

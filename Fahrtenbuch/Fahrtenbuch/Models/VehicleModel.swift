@@ -58,6 +58,8 @@ struct Vehicle: Codable, Identifiable, Hashable {
     var isInspectionEnabled: Bool
     var inspectionYear: Int
     var inspectionMonth: String
+    var isDeleted: Bool
+    
     
     func getName() -> String {
         return make + " " + model

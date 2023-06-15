@@ -187,7 +187,7 @@ class TripViewModel: ObservableObject {
     
     func calculateExpenseSum(for month: Int, and forTrips: [Trip]) -> Double {
         let calendar = Calendar.current
-        var filteredExpenses = forTrips.filter { calendar.component(.month, from: $0.date) == month }
+        let filteredExpenses = forTrips.filter { calendar.component(.month, from: $0.date) == month }
         
         let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.length }
         return expenseSum
@@ -196,7 +196,7 @@ class TripViewModel: ObservableObject {
     func calculateExpenseSum(for day: Date, and forTrips: [Trip]) -> Double {
         let calendar = Calendar.current
         
-        var filteredExpenses = forTrips.filter {
+        let filteredExpenses = forTrips.filter {
 //            LOG.debug("Tripdatum: \($0.date) Filterdatum: \(day)")
             return calendar.isDate($0.date, inSameDayAs: day)
             

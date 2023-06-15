@@ -13,8 +13,8 @@ struct ViewVehicle: View {
     @State private var searchTerm = "";
     
     var filteredCars: [Vehicle] {
-        guard !searchTerm.isEmpty else { return vehicleViewModel.vehicles}
-        return vehicleViewModel.vehicles.filter { $0.getSortName().localizedCaseInsensitiveContains(searchTerm)}
+        guard !searchTerm.isEmpty else { return vehicleViewModel.vehicles.filter {!$0.isDeleted}}
+        return vehicleViewModel.vehicles.filter { $0.getSortName().localizedCaseInsensitiveContains(searchTerm) && !$0.isDeleted }
     }
     
     
@@ -103,7 +103,7 @@ struct VehicleDetailView: View {
                 .font(.system(size: 100))
                 .padding()
                 .foregroundColor(Color(.label))
-            
+            Text("\(vehicle.getId())")
             List {
                 VehicleDetailSectionView(title: "Kilometerstand", value: vehicle.milage, unit: "km")
                 VehicleDetailSectionView(title: "Durchschnittliche Fahrstrecke", value: "91", unit: "km")
