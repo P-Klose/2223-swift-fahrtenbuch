@@ -121,7 +121,7 @@ struct ViewTripChart: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 HStack {
-                    Image(systemName: "road.lanes")
+                    Image(systemName: "road.lanes").foregroundColor((title == "Unternehmen" ? Color("BusinessTrip") : (title == "Privat" ? Color("PrivateTrip") : Color.blue)))
                         .bold()
                     Text(title)
                         .fontWeight(.bold)
