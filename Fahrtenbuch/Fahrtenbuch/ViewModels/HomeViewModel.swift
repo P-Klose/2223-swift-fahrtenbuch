@@ -11,19 +11,21 @@ import CoreLocation
 
 
 class HomeViewModel: ObservableObject{
+    var notificationsAllowed: Bool?
     
     func checkForPremission(){
         let notifacationCenter = UNUserNotificationCenter.current()
         notifacationCenter.getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .authorized:
-                self.dispachNotification()
+                self.notificationsAllowed = true;
             case .denied:
+                self.notificationsAllowed = false;
                 return
             case .notDetermined:
                 notifacationCenter.requestAuthorization(options: [.alert, .sound]) { didAllow, error in
                     if didAllow {
-                        self.dispachNotification()
+                        self.notificationsAllowed = true;
                     }
                 }
             default:

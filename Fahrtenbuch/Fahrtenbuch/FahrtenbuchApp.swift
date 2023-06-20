@@ -12,9 +12,10 @@ struct FahrtenbuchApp: App {
     let vehicleViewModel = VehicleViewModel()
     let expenseViewModel = ExpenseViewModel()
     let mapViewModel = MapViewModel()
+    let viewModel = HomeViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel)
+            ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel, viewModel: viewModel)
         }
     }
 }

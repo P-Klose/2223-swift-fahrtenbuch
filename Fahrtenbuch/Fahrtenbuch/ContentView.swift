@@ -11,6 +11,7 @@ struct ContentView: View {
     @ObservedObject var vehicleViewModel: VehicleViewModel
     @ObservedObject var expenseViewModel: ExpenseViewModel
     @ObservedObject var mapViewModel: MapViewModel
+    @ObservedObject var viewModel: HomeViewModel
     @State private var tabColor: Color = .accentColor
     var body: some View {
         TabView {
@@ -41,6 +42,9 @@ struct ContentView: View {
             mapViewModel.tripViewModel.downloadAllTrips {}
             vehicleViewModel.downloadAllVehicles(){}
         }
+        .task {
+            viewModel.checkForPremission()
+        }
         
     }
 }
@@ -51,7 +55,8 @@ struct ContentView_Previews: PreviewProvider {
     static let vehicleViewModel = VehicleViewModel()
     static let expenseViewModel = ExpenseViewModel()
     static let mapViewModel = MapViewModel()
+    static let viewModel = HomeViewModel()
     static var previews: some View {
-        ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel)
+        ContentView(vehicleViewModel: vehicleViewModel, expenseViewModel: expenseViewModel, mapViewModel: mapViewModel, viewModel: viewModel)
     }
 }
