@@ -158,7 +158,7 @@ struct ViewTripChart: View {
                 .padding(.leading,40)
             }
             
-            let tripTotal = totalTrips.map(\.length)
+            let tripTotal = trips.map(\.length)
                 .reduce(0.0, +)
             
             tripTotal.kmText()
