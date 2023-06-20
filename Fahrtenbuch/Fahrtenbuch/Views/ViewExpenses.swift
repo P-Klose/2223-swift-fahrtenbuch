@@ -53,7 +53,7 @@ struct ViewExpenses: View {
                             .padding(.leading,40)
                         }
                         
-                        expenseViewModel.summ().euroText()
+                        expenseViewModel.summ(for: currentTab).euroText()
                         AnimatedChart()
                         DesciptionView()
                     }

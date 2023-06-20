@@ -44,8 +44,25 @@ class ExpenseViewModel: ObservableObject {
         model.initData()
     }
     
-    func summ() -> Double{
-        return summGas() + summPark() + summWash() + summOther()
+    func summ(for _week: String) -> Double {
+        var expenseSumm = 0.0
+        switch _week {
+        case "Woche":
+            expenseSumm = expenseSumm + generateWeeklyExpenses(expenseIndex: 0).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateWeeklyExpenses(expenseIndex: 1).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateWeeklyExpenses(expenseIndex: 2).reduce(0.0, { $0 + Double($1.expenseValue) })
+        case "Monat":
+            expenseSumm = expenseSumm + generateMonthlyExpenses(expenseIndex: 0).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateMonthlyExpenses(expenseIndex: 1).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateMonthlyExpenses(expenseIndex: 2).reduce(0.0, { $0 + Double($1.expenseValue) })
+        case "Jahr":
+            expenseSumm = expenseSumm + generateYearlyExpenses(expenseIndex: 0).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateYearlyExpenses(expenseIndex: 1).reduce(0.0, { $0 + Double($1.expenseValue) })
+            expenseSumm = expenseSumm + generateYearlyExpenses(expenseIndex: 2).reduce(0.0, { $0 + Double($1.expenseValue) })
+        default:
+            break
+        }
+        return expenseSumm
     }
     func summGas() -> Double {
         expenses.filter { $0.expenseType == 0 }.reduce(0.0, { $0 + Double($1.expenseValue) })
