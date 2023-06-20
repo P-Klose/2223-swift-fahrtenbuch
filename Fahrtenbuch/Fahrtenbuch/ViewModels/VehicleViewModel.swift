@@ -23,10 +23,12 @@ class VehicleViewModel: ObservableObject {
             if let data = VehicleViewModel.load(){
                 DispatchQueue.main.async {
                     self.model.importFromJson(data: data)
+//                    HomeViewModel().dispachNotification(for: self.vehicles.first!, forValues: [0,0,0])
                     completion()
                 }
             }
         }
+        
     }
     static func load() -> Data? {
         var data: Data?

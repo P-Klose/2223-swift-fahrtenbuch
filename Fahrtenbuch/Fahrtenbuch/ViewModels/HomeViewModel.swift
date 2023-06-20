@@ -50,6 +50,8 @@ class HomeViewModel: ObservableObject{
         
         let calender = Calendar.current
         var dateComponent = DateComponents(calendar: calender, timeZone: .current)
+//        dateComponent.year = 2023
+//        dateComponent.month = 6
         dateComponent.year = forValues[2]
         dateComponent.month = forValues[0]
         dateComponent.day = 1
