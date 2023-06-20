@@ -25,7 +25,7 @@ struct ViewTrips: View {
     @State var privateTrips = [Trip]()
     @State var businessTrips = [Trip]()
     
-    @State var percentageBars = [TripPercantageBar]()
+    @State var percentageBars = [Double]()
     
     let LOG = Logger()
     
@@ -50,7 +50,7 @@ struct ViewTrips: View {
                     if showOverviewChart { ViewTripChart(tvm: tvm ,trips: overviewTrips, totalTrips: tvm.trips, title: "Gesamt") }
                     if showPrivateTripChart { ViewTripChart(tvm: tvm ,trips: privateTrips ,totalTrips: tvm.privateTrips, title: "Privat") }
                     if showBusinessTripChart { ViewTripChart(tvm: tvm ,trips: businessTrips ,totalTrips: tvm.businessTrip, title: "Unternehmen") }
-                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: percentageBars, totalTrips: tvm.trips)}
+                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, percentages: percentageBars, totalTrips: tvm.trips)}
 //                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: overviewTrips, totalTrips: tvm.trips, title: "")}
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
@@ -202,7 +202,7 @@ struct ViewAsPercentage: View {
     @ObservedObject var tvm: TripViewModel
     @State var currentTab: String = "Woche"
     @State var chartDisplayUnit = Calendar.Component.day
-    @State var trips: [TripPercantageBar]
+    @State var percentages: [Double]
     var totalTrips: [Trip]
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -241,13 +241,13 @@ struct ViewAsPercentage: View {
             switch newValue {
             case "Woche":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateWeeklyTripPercentage()
+                percentages = tvm.generateWeeklyTripPercentage()
             case "Monat":
                 chartDisplayUnit = Calendar.Component.day
-                trips = tvm.generateWeeklyTripPercentage()
+                percentages = tvm.generateWeeklyTripPercentage()
             case "Jahr":
                 chartDisplayUnit = Calendar.Component.month
-                trips = tvm.generateWeeklyTripPercentage()
+                percentages = tvm.generateWeeklyTripPercentage()
             default:
                 return
             }
@@ -257,14 +257,12 @@ struct ViewAsPercentage: View {
     @ViewBuilder
     func AnimatedChart() -> some View {
             
-        Chart {
-            ForEach(trips) { trip in
-                BarMark(
-                    x: .value("Datum", trip.id ?? 0),
-                    y: .value("Strecke", trip.percentage ?? 0)
-                )
+        let colors: [Color] = [Color("PrivateTrip"), Color.blue] // Zugehörige Fraben
+        
+        PieChartView(percentages: percentages, colors: colors)
+            .frame(width: 300, height: 300).onAppear {
+                percentages = tvm.generateWeeklyTripPercentage()
             }
-        }
         
         
     }

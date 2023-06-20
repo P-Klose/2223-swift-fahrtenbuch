@@ -40,6 +40,7 @@
 		E4FDF5EA2A02356C0048A089 /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */; };
 		E4FDF5EC2A0235A20048A089 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */; };
 		E4FDF5EE2A0271A90048A089 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */; };
+		E4FF552D2A41B1EF00063F6F /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FF552C2A41B1EF00063F6F /* PieChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		E4FDF5E92A02356C0048A089 /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		E4FDF5EB2A0235A20048A089 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
 		E4FDF5ED2A0271A90048A089 /* NavigationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
+		E4FF552C2A41B1EF00063F6F /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				E4072E4B29D4079C00B3AC82 /* ViewRides.swift */,
 				E44D4F9F29F846B700F2DCED /* MapView.swift */,
 				E41E51E32A0B804800DEBE30 /* ViewTrips.swift */,
+				E4FF552C2A41B1EF00063F6F /* PieChart.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				E4072E5129D4330200B3AC82 /* VehicleModel.swift in Sources */,
 				E4FDF5EE2A0271A90048A089 /* NavigationModel.swift in Sources */,
 				E44D4FA029F846B700F2DCED /* MapView.swift in Sources */,
+				E4FF552D2A41B1EF00063F6F /* PieChart.swift in Sources */,
 				E427DECF29E4169F0032F98E /* VehicleViewController.swift in Sources */,
 				E41FA40829B8A8F200154E7F /* ContentView.swift in Sources */,
 				E4CBF7BA2A2DDF3F003CC9F2 /* TripViewModel.swift in Sources */,
