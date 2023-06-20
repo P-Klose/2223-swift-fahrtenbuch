@@ -112,6 +112,21 @@ extension Double {
             .fontDesign(.rounded)
         return numberText + euroText
     }
+    func percentText() -> Text {
+        let formattedNumber = String(
+                format: "%.1f",
+                locale: Locale(identifier: "de_DE"),
+                self)
+            .replacingOccurrences(of: ".0", with: "")
+        let numberText = Text(formattedNumber)
+            .font(.largeTitle).bold()
+            .fontDesign(.rounded)
+        let percentText = Text(" %")
+            .font(.body).bold()
+            .foregroundColor(.gray)
+            .fontDesign(.rounded)
+        return numberText + percentText
+    }
 }
 
 struct ViewTripChart: View {
@@ -202,7 +217,7 @@ struct ViewAsPercentage: View {
     @ObservedObject var tvm: TripViewModel
     @State var currentTab: String = "Woche"
     @State var chartDisplayUnit = Calendar.Component.day
-    @State var percentages: [Double]
+    @State var percentages = [0.0,0.0]
     var totalTrips: [Trip]
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -225,11 +240,7 @@ struct ViewAsPercentage: View {
                 .pickerStyle(.segmented)
                 .padding(.leading,40)
             }
-
-//            var tripTotal = totalTrips.map(\.length)
-//                .reduce(0.0, +)
-//            tripTotal = tripTotal / Double(totalTrips.count)
-//            tripTotal.percentText()
+            percentages.first?.percentText()
             AnimatedChart()
         }
         .padding()
@@ -244,10 +255,10 @@ struct ViewAsPercentage: View {
                 percentages = tvm.generateWeeklyTripPercentage()
             case "Monat":
                 chartDisplayUnit = Calendar.Component.day
-                percentages = tvm.generateWeeklyTripPercentage()
+                percentages = tvm.generateMonthlyTripPercentage()
             case "Jahr":
                 chartDisplayUnit = Calendar.Component.month
-                percentages = tvm.generateWeeklyTripPercentage()
+                percentages = tvm.generateYearlyTripPercentage()
             default:
                 return
             }
@@ -260,7 +271,8 @@ struct ViewAsPercentage: View {
         let colors: [Color] = [Color("PrivateTrip"), Color.blue] // Zugehörige Fraben
         
         PieChartView(percentages: percentages, colors: colors)
-            .frame(width: 300, height: 300).onAppear {
+            .frame(width: 300, height: 300)
+            .onAppear {
                 percentages = tvm.generateWeeklyTripPercentage()
             }
         
@@ -371,20 +383,20 @@ struct WhatToDisplayFormView: View {
                 } footer: {
                     Text("")
                 }
-                Section {
-                    if showPercentageDifference {
-                        
-                        Picker("Diagramtyp", selection: $diagramType) {
-                            Text("Linie")
-                                .tag("Linie")
-                            Text("Kuchen")
-                                .tag("Kuchen")
-                        }
-                        .pickerStyle(.menu)
-                        
-                        
-                    }
-                }
+//                Section {
+//                    if showPercentageDifference {
+//
+//                        Picker("Diagramtyp", selection: $diagramType) {
+//                            Text("Linie")
+//                                .tag("Linie")
+//                            Text("Kuchen")
+//                                .tag("Kuchen")
+//                        }
+//                        .pickerStyle(.menu)
+//
+//
+//                    }
+//                }
             }
             .navigationTitle("Statistiken bearbeiten")
             .navigationBarTitleDisplayMode(.inline)

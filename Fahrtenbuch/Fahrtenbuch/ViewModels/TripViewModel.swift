@@ -47,6 +47,7 @@ class TripViewModel: ObservableObject {
         //        self.tripModel.add(trip: toSaveTrip)
         LOG.info("#of trips \(self.tripModel.trips.count)")
     }
+    
     private func IntArrayToCoordinatesUsing(numbers: [[Double]]) -> [Coordinate] {
         var finalCoordinates = [Coordinate]()
         for (index,coordinates) in numbers.enumerated() {
@@ -111,33 +112,13 @@ class TripViewModel: ObservableObject {
             }
         }
     }
+    
     static func load() -> Data? {
         var data: Data?
         if let url = URL(string: TripModel.DATABASE) {
             data = try? Data(contentsOf: url)
         }
         return data
-    }
-    
-    
-    func generateYearlyTrips(selectedTrips: [Trip]) -> [Trip] {
-        var yearlyTrips = [Trip]()
-        
-        let currentDate = Date()
-        let calendar = Calendar.current
-        let currentYear = calendar.component(.year, from: currentDate)
-        
-        for month in 1...12 {
-            let monthDateComponents = DateComponents(year: currentYear, month: month)
-            guard let monthDate = calendar.date(from: monthDateComponents) else {
-                continue
-            }
-            
-            let trip = Trip(length: calculateExpenseSum(for: month, and: selectedTrips), date: monthDate, vehicleId: -1, isPrivat: false)
-            yearlyTrips.append(trip)
-        }
-        
-        return yearlyTrips
     }
     
     func generateWeeklyTrips(selectedTrips: [Trip]) -> [Trip] {
@@ -175,13 +156,9 @@ class TripViewModel: ObservableObject {
             tripSumPrivate = tripSumPrivate + calculateExpenseSum(for: weekday, and: privateTrips)
             tripSumBusiness = tripSumBusiness + calculateExpenseSum(for: weekday, and: businessTrip)
         }
-        let summ = tripSumBusiness + tripSumPrivate;
-        let privatePercent = tripSumPrivate/summ*100;
-        let businessPercent = tripSumBusiness/summ*100;
-        percentagePies.append(privatePercent)
-        percentagePies.append(businessPercent)
-        LOG.info("Privat: \(privatePercent)")
-        LOG.info("Business: \(businessPercent)")
+        summUpPercentages(tripSumBusiness, tripSumPrivate, &percentagePies)
+//        LOG.info("Privat: \(privatePercent)")
+//        LOG.info("Business: \(businessPercent)")
         
         return percentagePies
     }
@@ -211,6 +188,80 @@ class TripViewModel: ObservableObject {
         return expenses
     }
     
+    func generateMonthlyTripPercentage() -> [Double] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        let currentMonth = calendar.component(.month, from: currentDate)
+        
+        var percentagePies = [Double]()
+        var tripSumPrivate = 0.0;
+        var tripSumBusiness = 0.0;
+        
+        // Generiere Ausgaben für jeden Tag des aktuellen Monats
+        if let range = calendar.range(of: .day, in: .month, for: currentDate) {
+            for day in range {
+                let dayDateComponents = DateComponents(year: currentYear, month: currentMonth, day: day)
+                guard let dayDate = calendar.date(from: dayDateComponents) else {
+                    continue
+                }
+                
+                tripSumPrivate = tripSumPrivate + calculateExpenseSum(for: dayDate, and: privateTrips)
+                tripSumBusiness = tripSumBusiness + calculateExpenseSum(for: dayDate, and: businessTrip)
+            }
+        }
+        
+        summUpPercentages(tripSumBusiness, tripSumPrivate, &percentagePies)
+        return percentagePies
+    }
+    
+    func generateYearlyTrips(selectedTrips: [Trip]) -> [Trip] {
+        var yearlyTrips = [Trip]()
+        
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        for month in 1...12 {
+            let monthDateComponents = DateComponents(year: currentYear, month: month)
+            guard let monthDate = calendar.date(from: monthDateComponents) else {
+                continue
+            }
+            
+            let trip = Trip(length: calculateExpenseSum(for: month, and: selectedTrips), date: monthDate, vehicleId: -1, isPrivat: false)
+            yearlyTrips.append(trip)
+        }
+        
+        return yearlyTrips
+    }
+    
+    func generateYearlyTripPercentage() -> [Double] {
+        var yearlyTrips = [Trip]()
+        
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        var percentagePies = [Double]()
+        var tripSumPrivate = 0.0;
+        var tripSumBusiness = 0.0;
+        
+        for month in 1...12 {
+            let monthDateComponents = DateComponents(year: currentYear, month: month)
+            guard let monthDate = calendar.date(from: monthDateComponents) else {
+                continue
+            }
+            
+            tripSumPrivate = tripSumPrivate + calculateExpenseSum(for: month, and: privateTrips)
+            tripSumBusiness = tripSumBusiness + calculateExpenseSum(for: month, and: businessTrip)
+        }
+        
+        summUpPercentages(tripSumBusiness, tripSumPrivate, &percentagePies)
+        return percentagePies
+    }
+    
+    
+    
     
     func calculateExpenseSum(for month: Int, and forTrips: [Trip]) -> Double {
         let calendar = Calendar.current
@@ -233,6 +284,14 @@ class TripViewModel: ObservableObject {
         let expenseSum = filteredExpenses.reduce(0) { $0 + $1.length }
         
         return expenseSum
+    }
+    
+    fileprivate func summUpPercentages(_ tripSumBusiness: Double, _ tripSumPrivate: Double, _ percentagePies: inout [Double]) {
+        let summ = tripSumBusiness + tripSumPrivate;
+        let privatePercent = tripSumPrivate/summ*100;
+        let businessPercent = tripSumBusiness/summ*100;
+        percentagePies.append(privatePercent)
+        percentagePies.append(businessPercent)
     }
     
 }
