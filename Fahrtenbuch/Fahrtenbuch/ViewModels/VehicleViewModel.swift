@@ -53,6 +53,8 @@ class VehicleViewModel: ObservableObject {
                                  isDeleted: false)
         print("ImageURL: \(imageUrl)")
         
+        addNotificationTo(vehicle: newVehilce)
+        
         saveCarToDatabase(vehicle: newVehilce, httpMethod: "POST") { success in
             if success {
                 
@@ -61,6 +63,51 @@ class VehicleViewModel: ObservableObject {
             }
         }
     }
+    func calculateMonthAndYearForVehicleinspectionBeginFor(_ vehicle: Vehicle) -> [Int]{
+        var values = [Int]()
+        var startMonth = 0
+        var endMonth = 0
+        var year = vehicle.getInspectionYear()
+        switch vehicle.vehicleType {
+        case "PKW":
+            startMonth = berechneMonat(monat: vehicle.getInspectionMonth(), montageUeberspringen: -1)
+            endMonth = berechneMonat(monat: vehicle.getInspectionMonth(), montageUeberspringen: 4)
+            year=year+1
+        case "LKW":
+            startMonth = berechneMonat(monat: vehicle.getInspectionMonth(), montageUeberspringen: -3)
+            endMonth = vehicle.getInspectionMonth()
+            year = year+1
+        case "Oldtimer":
+            startMonth = berechneMonat(monat: vehicle.getInspectionMonth(), montageUeberspringen: -1)
+            endMonth = berechneMonat(monat: vehicle.getInspectionMonth(), montageUeberspringen: 4)
+            year = year+2
+        default:
+            endMonth = 0
+            startMonth = 0
+            year = 1970
+        }
+        values[0] = startMonth
+        values[1] = endMonth
+        values[2] = year
+        
+        return values
+        
+    }
+    func berechneMonat(monat: Int, montageUeberspringen: Int) -> Int {
+        var neuerMonat = (monat + montageUeberspringen) % 12
+        if neuerMonat <= 0 {
+            neuerMonat += 12
+        }
+        return neuerMonat
+    }
+    
+    func addNotificationTo(vehicle: Vehicle){
+        if(vehicle.isInspectionEnabled){
+            let values = calculateMonthAndYearForVehicleinspectionBeginFor(vehicle)
+            HomeViewModel().dispachNotification(for: vehicle, forValues: values)
+        }
+    }
+    
     func update(vehicle: Vehicle, make: String, model: String, vin: String, milage: String, numberplate: String, imageUrl: String, vehicleType: String, fuelType: String, isInspectionEnabled: Bool, inspectionMonth: String, inspectionYear: Int) {
         
         let updatedVehilce = Vehicle(id: vehicle.id,

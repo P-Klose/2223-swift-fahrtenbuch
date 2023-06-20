@@ -35,13 +35,11 @@ class HomeViewModel: ObservableObject{
     }
     
     
-    func dispachNotification() {
-        let identifier = "my-fahrtenbuch-notification"
-        let title = "Let's go on a drive!"
-        let body = "..."
-        let hour = 12
-        let minute = 38
-        let isDaily = true
+    func dispachNotification(for _vehicle: Vehicle, forValues: [Int]) {
+        let identifier = _vehicle.getFullName()
+        let title = "Pickerl Erinnerung"
+        let body = "Bei ihrem \(_vehicle.make) \(_vehicle.model) mit dem Kennzeichen \(_vehicle.numberplate) ist nun der Zeitraum offen die §57a Überprüfung zu vollziehen."
+        let isDaily = false
         
         let notifacationCenter = UNUserNotificationCenter.current()
         
@@ -52,8 +50,11 @@ class HomeViewModel: ObservableObject{
         
         let calender = Calendar.current
         var dateComponent = DateComponents(calendar: calender, timeZone: .current)
-        dateComponent.minute = minute
-        dateComponent.hour = hour
+        dateComponent.year = forValues[2]
+        dateComponent.month = forValues[0]
+        dateComponent.day = 1
+        dateComponent.minute = 0
+        dateComponent.hour = 8
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: isDaily)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)

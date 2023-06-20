@@ -13,6 +13,8 @@ struct VehicleModel {
     static let DATABASE = "http://localhost:3000/vehicles"
     let LOG = Logger()
     
+    static let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+    
     mutating func importFromJson(data: Data) {
         if let dowloadedVehicles = try? JSONDecoder().decode([Vehicle].self, from: data){
             vehicles = dowloadedVehicles
@@ -72,6 +74,12 @@ struct Vehicle: Codable, Identifiable, Hashable {
     }
     func getId() -> Int {
         return id ?? -1
+    }
+    func getInspectionYear() -> Int {
+        return inspectionYear
+    }
+    func getInspectionMonth() -> Int {
+        return (VehicleModel.months.firstIndex(of: inspectionMonth) ?? 0) + 1
     }
     
 }
