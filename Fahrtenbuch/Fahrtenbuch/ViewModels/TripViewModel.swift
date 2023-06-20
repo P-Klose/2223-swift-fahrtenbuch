@@ -159,6 +159,34 @@ class TripViewModel: ObservableObject {
         
         return expenses
     }
+    func generateWeeklyTripPercentage() -> [TripPercantageBar] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        
+        var percentageBars = [TripPercantageBar]()
+        var tripSumPrivate = 0.0;
+        var tripSumBusiness = 0.0;
+        // Generiere Ausgaben für jeden Wochentag der aktuellen Woche
+        for day in 1...7 {
+            guard let weekday = calendar.date(byAdding: .day, value: day - calendar.component(.weekday, from: currentDate), to: currentDate) else {
+                continue
+            }
+//            LOG.debug("WeekDay: \(weekday) Day: \(day)")
+            tripSumPrivate = tripSumPrivate + calculateExpenseSum(for: weekday, and: privateTrips)
+            tripSumBusiness = tripSumBusiness + calculateExpenseSum(for: weekday, and: businessTrip)
+        }
+        let summ = tripSumBusiness + tripSumPrivate;
+        let privatePercent = tripSumPrivate/summ*100;
+        let businessPercent = tripSumBusiness/summ*100;
+        percentageBars.append(TripPercantageBar(id: 0, percentage: privatePercent))
+        percentageBars.append(TripPercantageBar(id: 1, percentage: businessPercent))
+        LOG.info("Privat: \(privatePercent)")
+        LOG.info("Business: \(businessPercent)")
+        LOG.info("Business: \(percentageBars)")
+        
+        return percentageBars
+    }
+    
     
     func generateMonthlyTrips(selectedTrips: [Trip]) -> [Trip] {
         let currentDate = Date()

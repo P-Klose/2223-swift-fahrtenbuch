@@ -25,6 +25,8 @@ struct ViewTrips: View {
     @State var privateTrips = [Trip]()
     @State var businessTrips = [Trip]()
     
+    @State var percentageBars = [TripPercantageBar]()
+    
     let LOG = Logger()
     
     var body: some View {
@@ -48,6 +50,8 @@ struct ViewTrips: View {
                     if showOverviewChart { ViewTripChart(tvm: tvm ,trips: overviewTrips, totalTrips: tvm.trips, title: "Gesamt") }
                     if showPrivateTripChart { ViewTripChart(tvm: tvm ,trips: privateTrips ,totalTrips: tvm.privateTrips, title: "Privat") }
                     if showBusinessTripChart { ViewTripChart(tvm: tvm ,trips: businessTrips ,totalTrips: tvm.businessTrip, title: "Unternehmen") }
+                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: percentageBars, totalTrips: tvm.trips)}
+//                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: overviewTrips, totalTrips: tvm.trips, title: "")}
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
                 
@@ -65,7 +69,7 @@ struct ViewTrips: View {
             )
         }
         .sheet(isPresented: $showTripConfigSheet) {
-            WhatToDisplayView(showOverviewChart: $showOverviewChart, showPrivateTripChart: $showPrivateTripChart, showBusinessTripChart: $showBusinessTripChart, showPercentageDifference: $showPercentageDifference)
+            WhatToDisplayFormView(showOverviewChart: $showOverviewChart, showPrivateTripChart: $showPrivateTripChart, showBusinessTripChart: $showBusinessTripChart, showPercentageDifference: $showPercentageDifference)
                 .presentationDetents([.large])
                 .onDisappear{
                     
@@ -194,6 +198,78 @@ struct ViewTripChart: View {
     }
 }
 
+struct ViewAsPercentage: View {
+    @ObservedObject var tvm: TripViewModel
+    @State var currentTab: String = "Woche"
+    @State var chartDisplayUnit = Calendar.Component.day
+    @State var trips: [TripPercantageBar]
+    var totalTrips: [Trip]
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack {
+                    Image(systemName: "percent").foregroundColor(Color("PrivateTrip"))
+                        .bold()
+                    Text("Privatanteil")
+                        .fontWeight(.bold)
+                        .font(.body)
+                }
+                Picker("", selection: $currentTab) {
+                    Text("Woche")
+                        .tag("Woche")
+                    Text("Monat")
+                        .tag("Monat")
+                    Text("Jahr")
+                        .tag("Jahr")
+                }
+                .pickerStyle(.segmented)
+                .padding(.leading,40)
+            }
+
+//            var tripTotal = totalTrips.map(\.length)
+//                .reduce(0.0, +)
+//            tripTotal = tripTotal / Double(totalTrips.count)
+//            tripTotal.percentText()
+            AnimatedChart()
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color("Forground"))
+        }
+        .onChange(of: currentTab) { newValue in
+            switch newValue {
+            case "Woche":
+                chartDisplayUnit = Calendar.Component.day
+                trips = tvm.generateWeeklyTripPercentage()
+            case "Monat":
+                chartDisplayUnit = Calendar.Component.day
+                trips = tvm.generateWeeklyTripPercentage()
+            case "Jahr":
+                chartDisplayUnit = Calendar.Component.month
+                trips = tvm.generateWeeklyTripPercentage()
+            default:
+                return
+            }
+        }
+    }
+
+    @ViewBuilder
+    func AnimatedChart() -> some View {
+            
+        Chart {
+            ForEach(trips) { trip in
+                BarMark(
+                    x: .value("Datum", trip.id ?? 0),
+                    y: .value("Strecke", trip.percentage ?? 0)
+                )
+            }
+        }
+        
+        
+    }
+}
+
 struct ViewTriplist: View {
     @ObservedObject var vvm: VehicleViewModel
     @StateObject  var tvm: TripViewModel
@@ -268,7 +344,7 @@ struct ViewTriplist: View {
     }
 }
 
-struct WhatToDisplayView: View {
+struct WhatToDisplayFormView: View {
     
     private let LOG = Logger()
     

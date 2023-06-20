@@ -63,6 +63,11 @@ struct TripDto: Codable, Identifiable, Hashable {
 //    var animate: Bool = false
 }
 
+struct TripPercantageBar: Codable, Identifiable, Hashable {
+    var id: Int?
+    var percentage: Double
+}
+
 struct Coordinate: Codable, Identifiable, Hashable {
     var id: Int
     var latitude: Double
