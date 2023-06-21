@@ -183,21 +183,26 @@ struct ViewTripChart: View {
             default:
                 return
             }
+            animatingGraph(fromChange: true)
         }
     }
     
     @ViewBuilder
     func AnimatedChart() -> some View {
+        let max = trips.max { item1, item2 in
+            return item2.length > item1.length
+        }?.length ?? 0
+        
         Chart {
             ForEach(trips) { trip in
                 BarMark(
                     x: .value("Datum", trip.date, unit: chartDisplayUnit),
-                    y: .value("Strecke", trip.length )
+                    y: .value("Strecke", trip.isPrivat ? trip.length : 0)
                 )
             }
             .foregroundStyle((title == "Unternehmen" ? Color("BusinessTrip") : (title == "Privat" ? Color("PrivateTrip") : Color.blue)))
         }
-        .frame(height: 250)
+        .chartYScale(domain: 0...(max + 5000))
         .chartXAxis {
             if currentTab == "Jahr" {
                 AxisMarks(values: trips.map {$0.date }) { date in
@@ -205,6 +210,18 @@ struct ViewTripChart: View {
                 }
             } else {
                 AxisMarks()
+            }
+        }
+        .frame(height: 250)
+        .onAppear {
+            animatingGraph()
+        }
+    }
+    func animatingGraph(fromChange: Bool = false) {
+        for(index,_) in trips.enumerated(){
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
+                withAnimation(fromChange ? .easeInOut(duration: 0.8) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
+                    trips[index].isPrivat = true                    }
             }
         }
     }
