@@ -207,9 +207,6 @@ struct ViewTripChart: View {
                 AxisMarks()
             }
         }
-        .onAppear {
-            trips = tvm.generateWeeklyTrips(selectedTrips: totalTrips)
-        }
     }
 }
 
