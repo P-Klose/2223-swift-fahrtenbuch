@@ -13,34 +13,44 @@ struct ContentView: View {
     @ObservedObject var mapViewModel: MapViewModel
     @ObservedObject var viewModel: HomeViewModel
     @State private var tabColor: Color = .accentColor
+    @State private var selectedTab = 1
     var body: some View {
-        TabView {
+        TabView (selection: $selectedTab) {
             ViewExpenses(expenseViewModel: expenseViewModel, vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "eurosign.circle")
                     Text("Ausgaben")
-                }.onAppear(perform: { tabColor = .green })
+                }
+                .tag(0)
+                .onAppear(perform: { tabColor = .green })
             ViewVehicle(vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "car.2")
                     Text("Fahrzeuge")
-                }.onAppear(perform: { tabColor = .pink })
+                }
+                .tag(1)
+                .onAppear(perform: { tabColor = .pink })
             ViewRides(mapViewModel: mapViewModel, vehicleViewModel: vehicleViewModel)
                 .tabItem() {
                     Image(systemName: "map")
                     Text("Aufzeichnen")
-                }.onAppear(perform: { tabColor = .blue })
+                }
+                .tag(2)
+                .onAppear(perform: { tabColor = .blue })
             ViewTrips(tvm: mapViewModel.tripViewModel, vvm: vehicleViewModel)
                 .tabItem {
                     Image(systemName: "road.lanes.curved.right")
                     Text("Fahrten")
-                }.onAppear(perform: { tabColor = .pink })
+                }
+                .tag(3)
+                .onAppear(perform: { tabColor = .pink })
         }
         .tint(tabColor)
         .onAppear{
             expenseViewModel.downloadAllExpenses {}
             mapViewModel.tripViewModel.downloadAllTrips {}
             vehicleViewModel.downloadAllVehicles(){}
+            selectedTab = 1
         }
         .task {
             viewModel.checkForPremission()
