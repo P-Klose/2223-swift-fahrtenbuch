@@ -18,51 +18,57 @@ struct ViewExpenses: View {
     @ObservedObject var expenseViewModel: evm
     @ObservedObject var vehicleViewModel: vvm
     
-    @State var currentTab: String = "Woche"
+    @State var showExpenseConfigSheet = false
     
+    @State var currentTab: String = "Woche"
     @State var gasExpense = [Expense]()
     @State var parkExpense = [Expense]()
     @State var washExpense = [Expense]()
-    
     @State var chartDisplayUnit = Calendar.Component.day
     
+    let LOG = Logger()
+    
     public func setExpenses() {
-        gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
-        parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
-        washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
+        switch currentTab {
+        case "Woche":
+            chartDisplayUnit = Calendar.Component.day
+            gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
+            
+        case "Monat":
+            chartDisplayUnit = Calendar.Component.day
+            gasExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 2)
+        case "Jahr":
+            chartDisplayUnit = Calendar.Component.month
+            gasExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 2)
+        default:
+            return
+        }
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 4) {
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Text("Übersicht")
-                                .fontWeight(.bold)
+                    HStack {
+                        Text("Statistiken")
+                            .fontWeight(.bold)
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        Button(action: {
+                            showExpenseConfigSheet = true;
+                        }) {
+                            Text("Edit")
                                 .font(.body)
-                            Picker("", selection: $currentTab) {
-                                Text("Woche")
-                                    .tag("Woche")
-                                Text("Monat")
-                                    .tag("Monat")
-                                Text("Jahr")
-                                    .tag("Jahr")
-                            }
-                            .pickerStyle(.segmented)
-                            .padding(.leading,40)
                         }
-                        
-                        expenseViewModel.summ(for: currentTab).euroText()
-                        AnimatedChart()
-                        DesciptionView()
                     }
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color("Forground"))
-                    }
-                    
+                    ViewExpenseChart(expenseViewModel: expenseViewModel, gasExpense: gasExpense, parkExpense: parkExpense, washExpense: washExpense, title: "Übersicht")
                     
                     Spacer()
                     
@@ -75,7 +81,6 @@ struct ViewExpenses: View {
                             .foregroundColor(.secondary)
                             .padding(.bottom, 12)
                     }
-                    
                     Section() {
                         Text("Parken")
                         
@@ -99,35 +104,8 @@ struct ViewExpenses: View {
                 
                 
             }
-            .background(Color("Background"))
             .navigationTitle("Ausgaben")
-            .onAppear(perform: {
-                setExpenses()
-            })
-            .onChange(of: currentTab) { newValue in
-                switch newValue {
-                case "Woche":
-                    chartDisplayUnit = Calendar.Component.day
-                    gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
-                    parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
-                    washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
-                case "Monat":
-                    chartDisplayUnit = Calendar.Component.day
-                    gasExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 0)
-                    parkExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 1)
-                    washExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 2)
-                case "Jahr":
-                    chartDisplayUnit = Calendar.Component.month
-                    gasExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 0)
-                    parkExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 1)
-                    washExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 2)
-                default:
-                    return
-                }
-            }
-            .onChange(of: expenseViewModel.expenses, perform: { newValue in
-                setExpenses()
-            })
+            .background(Color("Background"))
             .toolbar(){
                 ToolbarItemGroup(placement:
                         .navigationBarTrailing){
@@ -143,10 +121,82 @@ struct ViewExpenses: View {
             ExpensesFormView(vehicleVM: vehicleViewModel, expenseVM: expenseViewModel)
                 .presentationDetents([.medium])
                 .onDisappear{
-                    expenseViewModel.downloadAllExpenses(){
-                        setExpenses()
-                    }
+                    expenseViewModel.downloadAllExpenses(){}
                 }
+        }
+        .onChange(of: expenseViewModel.expenses) { newValue in
+            setExpenses()
+        }
+    }
+}
+
+struct ViewExpenseChart: View {
+    @ObservedObject var expenseViewModel: evm
+    @State var currentTab: String = "Woche"
+    
+    @State var gasExpense: [Expense]
+    @State var parkExpense: [Expense]
+    @State var washExpense: [Expense]
+    
+    var LOG = Logger()
+    @State var chartDisplayUnit = Calendar.Component.day
+    
+    var title: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack {
+                    Image(systemName: "road.lanes").foregroundColor(.green)
+                        .bold()
+                    Text(title)
+                        .fontWeight(.bold)
+                        .font(.body)
+                }
+                Picker("", selection: $currentTab) {
+                    Text("Woche")
+                        .tag("Woche")
+                    Text("Monat")
+                        .tag("Monat")
+                    Text("Jahr")
+                        .tag("Jahr")
+                }
+                .pickerStyle(.segmented)
+                .padding(.leading,40)
+            }
+            expenseViewModel.summ(for: currentTab).euroText()
+            AnimatedChart()
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color("Forground"))
+        }
+        .onChange(of: currentTab) { newValue in
+            setExpenses()
+        }
+    }
+    
+    public func setExpenses() {
+        switch currentTab {
+        case "Woche":
+            chartDisplayUnit = Calendar.Component.day
+            gasExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateWeeklyExpenses(expenseIndex: 2)
+            
+        case "Monat":
+            chartDisplayUnit = Calendar.Component.day
+            gasExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateMonthlyExpenses(expenseIndex: 2)
+        case "Jahr":
+            chartDisplayUnit = Calendar.Component.month
+            gasExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 0)
+            parkExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 1)
+            washExpense = expenseViewModel.generateYearlyExpenses(expenseIndex: 2)
+        default:
+            return
         }
     }
     
@@ -182,6 +232,9 @@ struct ViewExpenses: View {
             } else {
                 AxisMarks()
             }
+        }
+        .onChange(of: expenseViewModel.expenses) { newValue in
+            setExpenses()
         }
     }
 }
