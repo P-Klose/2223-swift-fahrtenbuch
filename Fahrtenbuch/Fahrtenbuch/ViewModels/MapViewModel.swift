@@ -20,11 +20,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     var myRoute: MKPolyline? {
         return navigationModel.myRoute
     }
-//    @Published private var tripModel = TripModel()
-//    var trips:[Trip] {
-//        tripModel.trips
-//    }
-
     
     var locationManager: CLLocationManager
     let navigationQueue = DispatchQueue(label: "navigation")
@@ -104,7 +99,10 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             self.navigationModel.updateRoute(route: myRoute)
             self.LOG.debug("#of coordinates: \(coordinates.count)")
         }
-        //        regionUpdated = true
+        /// for region updates on map (follow possision)
+        ///
+//        let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
+//            navigationModel.updateRegion(region: region)
     }
     
     private func checkLocationAuthorization() {
