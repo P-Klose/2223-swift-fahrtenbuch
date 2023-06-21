@@ -36,7 +36,7 @@ struct Trip: Codable, Identifiable, Hashable {
     var date: Date
     var vehicleId: Int
     var isPrivat: Bool
-//    var animate: Bool = false
+    var animate: Bool = false
 }
 extension Trip {
     init(dto: TripDto) {

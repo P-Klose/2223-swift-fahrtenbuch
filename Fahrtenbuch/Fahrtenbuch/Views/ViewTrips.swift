@@ -51,7 +51,7 @@ struct ViewTrips: View {
                     if showPrivateTripChart { ViewTripChart(tvm: tvm ,trips: privateTrips ,totalTrips: tvm.privateTrips, title: "Privat") }
                     if showBusinessTripChart { ViewTripChart(tvm: tvm ,trips: businessTrips ,totalTrips: tvm.businessTrip, title: "Unternehmen") }
                     if showPercentageDifference { ViewAsPercentage(tvm: tvm, percentages: percentageBars, totalTrips: tvm.trips)}
-//                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: overviewTrips, totalTrips: tvm.trips, title: "")}
+                    //                    if showPercentageDifference { ViewAsPercentage(tvm: tvm, trips: overviewTrips, totalTrips: tvm.trips, title: "")}
                     ViewTriplist(vvm: vvm, tvm: tvm)
                 }
                 
@@ -114,9 +114,9 @@ extension Double {
     }
     func percentText() -> Text {
         let formattedNumber = String(
-                format: "%.1f",
-                locale: Locale(identifier: "de_DE"),
-                self)
+            format: "%.1f",
+            locale: Locale(identifier: "de_DE"),
+            self)
             .replacingOccurrences(of: ".0", with: "")
         let numberText = Text(formattedNumber)
             .font(.largeTitle).bold()
@@ -197,7 +197,8 @@ struct ViewTripChart: View {
             ForEach(trips) { trip in
                 BarMark(
                     x: .value("Datum", trip.date, unit: chartDisplayUnit),
-                    y: .value("Strecke", trip.isPrivat ? trip.length : 0)
+                    y: .value("Strecke", trip.animate ? trip.length : 0)
+//                    y: .value("Strecke", trip.length)
                 )
             }
             .foregroundStyle((title == "Unternehmen" ? Color("BusinessTrip") : (title == "Privat" ? Color("PrivateTrip") : Color.blue)))
@@ -213,15 +214,13 @@ struct ViewTripChart: View {
             }
         }
         .frame(height: 250)
-        .onAppear {
-            animatingGraph()
-        }
     }
     func animatingGraph(fromChange: Bool = false) {
         for(index,_) in trips.enumerated(){
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)) {
                 withAnimation(fromChange ? .easeInOut(duration: 0.8) : .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)){
-                    trips[index].isPrivat = true                    }
+                    trips[index].animate = true
+                }
             }
         }
     }
@@ -278,10 +277,10 @@ struct ViewAsPercentage: View {
             }
         }
     }
-
+    
     @ViewBuilder
     func AnimatedChart() -> some View {
-            
+        
         let colors: [Color] = [Color("PrivateTrip"), Color.blue] // Zugehörige Fraben
         
         PieChartView(percentages: percentages, colors: colors)
@@ -397,20 +396,20 @@ struct WhatToDisplayFormView: View {
                 } footer: {
                     Text("")
                 }
-//                Section {
-//                    if showPercentageDifference {
-//
-//                        Picker("Diagramtyp", selection: $diagramType) {
-//                            Text("Linie")
-//                                .tag("Linie")
-//                            Text("Kuchen")
-//                                .tag("Kuchen")
-//                        }
-//                        .pickerStyle(.menu)
-//
-//
-//                    }
-//                }
+                //                Section {
+                //                    if showPercentageDifference {
+                //
+                //                        Picker("Diagramtyp", selection: $diagramType) {
+                //                            Text("Linie")
+                //                                .tag("Linie")
+                //                            Text("Kuchen")
+                //                                .tag("Kuchen")
+                //                        }
+                //                        .pickerStyle(.menu)
+                //
+                //
+                //                    }
+                //                }
             }
             .navigationTitle("Statistiken bearbeiten")
             .navigationBarTitleDisplayMode(.inline)
