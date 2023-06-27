@@ -332,9 +332,17 @@ struct ViewTriplist: View {
             
             ForEach(filterTrips()) { trip in
                 
-                VStack(alignment: .leading) {
-                    Text("Am: \(formattedDate(for: trip.date))")
-                    Text("Gefahren Strecke: \((trip.length/1000).kmText())")
+                HStack(alignment: .center) {
+                    (trip.length/1000).kmText()
+                        .alignmentGuide(.leading) { _ in
+                            -20
+                        }
+                    Spacer()
+                    Text("\(formattedDate(for: trip.date))")
+                        .alignmentGuide(.trailing) { _ in
+                            20
+                        }
+                        .foregroundColor(.gray)
                 }
             }
         }
@@ -361,7 +369,9 @@ struct ViewTriplist: View {
         guard let date = date else {
             return "Unbekanntes Datum"
         }
+        
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "de_DE")
         dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: date)
     }
@@ -396,20 +406,6 @@ struct WhatToDisplayFormView: View {
                 } footer: {
                     Text("")
                 }
-                //                Section {
-                //                    if showPercentageDifference {
-                //
-                //                        Picker("Diagramtyp", selection: $diagramType) {
-                //                            Text("Linie")
-                //                                .tag("Linie")
-                //                            Text("Kuchen")
-                //                                .tag("Kuchen")
-                //                        }
-                //                        .pickerStyle(.menu)
-                //
-                //
-                //                    }
-                //                }
             }
             .navigationTitle("Statistiken bearbeiten")
             .navigationBarTitleDisplayMode(.inline)
