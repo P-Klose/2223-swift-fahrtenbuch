@@ -1,19 +1,19 @@
 {
   "vehicles": [
     {
-      "make": "VW",
-      "milage": "125070",
       "id": 0,
-      "vin": "yyyyyyyy",
-      "model": "T7",
-      "imageUrl": "",
-      "vehicleType": "PKW",
       "fuelType": "Kraftstoff",
-      "numberplate": "UU-48MM",
       "isInspectionEnabled": false,
       "inspectionYear": 0,
+      "vin": "yyyyyyyy",
+      "numberplate": "UU-48MM",
+      "imageUrl": "",
       "inspectionMonth": "",
-      "isDeleted": false
+      "isDeleted": false,
+      "make": "VW",
+      "vehicleType": "PKW",
+      "milage": "125070.23970249743",
+      "model": "T7"
     },
     {
       "id": 1,
@@ -4687,6 +4687,56 @@
       "isPrivat": false,
       "date": 708947895.205779,
       "id": 39
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.36207862,
+          "latitude": -122.12062282
+        },
+        {
+          "id": 1,
+          "longitude": 37.36233305,
+          "latitude": -122.12084385
+        },
+        {
+          "id": 2,
+          "longitude": 37.36258266,
+          "latitude": -122.12108055
+        },
+        {
+          "id": 3,
+          "longitude": 37.36281941,
+          "latitude": -122.12133444
+        },
+        {
+          "id": 4,
+          "longitude": 37.36303768,
+          "latitude": -122.12160442
+        },
+        {
+          "id": 5,
+          "longitude": 37.36324345,
+          "latitude": -122.12188572
+        },
+        {
+          "id": 6,
+          "longitude": 37.36344328,
+          "latitude": -122.12218294
+        },
+        {
+          "id": 7,
+          "longitude": 37.36362588,
+          "latitude": -122.12248745
+        }
+      ],
+      "vehicleId": 0,
+      "length": 239.70249743568556,
+      "isPrivat": true,
+      "animate": false,
+      "date": 709211051.030325,
+      "id": 40
     }
   ],
   "expenses": [
@@ -4759,6 +4809,13 @@
       "expenseValue": 20,
       "date": 708781325.116896,
       "id": 17
+    },
+    {
+      "expenseType": 0,
+      "vehicleId": 1,
+      "expenseValue": 69,
+      "date": 709211119.587622,
+      "id": 18
     }
   ]
 }

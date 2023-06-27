@@ -75,7 +75,7 @@ struct ViewExpenses: View {
                     Section() {
                         Text("Tanken")
                         
-                        Text("Gesammt: \(expenseViewModel.summGas(), format: .number.precision(.fractionLength(1)))")
+                        Text("Gesamt: \(expenseViewModel.summGas(), format: .number.precision(.fractionLength(1)))")
                             .fontWeight(.semibold)
                             .font(.footnote)
                             .foregroundColor(.secondary)
@@ -84,7 +84,7 @@ struct ViewExpenses: View {
                     Section() {
                         Text("Parken")
                         
-                        Text("Gesammt: \(expenseViewModel.summPark(), format: .number.precision(.fractionLength(1)))")
+                        Text("Gesamt: \(expenseViewModel.summPark(), format: .number.precision(.fractionLength(1)))")
                             .fontWeight(.semibold)
                             .font(.footnote)
                             .foregroundColor(.secondary)
@@ -93,7 +93,7 @@ struct ViewExpenses: View {
                     Section() {
                         Text("Waschen")
                         
-                        Text("Gesammt: \(expenseViewModel.summWash(), format: .number.precision(.fractionLength(1)))")
+                        Text("Gesamt: \(expenseViewModel.summWash(), format: .number.precision(.fractionLength(1)))")
                             .fontWeight(.semibold)
                             .font(.footnote)
                             .foregroundColor(.secondary)

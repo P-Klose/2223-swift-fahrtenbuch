@@ -101,7 +101,7 @@ extension Double {
         let formattedNumber = String(
             format: "%.1f",
             locale: Locale(identifier: "de_DE"),
-            self / 1000)
+            self)
             .replacingOccurrences(of: ".0", with: "")
         let numberText = Text(formattedNumber)
             .font(.largeTitle).bold()
@@ -159,7 +159,7 @@ struct ViewTripChart: View {
             }
             
             let tripTotal = trips.map(\.length)
-                .reduce(0.0, +)
+                .reduce(0.0, +)/1000
             
             tripTotal.kmText()
             AnimatedChart()
@@ -334,7 +334,7 @@ struct ViewTriplist: View {
                 
                 VStack(alignment: .leading) {
                     Text("Am: \(formattedDate(for: trip.date))")
-                    Text("Gefahren Strecke: \(trip.length.kmText())")
+                    Text("Gefahren Strecke: \((trip.length/1000).kmText())")
                 }
             }
         }

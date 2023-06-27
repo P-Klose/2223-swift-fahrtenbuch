@@ -81,6 +81,9 @@ struct Vehicle: Codable, Identifiable, Hashable {
     func getInspectionMonth() -> Int {
         return (VehicleModel.months.firstIndex(of: inspectionMonth) ?? 0) + 1
     }
+    func getMilage() -> Double {
+        return Double(milage) ?? 0.0
+    }
     
 }
 extension Date {

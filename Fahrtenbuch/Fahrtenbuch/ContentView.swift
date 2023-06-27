@@ -23,7 +23,7 @@ struct ContentView: View {
                 }
                 .tag(0)
                 .onAppear(perform: { tabColor = .green })
-            ViewVehicle(vehicleViewModel: vehicleViewModel)
+            ViewVehicle(vehicleViewModel: vehicleViewModel, tvm: mapViewModel.tripViewModel)
                 .tabItem() {
                     Image(systemName: "car.2")
                     Text("Fahrzeuge")

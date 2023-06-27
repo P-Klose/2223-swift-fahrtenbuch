@@ -10,6 +10,7 @@ import SwiftUI
 struct ViewVehicle: View {
     @State var showVehicleCreateForm = false
     @ObservedObject var vehicleViewModel: VehicleViewModel
+    @ObservedObject  var tvm: TripViewModel
     @State private var searchTerm = "";
     
     var filteredCars: [Vehicle] {
@@ -30,20 +31,7 @@ struct ViewVehicle: View {
                 }
             }
             .navigationDestination(for: Vehicle.self) { vehicle in
-                VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-                
-                /* List {
-                 ForEach(vehicleViewModel.vehicles, id: \.id) { vehicle in
-                 NavigationLink(value: vehicle) {
-                 Label(vehicle.numberplate, systemImage: "car.fill")
-                 Text(vehicle.make)
-                 Text(vehicle.model)
-                 }
-                 }
-                 }
-                 .navigationDestination(for: Vehicle.self) { vehicle in
-                 VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel)
-                 */
+                VehicleDetailView(vehicle: vehicle, vehicleViewModel: vehicleViewModel, tripViewModel: tvm)
             }
             .navigationTitle("Fahrzeuge")
             .searchable(text: $searchTerm, prompt: "Suche nach Autos")
@@ -90,30 +78,66 @@ struct ViewVehicle: View {
 struct VehicleDetailView: View {
     var vehicle: Vehicle
     var vehicleViewModel: VehicleViewModel
+    var tripViewModel: TripViewModel
     @State var showingVehicleEditForm = false
     var body: some View {
-        VStack (alignment: .leading){
-            
-            Text("\(vehicle.make) \(vehicle.model)")
-                .font(.caption)
-                .padding([.horizontal,.bottom], 20)
-                .foregroundColor(.black.opacity(80))
-            
-            Image(systemName: "car.fill")
-                .font(.system(size: 100))
-                .padding()
-                .foregroundColor(Color(.label))
-            Text("\(vehicle.getId())")
-            List {
-                VehicleDetailSectionView(title: "Kilometerstand", value: vehicle.milage, unit: "km")
-                VehicleDetailSectionView(title: "Durchschnittliche Fahrstrecke", value: "91", unit: "km")
+        ScrollView {
+            VStack (){
+                HStack {
+                    Text("Eigenschaften")
+                        .fontWeight(.bold)
+                        .font(.title2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+//                    Button(action: {
+//                        Text("Button")
+//                    }) {
+//                        Text("Bearbeiten")
+//                            .font(.body)
+//                    }
+                }
+                VehicleDetailSectionView(image: "road.lanes",
+                                           desc: "km Stand",
+                                           vehicle: vehicle,
+                                           valueText: vehicle.getMilage().kmText())
+                VehicleDetailSectionView(image: "ellipsis.rectangle",
+                                         desc: "Kennzeichen",
+                                         vehicle: vehicle,
+                                         valueText: Text(vehicle.numberplate))
+                VehicleDetailSectionView(image: "info.square",
+                                         desc: "Inspektion",
+                                         vehicle: vehicle,
+                                         valueText: Text("Tempate"))
+                
+                HStack {
+                    Text("Statistiken")
+                        .fontWeight(.bold)
+                        .font(.title2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+//                    Button(action: {
+//                        Text("Button")
+//                    }) {
+//                        Text("Bearbeiten")
+//                            .font(.body)
+//                    }
+                }
+                .padding(.top, 20)
+                VehicleDetailSectionView(image: "road.lanes",
+                                         desc: "Gefahrene Strecke",
+                                         vehicle: vehicle,
+                                         valueText: summPerVehicle(tvm: tripViewModel, vehicleId: vehicle.getId()).kmText())
+                VehicleDetailSectionView(image: "circle.slash",
+                                         desc: "Distanz pro Strecke",
+                                         vehicle: vehicle,
+                                         valueText: avgPerVehicle(tvm: tripViewModel, vehicleId: vehicle.getId()).kmText())
+//
             }
-            Spacer()
+            .padding()
+//            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .navigationTitle("\(vehicle.make) \(vehicle.model)")
         }
-        
-        
-        
-        .navigationTitle(vehicle.numberplate)
+        .background(Color("Background"))
         .toolbar {
             ToolbarItemGroup(placement:
                     .navigationBarTrailing){
@@ -130,6 +154,22 @@ struct VehicleDetailView: View {
                 .presentationDetents([.large])
         }
     }
+}
+func avgPerVehicle(tvm: TripViewModel, vehicleId: Int) -> Double {
+        let filteredTrips = tvm.trips.filter { trip in
+            return trip.vehicleId == vehicleId
+        }
+        
+    return filteredTrips.map(\.length)
+        .reduce(0.0, +)/1000/Double(filteredTrips.count)
+}
+func summPerVehicle(tvm: TripViewModel, vehicleId: Int) -> Double {
+        let filteredTrips = tvm.trips.filter { trip in
+            return trip.vehicleId == vehicleId
+        }
+        
+    return filteredTrips.map(\.length)
+        .reduce(0.0, +)/1000
 }
 
 struct VehicleFormView: View {
@@ -278,27 +318,30 @@ struct VehicleFormView: View {
 }
 
 struct VehicleDetailSectionView: View {
-    var title: String
-    var value: String
-    var unit: String
+    var image: String
+    var desc: String
+    var vehicle: Vehicle
+    var valueText: Text
     
     
     var body: some View {
-        Section {
-            VStack (alignment: .leading) {
-                Text(title)
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
-                    .padding([.bottom], 5)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
                 HStack {
-                    Text(value)
-                        .font(.title3)
+                    Image(systemName: image).foregroundColor(.pink)
                         .bold()
-                    Text(unit)
-                        .font(.system(size: 15))
-                        .foregroundColor(.gray)
+                    Text(desc)
+                        .fontWeight(.bold)
+                        .font(.body)
                 }
             }
+            valueText
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color("Forground"))
         }
     }
 }
@@ -491,8 +534,9 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct ViewVehicle_Previews: PreviewProvider {
     static let vehicleViewModel = VehicleViewModel()
+    static let tripViewModel = TripViewModel()
     static var previews: some View {
-        ViewVehicle(vehicleViewModel: vehicleViewModel)
+        ViewVehicle(vehicleViewModel: vehicleViewModel, tvm: tripViewModel)
     }
 }
 
