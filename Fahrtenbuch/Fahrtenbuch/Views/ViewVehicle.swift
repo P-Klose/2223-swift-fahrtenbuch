@@ -104,10 +104,10 @@ struct VehicleDetailView: View {
                                          desc: "Kennzeichen",
                                          vehicle: vehicle,
                                          valueText: Text(vehicle.numberplate))
-                VehicleDetailSectionView(image: "info.square",
-                                         desc: "Inspektion",
-                                         vehicle: vehicle,
-                                         valueText: Text("Tempate"))
+//                VehicleDetailSectionView(image: "info.square",
+//                                         desc: "Inspektion",
+//                                         vehicle: vehicle,
+//                                         valueText: Text("Tempate"))
                 
                 HStack {
                     Text("Statistiken")
@@ -252,8 +252,8 @@ struct VehicleFormView: View {
                         
                         
                         Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
-                            ForEach(years, id: \.self) { year in
-                                Text(String(format: "%04d", year)).tag(year)
+                            ForEach(0..<years.count) { index in
+                                Text(String(format: "%04d", years[index])).tag(index)
                             }
                         }
                         .pickerStyle(.menu)
@@ -376,10 +376,20 @@ struct VehicleEditFormView: View {
         _makeTextField = State(initialValue: vehicle.make)
         _modelTextField = State(initialValue: vehicle.model)
         _vinTextField = State(initialValue: vehicle.vin)
-        _milageTextField = State(initialValue: vehicle.milage)
+        _milageTextField = State(initialValue: extractDecimalPart(from: vehicle.milage))
         _numberplateTextField = State(initialValue: vehicle.numberplate)
         _vehicleType = State(initialValue: vehicle.vehicleType ?? "PKW")
         _fuelType = State(initialValue: vehicle.fuelType ?? "Kraftstoff")
+        
+    }
+    func extractDecimalPart(from string: String) -> String {
+        print(string)
+        if let dotRange = string.range(of: ".") {
+            let endIndex = string.index(dotRange.lowerBound, offsetBy: 3, limitedBy: string.endIndex) ?? string.endIndex
+            print(String(string[string.startIndex..<endIndex]))
+            return String(string[string.startIndex..<endIndex])
+        }
+        return "0"
     }
     
     var body: some View {
@@ -438,8 +448,8 @@ struct VehicleEditFormView: View {
                         
                         
                         Picker(selection: $selectedYearIndex, label: Text("Jahr:")) {
-                            ForEach(years, id: \.self) { year in
-                                Text(String(format: "%04d", year)).tag(year)
+                            ForEach(0..<years.count) { index in
+                                Text(String(format: "%04d", years[index])).tag(index)
                             }
                         }
                         .pickerStyle(.menu)

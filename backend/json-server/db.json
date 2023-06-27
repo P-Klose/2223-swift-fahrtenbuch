@@ -4,61 +4,61 @@
       "id": 0,
       "fuelType": "Kraftstoff",
       "isInspectionEnabled": false,
-      "inspectionYear": 0,
+      "inspectionYear": 2020,
       "vin": "yyyyyyyy",
-      "numberplate": "UU-48MM",
+      "numberplate": "LL-48MM",
       "imageUrl": "",
-      "inspectionMonth": "",
+      "inspectionMonth": "Januar",
       "isDeleted": false,
       "make": "VW",
       "vehicleType": "PKW",
-      "milage": "125070.23970249743",
+      "milage": "125072.23",
       "model": "T7"
     },
     {
       "id": 1,
       "fuelType": "Kraftstoff",
       "isInspectionEnabled": false,
-      "inspectionYear": 0,
+      "inspectionYear": 2020,
       "vin": "yyyyyyyy",
       "numberplate": "UU-48MM",
       "imageUrl": "",
-      "inspectionMonth": "",
+      "inspectionMonth": "Januar",
+      "isDeleted": false,
       "make": "Audi",
       "vehicleType": "PKW",
-      "milage": "125024.78582364801",
-      "model": "A6",
-      "isDeleted": false
+      "milage": "125025.80",
+      "model": "A6"
     },
     {
       "id": 3,
       "fuelType": "Kraftstoff",
       "isInspectionEnabled": false,
-      "inspectionYear": 0,
+      "inspectionYear": 2020,
       "vin": "",
-      "numberplate": "UU455FF",
+      "numberplate": "UU-455FF",
       "imageUrl": "",
-      "inspectionMonth": "",
+      "inspectionMonth": "Januar",
+      "isDeleted": false,
       "make": "Audi",
       "vehicleType": "PKW",
       "milage": "32003.098253934317",
-      "model": "A3",
-      "isDeleted": false
+      "model": "A3"
     },
     {
       "id": 4,
       "fuelType": "Kraftstoff",
       "isInspectionEnabled": false,
-      "inspectionYear": 0,
+      "inspectionYear": 2020,
       "vin": "",
-      "numberplate": "UU",
+      "numberplate": "L-200XY",
       "imageUrl": "",
-      "inspectionMonth": "",
+      "inspectionMonth": "Januar",
+      "isDeleted": false,
       "make": "Audi ",
       "vehicleType": "PKW",
-      "milage": "88899.79204244471",
-      "model": "A7",
-      "isDeleted": false
+      "milage": "88899.90",
+      "model": "A7"
     },
     {
       "id": 5,
@@ -72,8 +72,23 @@
       "isDeleted": false,
       "make": "BMW",
       "vehicleType": "Oldtimer",
-      "milage": "69006.9160680922",
+      "milage": "69008.28076646349",
       "model": "E30"
+    },
+    {
+      "id": 6,
+      "fuelType": "Kraftstoff",
+      "isInspectionEnabled": true,
+      "inspectionYear": 2022,
+      "vin": "",
+      "numberplate": "L-1089D",
+      "imageUrl": "",
+      "inspectionMonth": "Dezember",
+      "isDeleted": false,
+      "make": "Mercedes",
+      "vehicleType": "PKW",
+      "milage": "0",
+      "model": "E 300"
     }
   ],
   "trips": [
@@ -147,7 +162,7 @@
         }
       ],
       "vehicleId": 0,
-      "length": 0,
+      "length": 120,
       "id": 1,
       "isPrivat": false
     },
@@ -206,7 +221,7 @@
         }
       ],
       "vehicleId": 0,
-      "length": 100,
+      "length": 12000,
       "id": 2,
       "isPrivat": false
     },
@@ -234,7 +249,7 @@
         }
       ],
       "vehicleId": 1,
-      "length": 100.34974438664946,
+      "length": 1000.3497443866495,
       "date": 705998487.228023,
       "id": 3,
       "isPrivat": false
@@ -478,7 +493,7 @@
         }
       ],
       "vehicleId": 2,
-      "length": 1079.9550151279584,
+      "length": 12079.955015127958,
       "date": 706009329.605847,
       "id": 4,
       "isPrivat": false
@@ -537,7 +552,7 @@
         }
       ],
       "vehicleId": 2,
-      "length": 310.5559315428294,
+      "length": 3210.5559315428295,
       "date": 706011048.474679,
       "id": 5,
       "isPrivat": false
@@ -956,7 +971,7 @@
         }
       ],
       "vehicleId": 2,
-      "length": 394.20495141799927,
+      "length": 3994.2049514179994,
       "date": 706619349.184896,
       "id": 6,
       "isPrivat": false
@@ -2200,7 +2215,7 @@
         }
       ],
       "vehicleId": 0,
-      "length": 1478.9460425752673,
+      "length": 19478.946042575266,
       "date": 706622736.894266,
       "id": 7,
       "isPrivat": false
@@ -2234,7 +2249,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 33.681384328434056,
+      "length": 53333.68138432843,
       "date": 707576405.28043,
       "id": 8,
       "isPrivat": false
@@ -2263,7 +2278,7 @@
         }
       ],
       "vehicleId": 2,
-      "length": 25.019798325989303,
+      "length": 44325.019798325986,
       "date": 707576456.313182,
       "id": 9,
       "isPrivat": false
@@ -2292,7 +2307,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 23.567426468937377,
+      "length": 33223.56742646894,
       "date": 707576552.318622,
       "id": 10,
       "isPrivat": false
@@ -2336,7 +2351,7 @@
         }
       ],
       "vehicleId": 2,
-      "length": 44.52601708009915,
+      "length": 4104.526017080099,
       "date": 707578113.466988,
       "id": 11,
       "isPrivat": false
@@ -2480,7 +2495,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 910.9585316341552,
+      "length": 100910.95853163415,
       "date": 707821516.902286,
       "id": 12,
       "isPrivat": false
@@ -2514,7 +2529,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 131.3345121980908,
+      "length": 10931.334512198091,
       "date": 707826171.644563,
       "id": 13,
       "isPrivat": false
@@ -2743,7 +2758,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 1178.435165538306,
+      "length": 140178.4351655383,
       "date": 707826226.792128,
       "id": 14,
       "isPrivat": false
@@ -2762,7 +2777,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 32.34680526592275,
+      "length": 3432.3468052659227,
       "date": 708349816.569963,
       "id": 15,
       "isPrivat": false
@@ -2781,7 +2796,7 @@
         }
       ],
       "vehicleId": 1,
-      "length": 31.64659186855168,
+      "length": 5315.646591868552,
       "date": 708350062.57451,
       "id": 16,
       "isPrivat": false
@@ -2809,7 +2824,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 0,
+      "length": 39218,
       "date": 708350145.583112,
       "id": 18,
       "isPrivat": false
@@ -2833,7 +2848,7 @@
         }
       ],
       "vehicleId": 4,
-      "length": 69.26187121255141,
+      "length": 62269.261871212555,
       "date": 708350261.659077,
       "id": 19,
       "isPrivat": false
@@ -2881,7 +2896,7 @@
         }
       ],
       "vehicleId": 4,
-      "length": 33.424632694364,
+      "length": 23233.424632694365,
       "date": 708350373.646084,
       "id": 21,
       "isPrivat": false
@@ -2905,7 +2920,7 @@
         }
       ],
       "vehicleId": 4,
-      "length": 66.2387438216348,
+      "length": 6246.238743821635,
       "date": 708350386.643998,
       "id": 22,
       "isPrivat": false
@@ -2924,7 +2939,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 33.554114038991024,
+      "length": 3123.554114038991,
       "date": 708350545.622474,
       "id": 23,
       "isPrivat": false
@@ -2953,7 +2968,7 @@
         }
       ],
       "vehicleId": 4,
-      "length": 104.25895063927578,
+      "length": 12204.258950639276,
       "date": 708350621.636006,
       "id": 24,
       "isPrivat": false
@@ -3222,7 +3237,7 @@
         }
       ],
       "vehicleId": 1,
-      "length": 1754.1770561314868,
+      "length": 170054.17705613148,
       "isPrivat": true,
       "date": 708419849.993678,
       "id": 25
@@ -3256,7 +3271,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 131.57344144283616,
+      "length": 23211.573441442837,
       "isPrivat": false,
       "date": 708419903.000105,
       "id": 26
@@ -3325,7 +3340,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 341.8553209119064,
+      "length": 32141.855320911905,
       "isPrivat": false,
       "date": 708422688.115448,
       "id": 27
@@ -3389,7 +3404,7 @@
         }
       ],
       "vehicleId": 3,
-      "length": 338.19604328745663,
+      "length": 33098.196043287455,
       "isPrivat": true,
       "date": 708422708.104696,
       "id": 28
@@ -3616,7 +3631,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 519.1052234491558,
+      "length": 5199.105223449155,
       "isPrivat": true,
       "date": 708469243.014887,
       "id": 31
@@ -3705,7 +3720,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 498.1550577379051,
+      "length": 49898.1550577379,
       "isPrivat": false,
       "date": 708610063.197393,
       "id": 32
@@ -4148,7 +4163,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 1095.8333600414371,
+      "length": 19095.833360041437,
       "isPrivat": true,
       "date": 708610232.159772,
       "id": 34
@@ -4332,7 +4347,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 1143.4316043079534,
+      "length": 51143.43160430795,
       "isPrivat": true,
       "date": 708610286.164306,
       "id": 35
@@ -4511,7 +4526,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 1113.260515376417,
+      "length": 21113.260515376416,
       "isPrivat": false,
       "date": 708781638.581594,
       "id": 36
@@ -4530,7 +4545,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 33.25510769485722,
+      "length": 36763.25510769486,
       "isPrivat": true,
       "date": 708781712.595006,
       "id": 37
@@ -4559,7 +4574,7 @@
         }
       ],
       "vehicleId": 5,
-      "length": 99.35170106896382,
+      "length": 9009.351701068963,
       "isPrivat": true,
       "date": 708947871.205628,
       "id": 38
@@ -4732,11 +4747,231 @@
         }
       ],
       "vehicleId": 0,
-      "length": 239.70249743568556,
+      "length": 29039.702497435686,
       "isPrivat": true,
       "animate": false,
       "date": 709211051.030325,
       "id": 40
+    },
+    {
+      "coordinates": [
+        {
+          "id": 0,
+          "longitude": 37.3342805,
+          "latitude": -122.07872034
+        },
+        {
+          "id": 1,
+          "longitude": 37.33442102,
+          "latitude": -122.07904631
+        },
+        {
+          "id": 2,
+          "longitude": 37.33457244,
+          "latitude": -122.0793639
+        },
+        {
+          "id": 3,
+          "longitude": 37.33473735,
+          "latitude": -122.0796747
+        },
+        {
+          "id": 4,
+          "longitude": 37.33492184,
+          "latitude": -122.07997503
+        },
+        {
+          "id": 5,
+          "longitude": 37.33511119,
+          "latitude": -122.08026077
+        },
+        {
+          "id": 6,
+          "longitude": 37.33531428,
+          "latitude": -122.08054952
+        },
+        {
+          "id": 7,
+          "longitude": 37.33552177,
+          "latitude": -122.08082252
+        },
+        {
+          "id": 8,
+          "longitude": 37.33573891,
+          "latitude": -122.08110667
+        },
+        {
+          "id": 9,
+          "longitude": 37.33595575,
+          "latitude": -122.08138403
+        },
+        {
+          "id": 10,
+          "longitude": 37.33617167,
+          "latitude": -122.08165962
+        },
+        {
+          "id": 11,
+          "longitude": 37.33638536,
+          "latitude": -122.08193111
+        },
+        {
+          "id": 12,
+          "longitude": 37.33659906,
+          "latitude": -122.08220411
+        },
+        {
+          "id": 13,
+          "longitude": 37.33680278,
+          "latitude": -122.08247812
+        },
+        {
+          "id": 14,
+          "longitude": 37.3370055,
+          "latitude": -122.0827595
+        },
+        {
+          "id": 15,
+          "longitude": 37.33720302,
+          "latitude": -122.08304213
+        },
+        {
+          "id": 16,
+          "longitude": 37.3373963,
+          "latitude": -122.08332863
+        },
+        {
+          "id": 17,
+          "longitude": 37.33758129,
+          "latitude": -122.08362627
+        },
+        {
+          "id": 18,
+          "longitude": 37.33775509,
+          "latitude": -122.08392617
+        },
+        {
+          "id": 19,
+          "longitude": 37.33793145,
+          "latitude": -122.0842275
+        },
+        {
+          "id": 20,
+          "longitude": 37.33810893,
+          "latitude": -122.08454124
+        },
+        {
+          "id": 21,
+          "longitude": 37.3382842,
+          "latitude": -122.08484542
+        },
+        {
+          "id": 22,
+          "longitude": 37.3384549,
+          "latitude": -122.08515152
+        },
+        {
+          "id": 23,
+          "longitude": 37.33862249,
+          "latitude": -122.08545696
+        },
+        {
+          "id": 24,
+          "longitude": 37.33879885,
+          "latitude": -122.08577472
+        },
+        {
+          "id": 25,
+          "longitude": 37.3389669,
+          "latitude": -122.08608946
+        },
+        {
+          "id": 26,
+          "longitude": 37.33913576,
+          "latitude": -122.08640269
+        },
+        {
+          "id": 27,
+          "longitude": 37.33930008,
+          "latitude": -122.08670293
+        },
+        {
+          "id": 28,
+          "longitude": 37.33947623,
+          "latitude": -122.08701088
+        },
+        {
+          "id": 29,
+          "longitude": 37.3396502,
+          "latitude": -122.08732093
+        },
+        {
+          "id": 30,
+          "longitude": 37.33981846,
+          "latitude": -122.08762326
+        },
+        {
+          "id": 31,
+          "longitude": 37.33998434,
+          "latitude": -122.08792937
+        },
+        {
+          "id": 32,
+          "longitude": 37.3401493,
+          "latitude": -122.08824042
+        },
+        {
+          "id": 33,
+          "longitude": 37.34031484,
+          "latitude": -122.08856086
+        },
+        {
+          "id": 34,
+          "longitude": 37.34046597,
+          "latitude": -122.08886286
+        },
+        {
+          "id": 35,
+          "longitude": 37.34061718,
+          "latitude": -122.08917878
+        },
+        {
+          "id": 36,
+          "longitude": 37.34077165,
+          "latitude": -122.08949679
+        },
+        {
+          "id": 37,
+          "longitude": 37.34092739,
+          "latitude": -122.08983097
+        },
+        {
+          "id": 38,
+          "longitude": 37.34107194,
+          "latitude": -122.09015057
+        },
+        {
+          "id": 39,
+          "longitude": 37.34121879,
+          "latitude": -122.09045668
+        },
+        {
+          "id": 40,
+          "longitude": 37.34137909,
+          "latitude": -122.09077234
+        },
+        {
+          "id": 41,
+          "longitude": 37.34154237,
+          "latitude": -122.09108423
+        }
+      ],
+      "vehicleId": 5,
+      "length": 19364.69837128334,
+      "isPrivat": false,
+      "animate": false,
+      "date": 709546290.155187,
+      "id": 41
     }
   ],
   "expenses": [
@@ -4816,6 +5051,34 @@
       "expenseValue": 69,
       "date": 709211119.587622,
       "id": 18
+    },
+    {
+      "expenseType": 2,
+      "vehicleId": 1,
+      "expenseValue": 0,
+      "date": 709584546.361516,
+      "id": 19
+    },
+    {
+      "expenseType": 0,
+      "vehicleId": 1,
+      "expenseValue": 20.5,
+      "date": 709584574.344603,
+      "id": 20
+    },
+    {
+      "expenseType": 0,
+      "vehicleId": 1,
+      "expenseValue": 57,
+      "date": 709411740,
+      "id": 21
+    },
+    {
+      "expenseType": 0,
+      "vehicleId": 1,
+      "expenseValue": 57.89,
+      "date": 709498500,
+      "id": 22
     }
   ]
 }

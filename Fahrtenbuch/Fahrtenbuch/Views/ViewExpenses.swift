@@ -68,37 +68,9 @@ struct ViewExpenses: View {
                                 .font(.body)
                         }
                     }
-                    ViewExpenseChart(expenseViewModel: expenseViewModel, gasExpense: gasExpense, parkExpense: parkExpense, washExpense: washExpense, title: "Übersicht")
-                    
+                    ViewExpenseOverviewChart(expenseViewModel: expenseViewModel, gasExpense: gasExpense, parkExpense: parkExpense, washExpense: washExpense, title: "Übersicht")
+                    ViewExpenseSumm(expenseViewModel: expenseViewModel)
                     Spacer()
-                    
-                    Section() {
-                        Text("Tanken")
-                        
-                        Text("Gesamt: \(expenseViewModel.summGas(), format: .number.precision(.fractionLength(1)))")
-                            .fontWeight(.semibold)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .padding(.bottom, 12)
-                    }
-                    Section() {
-                        Text("Parken")
-                        
-                        Text("Gesamt: \(expenseViewModel.summPark(), format: .number.precision(.fractionLength(1)))")
-                            .fontWeight(.semibold)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .padding(.bottom, 12)
-                    }
-                    Section() {
-                        Text("Waschen")
-                        
-                        Text("Gesamt: \(expenseViewModel.summWash(), format: .number.precision(.fractionLength(1)))")
-                            .fontWeight(.semibold)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .padding(.bottom, 12)
-                    }
                 }
                 .padding()
                 
@@ -130,7 +102,49 @@ struct ViewExpenses: View {
     }
 }
 
-struct ViewExpenseChart: View {
+struct ViewExpenseSumm: View {
+    var expenseViewModel: ExpenseViewModel
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: "sum")
+                    .bold()
+                Text("Gesamt")
+                    .fontWeight(.bold)
+                    .font(.body)
+            }
+            HStack {
+                Image(systemName: "fuelpump").foregroundColor(Color("GasExpense"))
+                    .bold()
+                    .frame(width: 25)
+                
+                expenseViewModel.summGas().smallEuroText()
+            }
+            HStack {
+                Image(systemName: "parkingsign").foregroundColor(Color("ParkExpense"))
+                    .bold()
+                    .frame(width: 25)
+                expenseViewModel.summPark().smallEuroText()
+                
+            }
+            HStack {
+                Image(systemName: "drop.degreesign").foregroundColor(Color("WashExpense"))
+                    .bold()
+                    .frame(width: 25)
+                expenseViewModel.summWash().smallEuroText()
+                
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color("Forground"))
+        }
+    }
+}
+
+struct ViewExpenseOverviewChart: View {
     @ObservedObject var expenseViewModel: evm
     @State var currentTab: String = "Woche"
     
@@ -166,6 +180,10 @@ struct ViewExpenseChart: View {
             }
             expenseViewModel.summ(for: currentTab).euroText()
             AnimatedChart()
+                .padding(.bottom, 5)
+            DesciptionView()
+            
+            
         }
         .padding()
         .background {
@@ -223,7 +241,7 @@ struct ViewExpenseChart: View {
             .foregroundStyle(Color("WashExpense").gradient)
         }
         .frame(height: 250)
-//        .foregroundColor(Color("ForgroundColor"))
+        //        .foregroundColor(Color("ForgroundColor"))
         .chartXAxis {
             if currentTab == "Jahr" {
                 AxisMarks(values: gasExpense.map {$0.date }) { date in
@@ -286,18 +304,19 @@ struct ExpensesFormView: View {
     
     
     @State private var date = Date()
-    @State private var selectedExpenseType: ExpenseType = .other
+    @State private var selectedExpenseType: String = "gas"
     @State private var selectedVehicleId = -1
-
+    
     var body: some View {
         
-
+        
         NavigationView{
             Form {
                 Section {
                     TextField("Preis:", text: $value).keyboardType(.numberPad)
                     Picker("Fahrzeug", selection: $selectedVehicleId) {
                         Text("bitte auswählen")
+                            .tag(-1)
                         ForEach(vehicleVM.vehicles.indices, id: \.self) { index in
                             Text(vehicleVM.vehicles[index].getName())
                                 .tag(vehicleVM.vehicles[index].id)
@@ -305,9 +324,12 @@ struct ExpensesFormView: View {
                     }
                     
                     Picker("Ausgabentyp", selection: $selectedExpenseType) {
-                        ForEach(ExpenseType.allCases) { expense in
-                            Text(expense.rawValue.capitalized)
-                        }
+                        Text("Spritt")
+                            .tag("gas")
+                        Text("Parken")
+                            .tag("parking")
+                        Text("Waschen")
+                            .tag("cleaning")
                     }
                     .pickerStyle(.segmented)
                 }
@@ -319,7 +341,7 @@ struct ExpensesFormView: View {
                     )
                     .datePickerStyle(.automatic)
                     .environment(\.locale, Locale(identifier: "de_DE"))
-
+                    
                 }
             }
             .navigationTitle("Ausgabe hinzufügen")
@@ -337,7 +359,8 @@ struct ExpensesFormView: View {
                         .navigationBarTrailing){
                             Button(action: {
                                 if selectedVehicleId != -1 {
-                                    expenseVM.saveExpenses(in: selectedExpenseType.rawValue, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date){
+                                    value = value.replacingOccurrences(of: ",", with: ".")
+                                    expenseVM.saveExpenses(in: selectedExpenseType, vehicleId: 1, expenseValue: Double(value) ?? 0, onDate: date){
                                         
                                     }
                                     dismiss()
@@ -389,6 +412,20 @@ extension Double {
             .replacingOccurrences(of: ".00", with: "")
         let numberText = Text(formattedNumber)
             .font(.largeTitle).bold()
+            .fontDesign(.rounded)
+        let euroText = Text(" €")
+            .font(.body).bold()
+            .foregroundColor(.gray)
+            .fontDesign(.rounded)
+        return numberText + euroText
+    }
+    func smallEuroText() -> Text {
+        let formattedNumber = String(
+            format: "%.2f",
+            locale: Locale(identifier: "de_DE"), self)
+            .replacingOccurrences(of: ".00", with: "")
+        let numberText = Text(formattedNumber)
+            .font(.subheadline).bold()
             .fontDesign(.rounded)
         let euroText = Text(" €")
             .font(.body).bold()

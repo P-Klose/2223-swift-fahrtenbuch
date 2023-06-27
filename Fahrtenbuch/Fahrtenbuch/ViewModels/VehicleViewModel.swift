@@ -66,7 +66,7 @@ class VehicleViewModel: ObservableObject {
         }
     }
     func calculateMonthAndYearForVehicleinspectionBeginFor(_ vehicle: Vehicle) -> [Int]{
-        var values = [Int]()
+        var values = [0,0,0]
         var startMonth = 0
         var endMonth = 0
         var year = vehicle.getInspectionYear()

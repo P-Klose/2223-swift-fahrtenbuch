@@ -102,7 +102,7 @@ extension Double {
             format: "%.1f",
             locale: Locale(identifier: "de_DE"),
             self)
-            .replacingOccurrences(of: ".0", with: "")
+            .replacingOccurrences(of: ",0", with: "")
         let numberText = Text(formattedNumber)
             .font(.largeTitle).bold()
             .fontDesign(.rounded)
@@ -134,6 +134,7 @@ struct ViewTripChart: View {
     @State var currentTab: String = "Woche"
     @State var chartDisplayUnit = Calendar.Component.day
     @State var trips: [Trip]
+    @State var tripsSum: Double = 0.0
     var totalTrips: [Trip]
     var title: String
     var body: some View {
@@ -158,11 +159,9 @@ struct ViewTripChart: View {
                 .padding(.leading,40)
             }
             
-            let tripTotal = trips.map(\.length)
-                .reduce(0.0, +)/1000
-            
-            tripTotal.kmText()
+            tripsSum.kmText()
             AnimatedChart()
+            
         }
         .padding()
         .background {
@@ -183,7 +182,12 @@ struct ViewTripChart: View {
             default:
                 return
             }
-            animatingGraph(fromChange: true)
+            tripsSum = trips.map(\.length)
+                .reduce(0.0, +)/1000
+//            animatingGraph(fromChange: true)
+        }
+        .onAppear{
+            tripsSum = trips.map(\.length).reduce(0.0, +)/1000
         }
     }
     
@@ -197,8 +201,8 @@ struct ViewTripChart: View {
             ForEach(trips) { trip in
                 BarMark(
                     x: .value("Datum", trip.date, unit: chartDisplayUnit),
-                    y: .value("Strecke", trip.animate ? trip.length : 0)
-//                    y: .value("Strecke", trip.length)
+//                    y: .value("Strecke", trip.animate ? trip.length : 0)
+                    y: .value("Strecke", trip.length)
                 )
             }
             .foregroundStyle((title == "Unternehmen" ? Color("BusinessTrip") : (title == "Privat" ? Color("PrivateTrip") : Color.blue)))

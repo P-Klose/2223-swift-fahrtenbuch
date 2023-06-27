@@ -281,7 +281,7 @@ class TripViewModel: ObservableObject {
         }
         
         // Berechne die Summe der expenseValue-Werte für das angegebene Datum
-        let expenseSum = filteredExpenses.reduce(0) { $0 + $1.length }
+        let expenseSum = filteredExpenses.reduce(0.0) { $0 + $1.length }
         
         return expenseSum
     }
