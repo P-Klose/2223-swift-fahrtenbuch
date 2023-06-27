@@ -101,8 +101,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
         /// for region updates on map (follow possision)
         ///
-//        let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
-//            navigationModel.updateRegion(region: region)
+        let region = MKCoordinateRegion(center: latestLocation.coordinate, span: MapDetails.defaultSpan)
+            navigationModel.updateRegion(region: region)
     }
     
     private func checkLocationAuthorization() {
